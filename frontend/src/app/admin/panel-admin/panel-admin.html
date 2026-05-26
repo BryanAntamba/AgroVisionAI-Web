@@ -142,7 +142,7 @@
           <i class="fa-solid fa-power-off"></i>
           {{ usuario.cuenta === 'Activo' ? 'Desactivar' : 'Activar' }}
         </button>
-        <button class="danger" type="button" (click)="eliminarUsuario(usuario)">
+        <button class="danger" type="button" (click)="abrirConfirmacionEliminar(usuario)">
           <i class="fa-solid fa-trash"></i>Eliminar
         </button>
       </div>
@@ -403,5 +403,49 @@
         <button class="modal-submit" type="button" (click)="cerrarModal()">Cerrar</button>
       </div>
     </form>
+  </div>
+</div>
+
+<div
+  class="modal-backdrop"
+  *ngIf="usuarioParaEliminar"
+  (click)="cerrarConfirmacionEliminar()"
+  role="presentation"
+>
+  <div
+    class="modal-card modal-card-confirm"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="modal-eliminar-titulo"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      class="modal-close"
+      type="button"
+      aria-label="Cerrar"
+      (click)="cerrarConfirmacionEliminar()"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h2 id="modal-eliminar-titulo">Eliminar usuario</h2>
+
+    <p class="confirm-message">
+      ¿Estas seguro de que deseas eliminar al usuario
+      <strong>{{ nombreCompleto(usuarioParaEliminar) }}</strong>
+      con el rol de <strong>{{ usuarioParaEliminar.rol }}</strong>?
+    </p>
+
+    <p class="confirm-warning">Esta accion no se puede deshacer.</p>
+
+    <div class="modal-actions">
+      <button class="modal-cancel" type="button" (click)="cerrarConfirmacionEliminar()">
+        Cancelar
+      </button>
+      <button class="modal-delete" type="button" (click)="confirmarEliminacion()">
+        <i class="fa-solid fa-trash"></i>
+        Eliminar usuario
+      </button>
+    </div>
   </div>
 </div>

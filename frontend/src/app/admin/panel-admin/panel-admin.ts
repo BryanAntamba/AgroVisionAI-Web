@@ -52,6 +52,7 @@ export class PanelAdmin {
 
   modalModo: ModalModo | null = null;
   usuarioSeleccionado: UsuarioAdmin | null = null;
+  usuarioParaEliminar: UsuarioAdmin | null = null;
   showPassword = false;
   showConfirmPassword = false;
 
@@ -331,9 +332,23 @@ export class PanelAdmin {
     usuario.sesion = usuario.cuenta === 'Activo' ? usuario.sesion : 'Sin sesion';
   }
 
-  eliminarUsuario(usuario: UsuarioAdmin): void {
-    usuario.cuenta = 'Inactivo';
-    usuario.sesion = 'Sin sesion';
+  abrirConfirmacionEliminar(usuario: UsuarioAdmin): void {
+    this.usuarioParaEliminar = usuario;
+  }
+
+  cerrarConfirmacionEliminar(): void {
+    this.usuarioParaEliminar = null;
+  }
+
+  confirmarEliminacion(): void {
+    if (!this.usuarioParaEliminar) {
+      return;
+    }
+
+    this.usuarios = this.usuarios.filter(
+      (usuario) => usuario.id !== this.usuarioParaEliminar!.id
+    );
+    this.cerrarConfirmacionEliminar();
   }
 
   private crearFormularioUsuario(): FormGroup {
