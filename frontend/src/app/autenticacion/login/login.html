@@ -1,0 +1,130 @@
+<main class="login-page">
+  <section class="carousel-panel" aria-label="Imágenes de AgroVision AI">
+    <div
+      id="carouselExampleFade"
+      class="carousel slide carousel-fade"
+      data-bs-ride="carousel"
+      data-bs-interval="6000"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img
+            src="assets/imagesLogin/sosteniendoTomate.jpg"
+            class="d-block w-100"
+            alt="Cultivo de tomate sostenido en mano"
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="assets/imagesLogin/tomateHumedo.jpg"
+            class="d-block w-100"
+            alt="Tomate húmedo en cultivo"
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="assets/imagesLogin/tomateIluminado.jpg"
+            class="d-block w-100"
+            alt="Tomate iluminado en cultivo"
+          />
+        </div>
+      </div>
+
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleFade"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleFade"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="login-panel">
+    <div class="login-card">
+      <ng-container *ngIf="!showResetPassword; else resetPasswordView">
+        <img
+          class="brand-logo fade-up delay-1"
+          src="assets/logotipos/escudo.png"
+          alt="AgroVision AI"
+        />
+
+        <h1 class="fade-up delay-2">Iniciar Sesión</h1>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="field fade-up delay-3">
+            <label for="email">Correo electrónico</label>
+            <div class="input-shell">
+              <i class="fa-solid fa-envelope"></i>
+              <input
+                id="email"
+                type="email"
+                placeholder="Correo corporativo"
+                formControlName="email"
+                autocomplete="email"
+              />
+            </div>
+            <small *ngIf="emailControl?.touched && emailControl?.errors?.['required']">
+              El correo es obligatorio
+            </small>
+            <small *ngIf="emailControl?.touched && emailControl?.errors?.['pattern']">
+              Ingrese un correo válido
+            </small>
+          </div>
+
+          <div class="field fade-up delay-4">
+            <label for="password">Contraseña</label>
+            <div class="input-shell">
+              <i class="fa-solid fa-lock"></i>
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="Ingresa tu contraseña"
+                formControlName="password"
+                autocomplete="current-password"
+              />
+              <button
+                class="password-toggle"
+                type="button"
+                (click)="togglePassword()"
+                [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              >
+                <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+              </button>
+            </div>
+            <small *ngIf="passwordControl?.touched && passwordControl?.errors?.['required']">
+              La contraseña es obligatoria
+            </small>
+          </div>
+
+          <p class="login-error fade-up delay-5" *ngIf="loginError">{{ loginError }}</p>
+
+          <button class="submit-button fade-up delay-5" type="submit">Iniciar Sesión</button>
+        </form>
+
+        <button class="forgot-link fade-up delay-6" type="button" (click)="openResetPassword()">
+          ¿Olvidaste tu contraseña?
+        </button>
+      </ng-container>
+
+      <ng-template #resetPasswordView>
+        <app-restablecer-password></app-restablecer-password>
+        <button class="forgot-link fade-up delay-6" type="button" (click)="backToLogin()">
+          Volver al inicio de sesión
+        </button>
+      </ng-template>
+    </div>
+  </section>
+</main>

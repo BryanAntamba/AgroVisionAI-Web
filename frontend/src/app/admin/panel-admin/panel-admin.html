@@ -1,0 +1,160 @@
+<app-barra-admin></app-barra-admin>
+
+<main class="dashboard-page">
+  <section class="dashboard-header">
+    <div>
+      <p class="eyebrow">Administracion</p>
+      <h1>Panel Administrador</h1>
+      <p>
+        Gestiona agricultores y administradores por nombre, correo, rol, estado de cuenta y fecha
+        de registro.
+      </p>
+    </div>
+
+    <button class="create-button" type="button">
+      <i class="fa-solid fa-user-plus"></i>
+      Crear agricultor
+    </button>
+  </section>
+
+
+  <section class="filters-bar" aria-label="Filtros de usuarios">
+    <div class="search-field">
+      <label for="buscar-usuario">Buscar usuario</label>
+      <div class="input-shell">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          id="buscar-usuario"
+          type="search"
+          placeholder="Nombre, apellido, nombre completo o correo"
+          [(ngModel)]="busqueda"
+        />
+      </div>
+    </div>
+
+    <div class="filter-field">
+      <label for="orden-usuarios">Orden alfabetico</label>
+      <select id="orden-usuarios" [(ngModel)]="ordenAlfabetico">
+        <option value="az">A-Z</option>
+        <option value="za">Z-A</option>
+      </select>
+    </div>
+
+    <div class="filter-field">
+      <label for="rol-usuarios">Rol</label>
+      <select id="rol-usuarios" [(ngModel)]="filtroRol">
+        <option>Todos</option>
+        <option>Admin</option>
+        <option>Agricultor</option>
+      </select>
+    </div>
+
+    <div class="filter-field">
+      <label for="estado-usuarios">Estado</label>
+      <select id="estado-usuarios" [(ngModel)]="filtroEstado">
+        <option>Todos</option>
+        <option>Activo</option>
+        <option>Inactivo</option>
+        <option>En linea</option>
+        <option>Sin sesion</option>
+      </select>
+    </div>
+
+    <div class="filter-field date-filter">
+      <label>Rango de fecha</label>
+      <div class="date-range">
+        <div class="input-shell">
+          <input
+            type="date"
+            aria-label="Fecha de inicio"
+            [(ngModel)]="fechaInicio"
+          />
+        </div>
+        <div class="input-shell">
+          <input
+            type="date"
+            aria-label="Fecha de fin"
+            [(ngModel)]="fechaFin"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="summary-strip" aria-label="Resumen de usuarios">
+    <article>
+      <span>{{ usuarios.length }}</span>
+      <p>Usuarios registrados</p>
+    </article>
+    <article>
+      <span>{{ usuariosFiltrados.length }}</span>
+      <p>Resultados visibles</p>
+    </article>
+    <article>
+      <span>{{ totalAgricultores }}</span>
+      <p>Agricultores</p>
+    </article>
+    <article>
+      <span>{{ totalSesionesActivas }}</span>
+      <p>Con sesion activa</p>
+    </article>
+  </section>
+
+  <section class="users-grid" aria-label="Listado de usuarios">
+    <article class="user-card" *ngFor="let usuario of usuariosFiltrados">
+      <div class="user-card-header">
+        <div class="avatar">{{ usuario.nombres.charAt(0) }}{{ usuario.apellidos.charAt(0) }}</div>
+        <div>
+          <h2>{{ usuario.nombres }} {{ usuario.apellidos }}</h2>
+          <p>{{ usuario.correo }}</p>
+        </div>
+      </div>
+
+      <div class="badges">
+        <span class="badge role">{{ usuario.rol }}</span>
+        <span class="badge" [ngClass]="usuario.cuenta === 'Activo' ? 'active' : 'inactive'">
+          {{ usuario.cuenta }}
+        </span>
+        <span class="badge" [ngClass]="usuario.sesion === 'En linea' ? 'online' : 'offline'">
+          {{ usuario.sesion }}
+        </span>
+      </div>
+
+      <dl class="user-details">
+        <div>
+          <dt>Fecha</dt>
+          <dd>{{ usuario.fechaRegistro }}</dd>
+        </div>
+        <div>
+          <dt>Telefono</dt>
+          <dd>{{ usuario.telefono }}</dd>
+        </div>
+        <div>
+          <dt>Ubicacion</dt>
+          <dd>{{ usuario.ubicacion }}</dd>
+        </div>
+        <div>
+          <dt>Cultivos / area</dt>
+          <dd>{{ usuario.cultivos }}</dd>
+        </div>
+      </dl>
+
+      <div class="card-actions">
+        <button type="button"><i class="fa-solid fa-pen"></i>Editar</button>
+        <button type="button"><i class="fa-solid fa-id-card"></i>Perfil</button>
+        <button type="button"><i class="fa-solid fa-user-shield"></i>{{ usuario.rol }}</button>
+        <button type="button" (click)="cambiarEstado(usuario)">
+          <i class="fa-solid fa-power-off"></i>
+          {{ usuario.cuenta === 'Activo' ? 'Desactivar' : 'Activar' }}
+        </button>
+        <button class="danger" type="button" (click)="eliminarUsuario(usuario)">
+          <i class="fa-solid fa-trash"></i>Eliminar
+        </button>
+      </div>
+    </article>
+
+    <p class="empty-state" *ngIf="usuariosFiltrados.length === 0">
+      No se encontraron usuarios con los filtros seleccionados.
+    </p>
+  </section>
+</main>

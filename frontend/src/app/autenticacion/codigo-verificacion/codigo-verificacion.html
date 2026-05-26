@@ -1,0 +1,42 @@
+<div class="verification-card-content">
+  <img
+    class="verification-logo fade-up delay-1"
+    src="assets/logotipos/escudo.png"
+    alt="AgroVision AI"
+  />
+
+  <h1 class="fade-up delay-2">Codigo de verificacion</h1>
+
+  <p class="verification-description fade-up delay-3">
+    Ingresa el codigo de 6 digitos enviado a {{ correo }}.
+  </p>
+
+  <form [formGroup]="codigoForm" (ngSubmit)="verificarCodigo()" novalidate>
+    <div class="field fade-up delay-4">
+      <label for="verification-code">Codigo de verificacion</label>
+      <div class="input-shell code-shell">
+        <i class="fa-solid fa-shield-halved"></i>
+        <input
+          id="verification-code"
+          type="text"
+          inputmode="numeric"
+          maxlength="6"
+          placeholder="000000"
+          formControlName="codigo"
+          autocomplete="one-time-code"
+          (keypress)="soloNumeros($event)"
+          (input)="normalizarCodigo()"
+        />
+      </div>
+
+      <small *ngIf="codigoControl?.touched && codigoControl?.errors?.['required']">
+        El codigo es obligatorio
+      </small>
+      <small *ngIf="codigoControl?.touched && codigoControl?.errors?.['pattern']">
+        Ingresa exactamente 6 numeros
+      </small>
+    </div>
+
+    <button class="submit-button fade-up delay-5" type="submit">Verificar codigo</button>
+  </form>
+</div>
