@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormValidators } from '../../../shared/validators/form-validators';
+import { ModalesValidaciones } from '../../../shared/validators/modales-validaciones';
 
 export interface DatosUsuario {
   nombre: string;
@@ -19,7 +19,10 @@ export interface DatosUsuario {
   selector: 'app-registro-usuario',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registro-usuario.html',
-  styleUrl: './registro-usuario.css',
+  styleUrls: [
+    './registro-usuario.css',
+    '../../../shared/styles/validacion-errores.css'
+  ],
 })
 export class RegistroUsuario {
   @Output() cerrar = new EventEmitter<void>();
@@ -72,24 +75,24 @@ export class RegistroUsuario {
   private crearFormulario(): FormGroup {
     return this.fb.group(
       {
-        nombre: ['', [Validators.pattern(FormValidators.NOMBRE_PATTERN)]],
-        segundoNombre: ['', [Validators.pattern(FormValidators.NOMBRE_PATTERN)]],
-        apellido: ['', [Validators.pattern(FormValidators.NOMBRE_PATTERN)]],
-        segundoApellido: ['', [Validators.pattern(FormValidators.NOMBRE_PATTERN)]],
+        nombre: ['', [Validators.pattern(ModalesValidaciones.NOMBRE_PATTERN)]],
+        segundoNombre: ['', [Validators.pattern(ModalesValidaciones.NOMBRE_PATTERN)]],
+        apellido: ['', [Validators.pattern(ModalesValidaciones.NOMBRE_PATTERN)]],
+        segundoApellido: ['', [Validators.pattern(ModalesValidaciones.NOMBRE_PATTERN)]],
         correoCorporativo: [
           '',
-          [Validators.required, Validators.pattern(FormValidators.CORREO_CORPORATIVO_PATTERN)],
+          [Validators.required, Validators.pattern(ModalesValidaciones.CORREO_CORPORATIVO_PATTERN)],
         ],
         correoElectronico: [
           '',
-          [Validators.required, Validators.pattern(FormValidators.CORREO_GMAIL_PATTERN)],
+          [Validators.required, Validators.pattern(ModalesValidaciones.CORREO_GMAIL_PATTERN)],
         ],
-        telefono: ['', [Validators.required, Validators.pattern(FormValidators.TELEFONO_PATTERN)]],
+        telefono: ['', [Validators.required, Validators.pattern(ModalesValidaciones.TELEFONO_PATTERN)]],
         password: ['', [Validators.required]],
         confirmarPassword: ['', [Validators.required]],
         rol: ['', [Validators.required]],
       },
-      { validators: FormValidators.passwordsCoinciden() }
+      { validators: ModalesValidaciones.passwordsCoinciden() }
     );
   }
 }

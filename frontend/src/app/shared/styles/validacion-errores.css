@@ -1,0 +1,31 @@
+/**
+ * Estilos compartidos para mensajes de error de validación
+ * Usado en todos los formularios de la aplicación
+ */
+
+/* Mensajes de error en formularios de autenticación */
+small {
+  display: block;
+  margin-top: 7px;
+  color: #c92b2b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Mensajes de error en modales de admin */
+.modal-fields small {
+  display: block;
+  margin-top: 7px;
+  color: #c92b2b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Transiciones en inputs cuando tienen focus */
+.input-shell {
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.modal-input-shell {
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}

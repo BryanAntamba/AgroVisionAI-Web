@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormValidators } from '../../shared/validators/form-validators';
+import { ModalesValidaciones } from '../../shared/validators/modales-validaciones';
+import { AutenticacionValidaciones } from '../../shared/validators/autenticacion-validaciones';
 import { CambiarPassword } from '../cambiar-password/cambiar-password';
 import { CodigoVerificacion } from '../codigo-verificacion/codigo-verificacion';
 
@@ -9,7 +10,11 @@ import { CodigoVerificacion } from '../codigo-verificacion/codigo-verificacion';
   selector: 'app-restablecer-password',
   imports: [CommonModule, ReactiveFormsModule, CodigoVerificacion, CambiarPassword],
   templateUrl: './restablecer-password.html',
-  styleUrl: './restablecer-password.css',
+  styleUrls: [
+    './restablecer-password.css',
+    '../../shared/styles/validacion-errores.css',
+    '../../shared/styles/animaciones-autenticacion.css'
+  ],
 })
 export class RestablecerPassword {
   resetForm: FormGroup;
@@ -18,12 +23,13 @@ export class RestablecerPassword {
   paso: 'correo' | 'codigo' | 'password' | 'finalizado' = 'correo';
 
   readonly correoSimulado = 'usuario@gmail.com';
+  validators = AutenticacionValidaciones;
 
   constructor(private fb: FormBuilder) {
     this.resetForm = this.fb.group({
       email: [
         '',
-        [Validators.required, Validators.pattern(FormValidators.CORREO_GMAIL_PATTERN)],
+        [Validators.required, Validators.pattern(ModalesValidaciones.CORREO_GMAIL_PATTERN)],
       ],
     });
   }
@@ -55,5 +61,10 @@ export class RestablecerPassword {
 
   finalizarCambio(): void {
     this.paso = 'finalizado';
+  }
+
+  reenviarCodigoVerificacion(): void {
+    console.log('Reenviando código de verificación a:', this.correoVerificado);
+    // Aquí iría la lógica para reenviar el código al backend
   }
 }

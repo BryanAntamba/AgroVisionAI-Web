@@ -76,11 +76,8 @@
                 autocomplete="email"
               />
             </div>
-            <small *ngIf="emailControl?.touched && emailControl?.errors?.['required']">
-              El correo es obligatorio
-            </small>
-            <small *ngIf="emailControl?.touched && emailControl?.errors?.['pattern']">
-              Ingrese un correo válido
+            <small *ngIf="validators.getLoginEmailError(emailControl)">
+              {{ validators.getLoginEmailError(emailControl) }}
             </small>
           </div>
 
@@ -104,14 +101,15 @@
                 <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
               </button>
             </div>
-            <small *ngIf="passwordControl?.touched && passwordControl?.errors?.['required']">
-              La contraseña es obligatoria
+            <small *ngIf="validators.getLoginPasswordError(passwordControl)">
+              {{ validators.getLoginPasswordError(passwordControl) }}
             </small>
           </div>
 
-          <p class="login-error fade-up delay-5" *ngIf="loginError">{{ loginError }}</p>
-
+          
           <button class="submit-button fade-up delay-5" type="submit">Iniciar Sesión</button>
+
+          <p class="login-error fade-up delay-5" *ngIf="loginError">{{ loginError }}</p>
         </form>
 
         <button class="forgot-link fade-up delay-6" type="button" (click)="openResetPassword()">

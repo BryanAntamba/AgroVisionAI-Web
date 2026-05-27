@@ -92,7 +92,6 @@ label {
 
 .modal-input-shell {
   min-height: 54px;
-  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
 .input-shell i {

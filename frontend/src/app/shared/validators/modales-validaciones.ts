@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 /**
  * Validadores reutilizables para formularios de la aplicación
  */
-export class FormValidators {
+export class ModalesValidaciones {
   /**
    * Patrón para validar nombres (solo letras, espacios y caracteres especiales en español)
    */

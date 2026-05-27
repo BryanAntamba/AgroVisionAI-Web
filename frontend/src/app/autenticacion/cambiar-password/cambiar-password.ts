@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormValidators } from '../../shared/validators/form-validators';
+import { AutenticacionValidaciones } from '../../shared/validators/autenticacion-validaciones';
 
 @Component({
   selector: 'app-cambiar-password',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './cambiar-password.html',
-  styleUrl: './cambiar-password.css',
+  styleUrls: [
+    './cambiar-password.css',
+    '../../shared/styles/validacion-errores.css',
+    '../../shared/styles/animaciones-autenticacion.css'
+  ],
 })
 export class CambiarPassword {
   @Output() passwordCambiado = new EventEmitter<void>();
@@ -15,6 +19,7 @@ export class CambiarPassword {
   passwordForm: FormGroup;
   showPassword = false;
   showConfirmPassword = false;
+  validators = AutenticacionValidaciones;
 
   constructor(private fb: FormBuilder) {
     this.passwordForm = this.fb.group(
@@ -22,7 +27,7 @@ export class CambiarPassword {
         password: ['', [Validators.required]],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: FormValidators.passwordsNoCoinciden }
+      { validators: AutenticacionValidaciones.passwordsNoCoinciden }
     );
   }
 

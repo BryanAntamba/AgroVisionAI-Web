@@ -53,7 +53,6 @@ label {
   border: 1px solid #c8d8ce;
   border-radius: 8px;
   background: #fbfdf9;
-  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
 .input-shell:focus-within {
@@ -66,6 +65,7 @@ label {
   width: 48px;
   color: #55a820;
   text-align: center;
+  flex-shrink: 0;
 }
 
 input {
@@ -78,23 +78,20 @@ input {
   font: inherit;
 }
 
+.code-shell {
+  justify-content: center;
+}
+
 .code-shell input {
   font-size: 24px;
   font-weight: 800;
-  letter-spacing: 0;
+  letter-spacing: 8px;
   text-align: center;
+  padding: 0 16px;
 }
 
 input::placeholder {
   color: #7d9186;
-}
-
-small {
-  display: block;
-  margin-top: 7px;
-  color: #c92b2b;
-  font-size: 13px;
-  font-weight: 700;
 }
 
 .submit-button {
@@ -110,6 +107,34 @@ small {
   box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
 }
 
+.resend-section {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.resend-text {
+  margin: 0 0 8px;
+  color: #0b5a3d;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.resend-link {
+  border: 0;
+  background: transparent;
+  color: #55a820;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  padding: 0;
+  transition: color 200ms ease;
+}
+
+.resend-link:hover {
+  color: #073d2b;
+}
+
 .fade-up {
   opacity: 0;
   transform: translateY(34px);
@@ -121,6 +146,7 @@ small {
 .delay-3 { animation-delay: 290ms; }
 .delay-4 { animation-delay: 390ms; }
 .delay-5 { animation-delay: 490ms; }
+.delay-6 { animation-delay: 590ms; }
 
 @keyframes fadeUp {
   to {

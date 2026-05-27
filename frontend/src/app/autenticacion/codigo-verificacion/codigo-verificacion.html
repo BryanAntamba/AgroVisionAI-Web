@@ -29,14 +29,18 @@
         />
       </div>
 
-      <small *ngIf="codigoControl?.touched && codigoControl?.errors?.['required']">
-        El codigo es obligatorio
-      </small>
-      <small *ngIf="codigoControl?.touched && codigoControl?.errors?.['pattern']">
-        Ingresa exactamente 6 numeros
+      <small *ngIf="validators.getCodigoVerificacionError(codigoControl)">
+        {{ validators.getCodigoVerificacionError(codigoControl) }}
       </small>
     </div>
 
     <button class="submit-button fade-up delay-5" type="submit">Verificar codigo</button>
+
+    <div class="resend-section fade-up delay-6">
+      <p class="resend-text">¿No recibiste el codigo?</p>
+      <button type="button" class="resend-link" (click)="solicitarReenvio()">
+        Reenviar codigo
+      </button>
+    </div>
   </form>
 </div>

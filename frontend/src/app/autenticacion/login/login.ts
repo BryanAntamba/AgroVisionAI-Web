@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormValidators } from '../../shared/validators/form-validators';
+import { ModalesValidaciones } from '../../shared/validators/modales-validaciones';
+import { AutenticacionValidaciones } from '../../shared/validators/autenticacion-validaciones';
 import { RestablecerPassword } from '../restablecer-password/restablecer-password';
 
 @Component({
@@ -10,7 +11,11 @@ import { RestablecerPassword } from '../restablecer-password/restablecer-passwor
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RestablecerPassword],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: [
+    './login.css',
+    '../../shared/styles/validacion-errores.css',
+    '../../shared/styles/animaciones-autenticacion.css'
+  ]
 })
 export class Login {
   showPassword = false;
@@ -18,6 +23,7 @@ export class Login {
   showResetPassword = false;
 
   loginForm: FormGroup;
+  validators = AutenticacionValidaciones;
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +34,7 @@ export class Login {
         '',
         [
           Validators.required,
-          Validators.pattern(FormValidators.CORREO_CORPORATIVO_PATTERN)
+          Validators.pattern(ModalesValidaciones.CORREO_CORPORATIVO_PATTERN)
         ]
       ],
       password: ['', [Validators.required]]

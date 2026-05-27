@@ -92,7 +92,6 @@ label {
 
 .modal-input-shell {
   min-height: 54px;
-  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
 .modal-input-shell:focus-within {
@@ -120,14 +119,6 @@ input {
   background: transparent;
   color: #073d2b;
   font: inherit;
-}
-
-.modal-fields small {
-  display: block;
-  margin-top: 7px;
-  color: #c92b2b;
-  font-size: 13px;
-  font-weight: 700;
 }
 
 .password-toggle {
