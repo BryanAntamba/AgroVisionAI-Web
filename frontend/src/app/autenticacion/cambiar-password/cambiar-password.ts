@@ -15,6 +15,7 @@ import { AutenticacionValidaciones } from '../../shared/validators/autenticacion
 })
 export class CambiarPassword {
   @Output() passwordCambiado = new EventEmitter<void>();
+  @Output() volverLogin = new EventEmitter<void>();
 
   passwordForm: FormGroup;
   showPassword = false;
@@ -54,5 +55,9 @@ export class CambiarPassword {
     }
 
     this.passwordCambiado.emit();
+  }
+
+  regresarALogin(): void {
+    this.volverLogin.emit();
   }
 }

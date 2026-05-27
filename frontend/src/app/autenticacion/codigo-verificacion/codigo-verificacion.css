@@ -135,6 +135,18 @@ input::placeholder {
   color: #073d2b;
 }
 
+.resend-feedback {
+  margin: 10px 0 0;
+  color: #0b5a3d;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: pre-line;
+}
+
+.resend-feedback.is-error {
+  color: #c92b2b;
+}
+
 .fade-up {
   opacity: 0;
   transform: translateY(34px);

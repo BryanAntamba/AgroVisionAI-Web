@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalesValidaciones } from '../../shared/validators/modales-validaciones';
 import { AutenticacionValidaciones } from '../../shared/validators/autenticacion-validaciones';
 import { CambiarPassword } from '../cambiar-password/cambiar-password';
 import { CodigoVerificacion } from '../codigo-verificacion/codigo-verificacion';
+import { PasswordConfirmacion } from '../confirmacion/password-confirmacion/password-confirmacion';
 
 @Component({
   selector: 'app-restablecer-password',
-  imports: [CommonModule, ReactiveFormsModule, CodigoVerificacion, CambiarPassword],
+  imports: [CommonModule, ReactiveFormsModule, CodigoVerificacion, CambiarPassword, PasswordConfirmacion],
   templateUrl: './restablecer-password.html',
   styleUrls: [
     './restablecer-password.css',
@@ -17,6 +18,8 @@ import { CodigoVerificacion } from '../codigo-verificacion/codigo-verificacion';
   ],
 })
 export class RestablecerPassword {
+  @Output() volverLogin = new EventEmitter<void>();
+
   resetForm: FormGroup;
   resetError = '';
   correoVerificado = '';
@@ -61,6 +64,17 @@ export class RestablecerPassword {
 
   finalizarCambio(): void {
     this.paso = 'finalizado';
+  }
+
+  volverACorreo(): void {
+    this.paso = 'correo';
+    this.correoVerificado = '';
+    this.resetError = '';
+    this.resetForm.reset();
+  }
+
+  regresarALogin(): void {
+    this.volverLogin.emit();
   }
 
   reenviarCodigoVerificacion(): void {

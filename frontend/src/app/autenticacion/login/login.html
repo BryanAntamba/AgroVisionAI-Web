@@ -112,16 +112,29 @@
           <p class="login-error fade-up delay-5" *ngIf="loginError">{{ loginError }}</p>
         </form>
 
-        <button class="forgot-link fade-up delay-6" type="button" (click)="openResetPassword()">
+        <button
+          class="forgot-link fade-up delay-6 auth-link-motion"
+          type="button"
+          (click)="openResetPassword()"
+        >
           ¿Olvidaste tu contraseña?
         </button>
       </ng-container>
 
       <ng-template #resetPasswordView>
-        <app-restablecer-password></app-restablecer-password>
-        <button class="forgot-link fade-up delay-6" type="button" (click)="backToLogin()">
-          Volver al inicio de sesión
+        <app-restablecer-password
+          #resetPassword
+          (volverLogin)="backToLogin()"
+        ></app-restablecer-password>
+        <button
+          *ngIf="resetPassword.paso === 'codigo'"
+          class="forgot-link fade-up delay-6 auth-link-motion"
+          type="button"
+          (click)="resetPassword.volverACorreo()"
+        >
+          Cambiar correo electrónico
         </button>
+
       </ng-template>
     </div>
   </section>

@@ -36,11 +36,22 @@
 
     <button class="submit-button fade-up delay-5" type="submit">Verificar codigo</button>
 
-    <div class="resend-section fade-up delay-6">
-      <p class="resend-text">¿No recibiste el codigo?</p>
-      <button type="button" class="resend-link" (click)="solicitarReenvio()">
+    <div class="resend-section">
+      <p class="resend-text fade-up delay-6">¿No recibiste el codigo?</p>
+      <button
+        type="button"
+        class="resend-link fade-up delay-6 auth-link-motion"
+        (click)="solicitarReenvio()"
+      >
         Reenviar codigo
       </button>
+      <p
+        class="resend-feedback"
+        [ngClass]="{ 'is-error': limiteReenvioAlcanzado }"
+        *ngIf="mensajeReenvio"
+      >
+        {{ mensajeReenvio }}
+      </p>
     </div>
   </form>
 </div>

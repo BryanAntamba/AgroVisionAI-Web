@@ -20,6 +20,9 @@ export class CodigoVerificacion {
   @Output() reenviarCodigo = new EventEmitter<void>();
 
   codigoForm: FormGroup;
+  mensajeReenvio = '';
+  intentosReenvio = 0;
+  limiteReenvioAlcanzado = false;
   validators = AutenticacionValidaciones;
 
   constructor(private fb: FormBuilder) {
@@ -39,6 +42,8 @@ export class CodigoVerificacion {
   }
 
   normalizarCodigo(): void {
+    this.mensajeReenvio = '';
+    this.limiteReenvioAlcanzado = false;
     const valor = String(this.codigoControl?.value ?? '')
       .replace(/\D/g, '')
       .slice(0, 6);
@@ -58,6 +63,15 @@ export class CodigoVerificacion {
   }
 
   solicitarReenvio(): void {
-    this.reenviarCodigo.emit();
+    if (AutenticacionValidaciones.puedeReenviarCodigo(this.intentosReenvio)) {
+      this.intentosReenvio++;
+      this.limiteReenvioAlcanzado = false;
+      this.mensajeReenvio = AutenticacionValidaciones.getCodigoReenvioMensaje(this.intentosReenvio);
+      this.reenviarCodigo.emit();
+      return;
+    }
+
+    this.limiteReenvioAlcanzado = true;
+    this.mensajeReenvio = AutenticacionValidaciones.getCodigoReenvioMensaje(this.intentosReenvio + 1);
   }
 }

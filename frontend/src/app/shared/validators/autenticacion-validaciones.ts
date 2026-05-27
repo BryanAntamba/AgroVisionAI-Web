@@ -29,7 +29,11 @@ export class AutenticacionValidaciones {
   static readonly CODIGO_VERIFICACION_ERRORS = {
     codigoRequired: 'El código es obligatorio',
     codigoPattern: 'Ingresa exactamente 6 números',
+    codigoReenviado: 'Codigo reenviado',
+    limiteReenvios: 'Has alcanzado el límite de reenvíos.\nInténtalo nuevamente en 15 minutos.',
   };
+
+  static readonly MAX_REENVIOS_CODIGO = 5;
 
   /**
    * Mensajes de error para el componente de Restablecer Password
@@ -127,6 +131,18 @@ export class AutenticacionValidaciones {
     }
 
     return '';
+  }
+
+  static puedeReenviarCodigo(intentos: number): boolean {
+    return intentos < this.MAX_REENVIOS_CODIGO;
+  }
+
+  static getCodigoReenvioMensaje(intentos: number): string {
+    if (intentos <= this.MAX_REENVIOS_CODIGO) {
+      return this.CODIGO_VERIFICACION_ERRORS.codigoReenviado;
+    }
+
+    return this.CODIGO_VERIFICACION_ERRORS.limiteReenvios;
   }
 
   /**

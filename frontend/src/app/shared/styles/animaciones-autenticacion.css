@@ -24,11 +24,57 @@
   animation: swapView 520ms ease both;
 }
 
+.auth-link-motion {
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.auth-link-motion:hover {
+  transform: translateY(-2px);
+}
+
+.resend-feedback {
+  animation: feedbackEntrance 360ms ease both;
+}
+
+.resend-feedback.is-error {
+  animation: feedbackEntrance 360ms ease both, resendLimitShake 420ms ease 90ms both;
+}
+
 /* Keyframes */
 @keyframes fadeUp {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes feedbackEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes resendLimitShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-3px);
   }
 }
 

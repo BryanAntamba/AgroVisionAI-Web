@@ -57,10 +57,14 @@ export class Login {
   openResetPassword(): void {
     this.showResetPassword = true;
     this.loginError = '';
+    this.loginForm.markAsUntouched();
   }
 
   backToLogin(): void {
     this.showResetPassword = false;
+    this.loginError = '';
+    this.showPassword = false;
+    this.loginForm.reset();
   }
 
   onSubmit(): void {
