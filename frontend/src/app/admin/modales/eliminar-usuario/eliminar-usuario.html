@@ -1,0 +1,42 @@
+<div
+  class="modal-backdrop"
+  (click)="cerrarModal()"
+  role="presentation"
+>
+  <div
+    class="modal-card modal-card-confirm"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="modal-eliminar-titulo"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      class="modal-close"
+      type="button"
+      aria-label="Cerrar"
+      (click)="cerrarModal()"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h2 id="modal-eliminar-titulo">Eliminar usuario</h2>
+
+    <p class="confirm-message">
+      ¿Estas seguro de que deseas eliminar al usuario
+      <strong>{{ nombreCompleto() }}</strong>
+      con el rol de <strong>{{ usuario.rol }}</strong>?
+    </p>
+
+    <p class="confirm-warning">Esta accion no se puede deshacer.</p>
+
+    <div class="modal-actions">
+      <button class="modal-cancel" type="button" (click)="cerrarModal()">
+        Cancelar
+      </button>
+      <button class="modal-delete" type="button" (click)="confirmarEliminacion()">
+        <i class="fa-solid fa-trash"></i>
+        Eliminar usuario
+      </button>
+    </div>
+  </div>
+</div>

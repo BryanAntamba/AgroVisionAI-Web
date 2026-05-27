@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormValidators } from '../../shared/validators/form-validators';
 
 @Component({
   selector: 'app-codigo-verificacion',
@@ -16,7 +17,7 @@ export class CodigoVerificacion {
 
   constructor(private fb: FormBuilder) {
     this.codigoForm = this.fb.group({
-      codigo: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      codigo: ['', [Validators.required, Validators.pattern(FormValidators.CODIGO_VERIFICACION_PATTERN)]],
     });
   }
 

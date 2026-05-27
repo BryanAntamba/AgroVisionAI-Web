@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormValidators } from '../../shared/validators/form-validators';
 import { CambiarPassword } from '../cambiar-password/cambiar-password';
 import { CodigoVerificacion } from '../codigo-verificacion/codigo-verificacion';
 
@@ -22,7 +23,7 @@ export class RestablecerPassword {
     this.resetForm = this.fb.group({
       email: [
         '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@gmail\\.com$')],
+        [Validators.required, Validators.pattern(FormValidators.CORREO_GMAIL_PATTERN)],
       ],
     });
   }

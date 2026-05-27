@@ -1,0 +1,126 @@
+:host {
+  display: block;
+  color: #073d2b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: rgba(7, 61, 43, 0.45);
+}
+
+.modal-card {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: min(92vh, 920px);
+  overflow: auto;
+  padding: 28px 28px 24px;
+  border: 1px solid #d7e4dc;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 24px 48px rgba(7, 61, 43, 0.2);
+}
+
+.modal-card-confirm {
+  width: min(480px, 100%);
+  max-height: none;
+  overflow: visible;
+}
+
+.modal-card h2 {
+  margin: 0 44px 22px 0;
+  font-size: 28px;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.modal-card-confirm h2 {
+  margin-bottom: 16px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 8px;
+  background: #f5faf3;
+  color: #073d2b;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  background: #edf5e9;
+  color: #55a820;
+}
+
+.confirm-message {
+  margin: 0 0 12px;
+  color: #456657;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.confirm-message strong {
+  color: #073d2b;
+}
+
+.confirm-warning {
+  margin: 0 0 22px;
+  color: #a32626;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.modal-cancel {
+  min-height: 54px;
+  padding: 0 18px;
+  border: 1px solid #d7e4dc;
+  border-radius: 8px;
+  background: #fbfdf9;
+  color: #073d2b;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.modal-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 54px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 8px;
+  background: #a32626;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: 0 12px 24px rgba(163, 38, 38, 0.24);
+}
+
+.modal-delete:hover,
+.modal-delete:focus {
+  background: #8b1f1f;
+}

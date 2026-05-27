@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormValidators } from '../../shared/validators/form-validators';
 import { RestablecerPassword } from '../restablecer-password/restablecer-password';
 
 @Component({
@@ -27,7 +28,7 @@ export class Login {
         '',
         [
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9._%+-]+@agrovision\\.com$')
+          Validators.pattern(FormValidators.CORREO_CORPORATIVO_PATTERN)
         ]
       ],
       password: ['', [Validators.required]]

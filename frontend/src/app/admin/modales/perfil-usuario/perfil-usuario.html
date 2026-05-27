@@ -1,0 +1,173 @@
+<div
+  class="modal-backdrop"
+  (click)="cerrarModal()"
+  role="presentation"
+>
+  <div
+    class="modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-titulo-perfil"
+    (click)="$event.stopPropagation()"
+  >
+    <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h2 id="modal-titulo-perfil">Perfil de usuario</h2>
+
+    <form class="modal-form" [formGroup]="usuarioForm" novalidate>
+      <div class="modal-fields">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-user"></i>
+            <input
+              id="nombre"
+              type="text"
+              placeholder="Nombre"
+              formControlName="nombre"
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="segundoNombre">Segundo nombre</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-user"></i>
+            <input
+              id="segundoNombre"
+              type="text"
+              placeholder="Segundo nombre"
+              formControlName="segundoNombre"
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="apellido">Apellido</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-user"></i>
+            <input
+              id="apellido"
+              type="text"
+              placeholder="Apellido"
+              formControlName="apellido"
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="segundoApellido">Segundo apellido</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-user"></i>
+            <input
+              id="segundoApellido"
+              type="text"
+              placeholder="Segundo apellido"
+              formControlName="segundoApellido"
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label for="correoCorporativo">Correo corporativo</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-envelope"></i>
+            <input
+              id="correoCorporativo"
+              type="email"
+              placeholder="usuario@agrovision.com"
+              formControlName="correoCorporativo"
+              readonly
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label for="correoElectronico">Correo electronico</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-envelope"></i>
+            <input
+              id="correoElectronico"
+              type="email"
+              placeholder="usuario@gmail.com"
+              formControlName="correoElectronico"
+              readonly
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label for="telefono">Numero de telefono</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-phone"></i>
+            <input
+              id="telefono"
+              type="tel"
+              placeholder="10 digitos"
+              formControlName="telefono"
+              readonly
+              inputmode="numeric"
+              maxlength="10"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Contrasena</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-lock"></i>
+            <input
+              id="password"
+              type="password"
+              placeholder="Contrasena"
+              formControlName="password"
+              readonly
+              autocomplete="new-password"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="confirmarPassword">Confirmar contrasena</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-lock"></i>
+            <input
+              id="confirmarPassword"
+              type="password"
+              placeholder="Confirmar contrasena"
+              formControlName="confirmarPassword"
+              readonly
+              autocomplete="new-password"
+            />
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <span class="rol-label">Rol</span>
+          <div class="rol-options rol-readonly">
+            <label class="rol-option">
+              <input type="radio" formControlName="rol" value="Admin" />
+              <span>Admin</span>
+            </label>
+            <label class="rol-option">
+              <input type="radio" formControlName="rol" value="Agricultor" />
+              <span>Agricultor</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions modal-actions-single">
+        <button class="modal-submit" type="button" (click)="cerrarModal()">Cerrar</button>
+      </div>
+    </form>
+  </div>
+</div>
