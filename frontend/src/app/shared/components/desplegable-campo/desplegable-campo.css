@@ -85,16 +85,16 @@
 }
 
 .desplegable-opciones li:hover {
-  background: #edf5e9;
-  color: #073d2b;
+  background: var(--desplegable-hover-bg, #edf5e9);
+  color: var(--color-titulos, #073d2b);
 }
 
 .desplegable-opciones li.seleccionada {
-  background: #073d2b;
+  background: var(--color-titulos, #073d2b);
   color: #ffffff;
 }
 
 .desplegable-opciones li.seleccionada:hover {
-  background: #0a5239;
+  background: var(--btn-color-inicial, #0a5239);
   color: #ffffff;
 }

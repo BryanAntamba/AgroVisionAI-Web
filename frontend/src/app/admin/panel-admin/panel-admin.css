@@ -192,7 +192,7 @@ select:focus {
   width: 52px;
   height: 52px;
   border-radius: 8px;
-  background: #073d2b;
+  background: var(--color-titulos, #073d2b);
   color: #ffffff;
   font-weight: 800;
 }

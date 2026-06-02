@@ -39,25 +39,27 @@
     </div>
   </section>
 
-  <section class="vista-previa-seccion" *ngIf="vistaPrevia.length">
-    <h2>Vista previa (panel agricultor)</h2>
-    <article class="rec-item" *ngFor="let rec of vistaPrevia" [ngClass]="'rec-' + tipoRec(rec.color)">
-      <i class="fa-solid" [ngClass]="iconoRec(rec.color)" aria-hidden="true"></i>
-      <div class="rec-body">
-        <strong>{{ rec.titulo }}</strong>
-        <p>{{ rec.descripcion }}</p>
-      </div>
-    </article>
-  </section>
-
   <section class="lista-recomendaciones">
     <h2>Recomendaciones registradas ({{ vistaPrevia.length }})</h2>
     <p class="lista-vacia" *ngIf="!vistaPrevia.length">No hay recomendaciones con los filtros actuales.</p>
-    <article class="rec-card" *ngFor="let rec of vistaPrevia">
+    <article
+      class="rec-card"
+      *ngFor="let rec of vistaPrevia"
+      [ngClass]="'rec-color-' + rec.color.toLowerCase()"
+    >
       <div class="rec-card-body">
-        <span class="rec-prioridad" [ngClass]="'pri-' + rec.prioridad.toLowerCase()">{{ rec.prioridad }}</span>
+        <div class="rec-card-header-row">
+          <span class="rec-prioridad" [ngClass]="'pri-' + rec.prioridad.toLowerCase()">
+            <i class="fa-solid" [ngClass]="iconoRec(rec.color)"></i>
+            {{ rec.prioridad }}
+          </span>
+        </div>
         <h3>{{ rec.titulo }}</h3>
-        <p>{{ rec.descripcion }}</p>
+        <p class="rec-descripcion">{{ rec.descripcion }}</p>
+        <div class="rec-accion" *ngIf="rec.accion">
+          <i class="fa-solid fa-circle-right"></i>
+          <span>{{ rec.accion }}</span>
+        </div>
       </div>
       <div class="rec-card-actions">
         <button type="button" class="btn-icon" title="Editar" (click)="abrirEditar(rec)">

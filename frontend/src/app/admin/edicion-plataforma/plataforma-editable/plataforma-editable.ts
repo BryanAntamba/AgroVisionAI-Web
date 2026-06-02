@@ -1,39 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { BarraAdmin } from '../../../navbars/barra-admin/barra-admin';
 import { EdicionPlataformaValidaciones } from '../../../shared/validators/panel-admin/valdiacion-edicionPlataforma/edicionPlataforma-validaciones';
-
-interface NavbarConfig {
-  tipoFondo: 'solido' | 'gradiente';
-  colorBase: string;
-  resplandorActivo: boolean;
-  colorResplandor: string;
-  posicionResplandor: string;
-  opacidadResplandor: number;
-  tamanoResplandor: number;
-  colorBorde: string;
-}
-
-interface ColoresConfig {
-  titulos: string;
-  linksNormales: string;
-  linksActivos: string;
-  textosDescriptivos: string;
-  iconos: string;
-}
-
-interface BotonesConfig {
-  tipo: 'solido' | 'gradiente';
-  colorInicial: string;
-  colorFinal: string;
-  colorTexto: string;
-}
-
-interface ModalesConfig {
-  colorBackdrop: string;
-  opacidadBackdrop: number;
-}
+import { TemaService, NavbarConfig, ColoresConfig, BotonesConfig, ModalesConfig } from '../../../shared/services/tema.service';
 
 interface ImagenCarrusel {
   id: number;
@@ -50,10 +20,17 @@ interface ImagenCarrusel {
   templateUrl: './plataforma-editable.html',
   styleUrl: './plataforma-editable.css',
 })
-export class PlataformaEditable {
+export class PlataformaEditable implements OnInit {
   // Formulario reactivo
   form: FormGroup;
   validaciones = EdicionPlataformaValidaciones;
+
+  // Modales de confirmación y éxito
+  mostrarModalResetConfirmar: boolean = false;
+  mostrarModalResetExito: boolean = false;
+  mostrarModalGuardadoExito: boolean = false;
+  mostrarModalErrores: boolean = false;
+  erroresValidacion: string[] = [];
 
   // Logo y Favicon
   logoPreview: string | null = null;
@@ -107,11 +84,19 @@ export class PlataformaEditable {
     opacidadBackdrop: 45,
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private temaService: TemaService) {
+    // Cargar la configuración actual desde el servicio
+    const config = this.temaService.getConfig();
+    this.nombrePlataforma = config.nombrePlataforma;
+    this.navbar = config.navbar;
+    this.colores = config.colores;
+    this.botones = config.botones;
+    this.modales = config.modales;
+
     // Inicializar formulario con validaciones
     this.form = this.fb.group({
       nombrePlataforma: [
-        'AgroVision AI',
+        this.nombrePlataforma,
         [
           Validators.required,
           Validators.minLength(3),
@@ -125,6 +110,11 @@ export class PlataformaEditable {
     this.form.get('nombrePlataforma')?.valueChanges.subscribe(value => {
       this.nombrePlataforma = value;
     });
+  }
+
+  ngOnInit(): void {
+    // Aplicar el tema al renderizar para sincronizar
+    this.temaService.aplicarTema(this.temaService.getConfig());
   }
 
   get f() {
@@ -323,41 +313,54 @@ export class PlataformaEditable {
     );
 
     if (!validacion.valido) {
-      // Mostrar errores
-      const mensajeError = validacion.errores.join('\n• ');
-      alert('No se pueden guardar los cambios. Por favor corrija los siguientes errores:\n\n• ' + mensajeError);
+      this.erroresValidacion = validacion.errores;
+      this.mostrarModalErrores = true;
       return;
     }
 
-    // Aquí iría la lógica para guardar en el backend
-    console.log('Configuración a guardar:', {
+    // Guardar en el servicio TemaService para actualizar globalmente
+    this.temaService.guardarConfig({
       nombrePlataforma: this.nombrePlataforma,
-      logoFile: this.logoFile,
-      faviconFile: this.faviconFile,
-      imagenesCarrusel: this.imagenesCarrusel,
       navbar: this.navbar,
       colores: this.colores,
       botones: this.botones,
       modales: this.modales,
+      faviconUrl: this.faviconPreview || undefined
     });
 
-    alert('Los cambios han sido guardados correctamente.');
+    this.mostrarModalGuardadoExito = true;
+  }
+
+  cerrarModalGuardadoExito(): void {
+    this.mostrarModalGuardadoExito = false;
+  }
+
+  cerrarModalErrores(): void {
+    this.mostrarModalErrores = false;
   }
 
   // ========== RESETEAR CAMBIOS ==========
-  resetearCambios(): void {
-    const confirmar = confirm(
-      '¿Está seguro de que desea resetear todos los cambios a los valores por defecto? Esta acción no se puede deshacer.'
-    );
+  abrirResetearCambios(): void {
+    this.mostrarModalResetConfirmar = true;
+  }
 
-    if (!confirmar) return;
+  cerrarModalResetConfirmar(): void {
+    this.mostrarModalResetConfirmar = false;
+  }
 
-    // Resetear todo a valores por defecto
+  confirmarResetear(): void {
+    this.mostrarModalResetConfirmar = false;
+
+    // Resetear configuración visual en el servicio
+    const configDefault = this.temaService.resetearConfig();
+
+    // Restaurar campos locales
     this.logoPreview = null;
     this.faviconPreview = null;
     this.logoFile = null;
     this.faviconFile = null;
-    this.nombrePlataforma = 'AgroVision AI';
+    this.nombrePlataforma = configDefault.nombrePlataforma;
+    this.form.patchValue({ nombrePlataforma: configDefault.nombrePlataforma });
 
     this.imagenesCarrusel = [
       { id: 1, url: 'assets/imagesLogin/sosteniendoTomate.jpg', nombre: 'sosteniendoTomate.jpg' },
@@ -366,38 +369,16 @@ export class PlataformaEditable {
     ];
     this.siguienteIdCarrusel = 4;
 
-    this.navbar = {
-      tipoFondo: 'gradiente',
-      colorBase: '#ffffff',
-      resplandorActivo: true,
-      colorResplandor: '#55a820',
-      posicionResplandor: 'top right',
-      opacidadResplandor: 20,
-      tamanoResplandor: 34,
-      colorBorde: '#d7e4dc',
-    };
+    this.navbar = configDefault.navbar;
+    this.colores = configDefault.colores;
+    this.botones = configDefault.botones;
+    this.modales = configDefault.modales;
 
-    this.colores = {
-      titulos: '#073d2b',
-      linksNormales: '#456657',
-      linksActivos: '#55a820',
-      textosDescriptivos: '#597268',
-      iconos: '#55a820',
-    };
+    this.mostrarModalResetExito = true;
+  }
 
-    this.botones = {
-      tipo: 'gradiente',
-      colorInicial: '#073d2b',
-      colorFinal: '#55a820',
-      colorTexto: '#ffffff',
-    };
-
-    this.modales = {
-      colorBackdrop: '#073d2b',
-      opacidadBackdrop: 45,
-    };
-
-    alert('Todos los cambios han sido reseteados a los valores por defecto.');
+  cerrarModalResetExito(): void {
+    this.mostrarModalResetExito = false;
   }
 
   // ========== VISTA PREVIA DE BACKDROP ==========

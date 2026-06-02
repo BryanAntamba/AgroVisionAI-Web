@@ -446,6 +446,7 @@
         <div class="config-item full-width">
           <label class="config-label">Vista Previa</label>
           <button 
+            type="button"
             class="btn-preview" 
             [style.background]="getBtnPreviewBackground()"
             [style.color]="botones.colorTexto"
@@ -550,7 +551,7 @@
 
     <!-- BOTONES DE ACCIÓN FINALES -->
     <div class="action-buttons">
-      <button type="button" class="btn-cancel" (click)="resetearCambios()">
+      <button type="button" class="btn-cancel" (click)="abrirResetearCambios()">
         <i class="fa-solid fa-rotate-left"></i>
         Resetear Todo
       </button>
@@ -561,3 +562,48 @@
     </div>
   </form>
 </main>
+
+<!-- Modales de Confirmación y Éxito -->
+<div class="modal-overlay" *ngIf="mostrarModalResetConfirmar" (click)="cerrarModalResetConfirmar()">
+  <div class="modal-exito modal-apagado" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+    <h3>¿Resetear configuración?</h3>
+    <p>Se restablecerán todos los colores, estilos de botones y fondos de la plataforma a sus valores por defecto. Esta acción no se puede deshacer.</p>
+    <div class="modal-acciones" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+      <button type="button" class="btn-modal-cancelar" (click)="cerrarModalResetConfirmar()" style="padding: 10px 18px; border-radius: 8px; border: 1px solid #d7e4dc; background: #fbfdf9; font-weight: 800; cursor: pointer; color: var(--color-titulos, #073d2b);">Cancelar</button>
+      <button type="button" class="btn-modal-confirmar" style="padding: 10px 18px; border-radius: 8px; border: 0; background: var(--color-titulos, #073d2b); color: #fff; font-weight: 800; cursor: pointer;" (click)="confirmarResetear()">Sí, resetear</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModalResetExito" (click)="cerrarModalResetExito()">
+  <div class="modal-exito" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+    <div class="modal-exito-icono">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <h3>Configuración restaurada</h3>
+    <p>Todos los cambios han sido reseteados al valor predeterminado correctamente.</p>
+    <button type="button" class="btn-modal-aceptar" (click)="cerrarModalResetExito()">Aceptar</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModalGuardadoExito" (click)="cerrarModalGuardadoExito()">
+  <div class="modal-exito" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+    <div class="modal-exito-icono">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <h3>Cambios guardados correctamente</h3>
+    <p>La nueva configuración visual ha sido aplicada con éxito a toda la plataforma.</p>
+    <button type="button" class="btn-modal-aceptar" (click)="cerrarModalGuardadoExito()">Aceptar</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModalErrores" (click)="cerrarModalErrores()">
+  <div class="modal-exito modal-apagado" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+    <h3 style="color: #a32626;">Error de validación</h3>
+    <p>No se pueden guardar los cambios. Por favor corrija los siguientes errores:</p>
+    <ul style="text-align: left; margin: 10px 0; padding-left: 20px; color: #a32626; font-size: 13px; line-height: 1.5; list-style-type: disc;">
+      <li *ngFor="let err of erroresValidacion">{{ err }}</li>
+    </ul>
+    <button type="button" class="btn-modal-cancelar" (click)="cerrarModalErrores()" style="width: 100%; margin-top: 10px; padding: 12px 18px; border-radius: 8px; border: 1px solid #d7e4dc; background: #fbfdf9; font-weight: 800; cursor: pointer; color: #a32626;">Cerrar</button>
+  </div>
+</div>
