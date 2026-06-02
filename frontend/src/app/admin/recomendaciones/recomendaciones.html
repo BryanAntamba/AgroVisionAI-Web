@@ -1,0 +1,101 @@
+<app-barra-admin></app-barra-admin>
+
+<main class="dashboard-page">
+  <section class="dashboard-header">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Recomendaciones de acción</h1>
+      <p>Registre y administre las recomendaciones que verá el agricultor en su panel.</p>
+    </div>
+    <button class="create-button" type="button" (click)="abrirRegistrar()">
+      <i class="fa-solid fa-plus"></i>
+      Registrar recomendación
+    </button>
+  </section>
+
+  <section class="filters-bar">
+    <div class="search-field">
+      <label for="buscar-rec">Buscar recomendación</label>
+      <div class="input-shell">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          id="buscar-rec"
+          type="search"
+          placeholder="Título o descripción"
+          [(ngModel)]="busqueda"
+          (ngModelChange)="aplicarFiltros()"
+        />
+      </div>
+    </div>
+    <div class="filter-field">
+      <label for="filtro-prioridad">Prioridad</label>
+      <select id="filtro-prioridad" [(ngModel)]="filtroPrioridad" (ngModelChange)="aplicarFiltros()">
+        <option value="Todas">Todas</option>
+        <option value="Baja">Baja</option>
+        <option value="Media">Media</option>
+        <option value="Alta">Alta</option>
+        <option value="Critica">Critica</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="vista-previa-seccion" *ngIf="vistaPrevia.length">
+    <h2>Vista previa (panel agricultor)</h2>
+    <article class="rec-item" *ngFor="let rec of vistaPrevia" [ngClass]="'rec-' + tipoRec(rec.color)">
+      <i class="fa-solid" [ngClass]="iconoRec(rec.color)" aria-hidden="true"></i>
+      <div class="rec-body">
+        <strong>{{ rec.titulo }}</strong>
+        <p>{{ rec.descripcion }}</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="lista-recomendaciones">
+    <h2>Recomendaciones registradas ({{ vistaPrevia.length }})</h2>
+    <p class="lista-vacia" *ngIf="!vistaPrevia.length">No hay recomendaciones con los filtros actuales.</p>
+    <article class="rec-card" *ngFor="let rec of vistaPrevia">
+      <div class="rec-card-body">
+        <span class="rec-prioridad" [ngClass]="'pri-' + rec.prioridad.toLowerCase()">{{ rec.prioridad }}</span>
+        <h3>{{ rec.titulo }}</h3>
+        <p>{{ rec.descripcion }}</p>
+      </div>
+      <div class="rec-card-actions">
+        <button type="button" class="btn-icon" title="Editar" (click)="abrirEditar(rec)">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+        <button type="button" class="btn-icon" title="Visualizar" (click)="abrirVisualizar(rec)">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+        <button type="button" class="btn-icon btn-icon-danger" title="Eliminar" (click)="abrirEliminar(rec)">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </article>
+  </section>
+</main>
+
+<app-registrar-recomendacion
+  *ngIf="mostrarRegistrar"
+  (cerrar)="cerrarRegistrar()"
+  (guardar)="guardarRegistro($event)"
+></app-registrar-recomendacion>
+
+<app-editar-recomendacion
+  *ngIf="mostrarEditar && seleccionada"
+  [recomendacion]="seleccionada"
+  (cerrar)="cerrarEditar()"
+  (guardar)="guardarEdicion($event)"
+></app-editar-recomendacion>
+
+<app-visualizar-recomendacion
+  *ngIf="mostrarVisualizar && seleccionada"
+  [recomendacion]="seleccionada"
+  (cerrar)="cerrarVisualizar()"
+></app-visualizar-recomendacion>
+
+<app-eliminar-recomendacion
+  *ngIf="mostrarEliminar && seleccionada"
+  [recomendacion]="seleccionada"
+  (cerrar)="cerrarEliminar()"
+  (confirmar)="confirmarEliminacion()"
+></app-eliminar-recomendacion>

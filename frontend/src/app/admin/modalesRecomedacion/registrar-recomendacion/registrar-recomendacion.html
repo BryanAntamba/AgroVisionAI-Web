@@ -1,0 +1,77 @@
+<div class="modal-backdrop" (click)="cerrarModal()" role="presentation">
+  <div
+    class="modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-titulo-recomendacion"
+    (click)="$event.stopPropagation()"
+  >
+    <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h2 id="modal-titulo-recomendacion">Registrar recomendación</h2>
+
+    <form class="modal-form" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+      <div class="modal-fields">
+        <div class="field field-full">
+          <label for="rec-titulo">Título</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-heading"></i>
+            <input id="rec-titulo" type="text" placeholder="Ej: Humedad foliar por debajo del óptimo" formControlName="titulo" />
+          </div>
+          <small>{{ validaciones.mensajeTitulo(f['titulo']) }}</small>
+        </div>
+
+        <div class="field field-full">
+          <label for="rec-descripcion">Descripción</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-align-left"></i>
+            <textarea id="rec-descripcion" rows="3" placeholder="Descripción del hallazgo" formControlName="descripcion"></textarea>
+          </div>
+          <small>{{ validaciones.mensajeDescripcion(f['descripcion']) }}</small>
+        </div>
+
+        <div class="field field-full">
+          <label for="rec-accion">Acción recomendada</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <textarea id="rec-accion" rows="2" placeholder="Qué debe hacer el agricultor" formControlName="accion"></textarea>
+          </div>
+          <small>{{ validaciones.mensajeAccion(f['accion']) }}</small>
+        </div>
+
+        <div class="modal-fields-row-selects">
+          <div class="field field-select">
+            <label for="rec-prioridad">Prioridad de la recomendación</label>
+            <app-desplegable-campo
+              formControlName="prioridad"
+              campoId="rec-prioridad"
+              icono="fa-solid fa-flag"
+              placeholder="Seleccione prioridad"
+              [opciones]="prioridades">
+            </app-desplegable-campo>
+            <small>{{ validaciones.mensajeSelect(f['prioridad'], 'La prioridad de la recomendación') }}</small>
+          </div>
+
+          <div class="field field-select">
+            <label for="rec-color">Color de la recomendación</label>
+            <app-desplegable-campo
+              formControlName="color"
+              campoId="rec-color"
+              icono="fa-solid fa-palette"
+              placeholder="Seleccione color"
+              [opciones]="colores">
+            </app-desplegable-campo>
+            <small>{{ validaciones.mensajeSelect(f['color'], 'El color de la recomendación') }}</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-cancel" type="button" (click)="cerrarModal()">Cancelar</button>
+        <button class="modal-submit" type="submit">Registrar recomendación</button>
+      </div>
+    </form>
+  </div>
+</div>

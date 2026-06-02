@@ -1,7 +1,287 @@
-<main class="panel-page farmer-panel">
-  <section class="panel-content">
-    <p class="eyebrow">AgroVision AI</p>
-    <h1>Panel Agricultor</h1>
-    <p>Bienvenido, agricultor. Desde aquí se revisarán cultivos, diagnósticos, historial y alertas agrícolas.</p>
-  </section>
+<app-barra-agricultor></app-barra-agricultor>
+
+<main class="panel-agricultor-main">
+  <div class="pantalla-conexion" *ngIf="!dispositivoConectado">
+    <app-boton-iot (conectado)="onConectadoDispositivo($event)"></app-boton-iot>
+  </div>
+
+  <div class="dash" *ngIf="dispositivoConectado">
+    <!-- Encabezado -->
+    <header class="dash-top">
+      <div class="dash-brand">
+        <span class="dash-live-dot" [class.off]="dispositivoDesconectado"></span>
+        <div class="dash-title">{{ datos.meta.titulo }}</div>
+      </div>
+      <div class="dash-top-actions">
+        <button type="button" class="btn-guardar-reporte" (click)="guardarReporte()" [disabled]="dispositivoDesconectado">
+          <i class="fa-solid fa-file-circle-check" aria-hidden="true"></i>
+          Guardar reporte
+        </button>
+        <span class="badge badge-live" *ngIf="!dispositivoDesconectado"><span></span>Dispositivo conectado</span>
+        <span class="badge badge-warn" *ngIf="dispositivoDesconectado"><span></span>Dispositivo desconectado</span>
+      </div>
+    </header>
+
+    <!-- Alertas de sensores / cámara -->
+    <div class="alertas-panel" *ngIf="alertasVisibles.length">
+      <app-alerta-dht22
+        *ngIf="alertasVisibles.includes('dht22')"
+        [alerta]="getAlerta('dht22')"
+        (cerrar)="cerrarAlerta('dht22')"
+      ></app-alerta-dht22>
+      <app-alerta-cam
+        *ngIf="alertasVisibles.includes('cam')"
+        [alerta]="getAlerta('cam')"
+        (cerrar)="cerrarAlerta('cam')"
+      ></app-alerta-cam>
+      <app-alerta-capacite-v2
+        *ngIf="alertasVisibles.includes('capaciteV2')"
+        [alerta]="getAlerta('capaciteV2')"
+        (cerrar)="cerrarAlerta('capaciteV2')"
+      ></app-alerta-capacite-v2>
+      <app-alerta-antena-wifi
+        *ngIf="alertasVisibles.includes('antenaWifi')"
+        [alerta]="getAlerta('antenaWifi')"
+        (cerrar)="cerrarAlerta('antenaWifi')"
+      ></app-alerta-antena-wifi>
+      <app-alerta-sensor-ldr
+        *ngIf="alertasVisibles.includes('sensorLdr')"
+        [alerta]="getAlerta('sensorLdr')"
+        (cerrar)="cerrarAlerta('sensorLdr')"
+      ></app-alerta-sensor-ldr>
+    </div>
+
+    <!-- Captura de imagen -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-camera" aria-hidden="true"></i>Captura de imagen</h2>
+      </div>
+      <div class="captura-row">
+        <div class="img-box" *ngIf="datos.imagenes.tiene_captura">
+          <img [src]="datos.imagenes.original" alt="Hoja capturada por la cámara" />
+        </div>
+        <div class="img-placeholder camara-pendiente" *ngIf="!datos.imagenes.tiene_captura">
+          <i class="fa-solid fa-camera" aria-hidden="true"></i>
+          <p>La imagen se capturará automáticamente con la cámara del dispositivo</p>
+          <span class="camara-estado">Esperando próxima captura…</span>
+        </div>
+        <div class="captura-meta">
+          <div class="meta-block">
+            <span class="meta-label">Planta monitoreada</span>
+            <span class="meta-value">{{ etiquetaPlanta }}</span>
+          </div>
+          <div class="meta-block">
+            <span class="meta-label">Última captura</span>
+            <span class="meta-value">{{ fechaUltimaCaptura }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Índice de salud -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>Índice de salud de la planta</h2>
+      </div>
+      <div class="health-wrap">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 86 86" aria-hidden="true">
+            <circle cx="43" cy="43" r="34" fill="none" stroke="#d7e4dc" stroke-width="7" />
+            <circle
+              cx="43" cy="43" r="34" fill="none" stroke="#55a820" stroke-width="7"
+              stroke-linecap="round"
+              [attr.stroke-dasharray]="circunferenciaAnillo"
+              [attr.stroke-dashoffset]="offsetAnilloSalud"
+            />
+          </svg>
+          <div class="ring-center">
+            <span class="rpct">{{ datos.indice_salud.valor }}%</span>
+            <span class="rlbl">salud</span>
+          </div>
+        </div>
+        <div class="health-info">
+          <div class="estado">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>{{ datos.indice_salud.estado }}
+          </div>
+          <p class="desc">{{ datos.indice_salud.descripcion }}</p>
+        </div>
+        <div class="health-bars">
+          <div class="hbrow" *ngFor="let barra of barrasSalud">
+            <span class="hblabel">{{ barra.etiqueta }}</span>
+            <div class="hbtrack">
+              <div class="hbfill" [style.width.%]="barra.valor" [style.background]="barra.color"></div>
+            </div>
+            <span class="hbval">{{ barra.valor }}%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sensores -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i>Lecturas de sensores</h2>
+      </div>
+      <div class="sgrid">
+        <article class="sc" *ngFor="let sensor of tarjetasSensores">
+          <div class="sc-top">
+            <i class="fa-solid sc-icon" [ngClass]="sensor.icono" aria-hidden="true"></i>
+            <div class="sc-pills">
+              <span class="spill" *ngFor="let pill of sensor.pills" [ngClass]="'sp-' + pill.tipo">{{ pill.texto }}</span>
+            </div>
+          </div>
+          <div class="sc-name">{{ sensor.nombre }}</div>
+          <div class="sc-val">{{ sensor.valorNum }}<span class="sc-unit">{{ sensor.unidad }}</span></div>
+          <div class="sc-bar">
+            <div class="sc-fill" [style.width.%]="sensor.barPct" [style.background]="sensor.barColor"></div>
+          </div>
+          <div class="sc-ranges">
+            <span *ngFor="let r of sensor.rangos">{{ r }}</span>
+          </div>
+          <div class="sc-optimo"><i class="fa-solid fa-circle" aria-hidden="true"></i>{{ sensor.optimo }}</div>
+          <p class="sc-estnote" *ngIf="sensor.notaEstimado">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ sensor.notaEstimado }}
+          </p>
+          <div class="sc-device"><i class="fa-solid fa-microchip" aria-hidden="true"></i>{{ sensor.dispositivo }}</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Diagnóstico IA -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-brain" aria-hidden="true"></i>Diagnóstico de la IA</h2>
+      </div>
+      <div class="diag-result">
+        <div class="diag-iconbox" [class.warn]="!diagnosticoEsSano">
+          <i class="fa-solid" [ngClass]="diagnosticoEsSano ? 'fa-shield-heart' : 'fa-triangle-exclamation'" aria-hidden="true"></i>
+        </div>
+        <div class="diag-text">
+          <h3>{{ diagnosticoEspanol }}</h3>
+          <p>{{ datos.diagnostico_final.descripcion }}</p>
+          <div class="conf-row">
+            <span class="conf-lbl">Confianza del modelo</span>
+            <div class="conf-track">
+              <div class="conf-fill" [style.width.%]="datos.diagnostico_final.confianza_final"></div>
+            </div>
+            <span class="conf-pct">{{ datos.diagnostico_final.confianza_final }} %</span>
+          </div>
+        </div>
+      </div>
+      <div class="subsec">Probabilidades por condición</div>
+      <div class="dis-row" *ngFor="let pred of predicciones">
+        <span class="dis-name">{{ pred.nombre }}</span>
+        <div class="dis-track">
+          <div class="dis-fill" [style.width.%]="pred.porcentaje" [style.background]="pred.color"></div>
+        </div>
+        <span class="dis-pct">{{ pred.porcentaje }} %</span>
+      </div>
+      <p class="dis-rest">
+        <i class="fa-solid fa-ellipsis" aria-hidden="true"></i> {{ datos.diagnostico_final.otras_condiciones }}
+      </p>
+    </section>
+
+    <!-- Métricas de lesión -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-microscope" aria-hidden="true"></i>Métricas de lesión foliar</h2>
+      </div>
+      <div class="mgrid">
+        <article class="mc" *ngFor="let m of metricasLesion">
+          <div class="mc-top">
+            <span class="mc-name"><i class="fa-solid" [ngClass]="m.icono" aria-hidden="true"></i>{{ m.nombre }}</span>
+            <span class="mpill" [ngClass]="'mp-' + m.pillTipo">{{ m.pill }}</span>
+          </div>
+          <div class="mc-val">{{ m.valorNum }}<span class="mc-unit">{{ m.unidad }}</span></div>
+          <div class="sem-track">
+            <div class="sem-ok"></div>
+            <div class="sem-warn"></div>
+            <div class="sem-crit"></div>
+            <div class="sem-dot" [style.left.%]="m.dotLeft" [style.background]="m.pillTipo === 'ok' ? '#55a820' : m.pillTipo === 'warn' ? '#b56c07' : '#c62828'"></div>
+          </div>
+          <div class="sem-lbls">
+            <span *ngFor="let lbl of m.escalaLabels">{{ lbl }}</span>
+          </div>
+          <div class="mleg">
+            <div class="mleg-i" *ngFor="let leg of m.leyenda">
+              <div class="mleg-dot" [style.background]="leg.color"></div>
+              <span class="mleg-t">{{ leg.texto }}</span>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p class="sec-nota">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        Análisis realizado por visión artificial sobre la imagen capturada.
+      </p>
+    </section>
+
+    <!-- Recomendaciones -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>Recomendaciones de acción</h2>
+      </div>
+      <article class="rec-item" *ngFor="let rec of recomendaciones" [ngClass]="'rec-' + rec.tipo">
+        <i class="fa-solid" [ngClass]="rec.icono" aria-hidden="true"></i>
+        <div class="rec-body">
+          <strong>{{ rec.titulo }}</strong>
+          <p>{{ rec.mensaje }}</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Conectividad -->
+    <section class="sec sec-conectividad">
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-plug" aria-hidden="true"></i>Conectividad del dispositivo</h2>
+      </div>
+      <div class="conectividad-estado" [class.desconectado]="dispositivoDesconectado">
+        <span class="conectividad-punto" [class.off]="dispositivoDesconectado"></span>
+        <span>{{ estadoConexionTexto }}</span>
+      </div>
+      <div class="conectividad-acciones">
+        <button
+          *ngIf="!dispositivoDesconectado"
+          type="button"
+          class="btn-apagar"
+          [disabled]="isDisconnecting"
+          (click)="abrirModalApagado()">
+          <i class="fa-solid fa-power-off" aria-hidden="true"></i>
+          {{ isDisconnecting ? 'Apagando...' : 'Apagar dispositivo' }}
+        </button>
+        <button
+          *ngIf="dispositivoDesconectado"
+          type="button"
+          class="btn-reconectar"
+          [disabled]="isReconnecting"
+          (click)="reconectarDispositivo()">
+          <i class="fa-solid fa-plug" aria-hidden="true"></i>
+          {{ isReconnecting ? 'Reconectando...' : 'Reconectar Dispositivo' }}
+        </button>
+        <p class="error-reconexion" *ngIf="errorReconexion" role="alert">{{ errorReconexion }}</p>
+      </div>
+    </section>
+  </div>
 </main>
+
+<div class="modal-overlay" *ngIf="mostrarModalReporteGuardado" (click)="cerrarModalReporteGuardado()">
+  <div class="modal-exito" (click)="$event.stopPropagation()" role="dialog" aria-labelledby="modalReporteTitulo" aria-modal="true">
+    <div class="modal-exito-icono" aria-hidden="true">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <h3 id="modalReporteTitulo">Reporte guardado correctamente</h3>
+    <p>El reporte se guardó con éxito y estará disponible en el historial.</p>
+    <button type="button" class="btn-modal-aceptar" (click)="cerrarModalReporteGuardado()">Aceptar</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModalApagado" (click)="cerrarModalApagado()">
+  <div class="modal-apagado" (click)="$event.stopPropagation()" role="dialog" aria-labelledby="modalApagadoTitulo" aria-modal="true">
+    <h3 id="modalApagadoTitulo">¿Apagar el dispositivo?</h3>
+    <p>El monitoreo en tiempo real se detendrá. Podrá reconectar el dispositivo cuando lo necesite.</p>
+    <div class="modal-acciones">
+      <button type="button" class="btn-modal-cancelar" (click)="cerrarModalApagado()">Cancelar</button>
+      <button type="button" class="btn-modal-confirmar" (click)="confirmarApagado()">Sí, apagar</button>
+    </div>
+  </div>
+</div>

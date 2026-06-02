@@ -118,6 +118,9 @@
         <span class="badge" [ngClass]="usuario.sesion === 'En linea' ? 'online' : 'offline'">
           {{ usuario.sesion }}
         </span>
+        <span *ngIf="usuario.dispositivo" class="badge" [ngClass]="usuario.dispositivo === 'Dispositivo vinculado' ? 'device-linked' : 'device-unlinked'">
+          {{ usuario.dispositivo }}
+        </span>
       </div>
 
       <dl class="user-details">
@@ -137,6 +140,9 @@
         </button>
         <button type="button" (click)="abrirPerfil(usuario)">
           <i class="fa-solid fa-id-card"></i>Perfil
+        </button>
+        <button *ngIf="usuario.rol === 'Agricultor'" type="button" class="access-panel" (click)="accederPanelAgricultor(usuario)">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i>Acceder al panel
         </button>
         <button type="button" (click)="cambiarEstado(usuario)">
           <i class="fa-solid fa-power-off"></i>

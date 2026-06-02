@@ -1,0 +1,19 @@
+<div class="modal-backdrop" (click)="cerrarModal()" role="presentation">
+  <div class="modal-card" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+    <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h2>Detalle de recomendación</h2>
+    <div class="modal-form">
+      <p><strong>Título:</strong> {{ recomendacion.titulo }}</p>
+      <p><strong>Descripción:</strong> {{ recomendacion.descripcion }}</p>
+      <p><strong>Acción recomendada:</strong> {{ recomendacion.accion }}</p>
+      <p><strong>Prioridad:</strong> {{ recomendacion.prioridad }}</p>
+      <p><strong>Color:</strong> {{ recomendacion.color }}</p>
+      <p><strong>Registrada:</strong> {{ formatearFecha(recomendacion.fechaRegistro) }}</p>
+      <div class="modal-actions">
+        <button class="modal-submit" type="button" (click)="cerrarModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

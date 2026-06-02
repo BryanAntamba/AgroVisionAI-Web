@@ -1,0 +1,41 @@
+<div
+  class="modal-backdrop"
+  (click)="cerrarModal()"
+  role="presentation"
+>
+  <div
+    class="modal-card modal-card-confirm"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="modal-eliminar-recomendacion-titulo"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      class="modal-close"
+      type="button"
+      aria-label="Cerrar"
+      (click)="cerrarModal()"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h2 id="modal-eliminar-recomendacion-titulo">Eliminar recomendación</h2>
+
+    <p class="confirm-message">
+      ¿Está seguro de que desea eliminar la recomendación
+      <strong>{{ recomendacion.titulo }}</strong>?
+    </p>
+
+    <p class="confirm-warning">Esta acción no se puede deshacer.</p>
+
+    <div class="modal-actions">
+      <button class="modal-cancel" type="button" (click)="cerrarModal()">
+        Cancelar
+      </button>
+      <button class="modal-delete" type="button" (click)="confirmarEliminacion()">
+        <i class="fa-solid fa-trash"></i>
+        Eliminar recomendación
+      </button>
+    </div>
+  </div>
+</div>

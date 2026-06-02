@@ -245,6 +245,16 @@ h2 {
   color: #9a2424;
 }
 
+.device-linked {
+  background: #e0f2f7;
+  color: #0277bd;
+}
+
+.device-unlinked {
+  background: #fff3e0;
+  color: #e65100;
+}
+
 .user-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -287,6 +297,19 @@ dd {
 .card-actions .danger {
   border-color: #f0c8c8;
   color: #a32626;
+}
+
+.card-actions .access-panel {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #073d2b, #55a820);
+  color: #ffffff;
+  border-color: #55a820;
+}
+
+.card-actions .access-panel:hover,
+.card-actions .access-panel:focus {
+  background: linear-gradient(135deg, #052f21, #4a941d);
+  border-color: #4a941d;
 }
 
 .empty-state {

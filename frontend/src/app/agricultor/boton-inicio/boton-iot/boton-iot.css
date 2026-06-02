@@ -1,0 +1,141 @@
+.boton-iot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+.logo-conexion {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 10px 20px rgba(7, 61, 43, 0.1));
+}
+
+.titulo-agrovision {
+  font-size: 48px;
+  font-weight: 800;
+  margin: 0 0 32px 0;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.texto-agrovision {
+  color: #073d2b;
+}
+
+.texto-ai {
+  color: #073d2b;
+}
+
+.boton-conexion {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid #c8d8ce;
+  background: #fdfefe;
+  color: #073d2b;
+  font-size: 2.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(7, 61, 43, 0.05);
+  margin-bottom: 24px;
+}
+
+.boton-conexion:hover:not(:disabled) {
+  transform: scale(1.08);
+  border-color: #55a820;
+  color: #55a820;
+  box-shadow: 0 8px 24px rgba(85, 168, 32, 0.15);
+}
+
+.boton-conexion:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.boton-conexion:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.boton-conexion.conectando {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  border-color: #FF9800;
+  color: white;
+  animation: pulsar 1.5s infinite;
+  box-shadow: 0 8px 24px rgba(255, 152, 0, 0.25);
+}
+
+.boton-conexion.conectado {
+  background: linear-gradient(135deg, #073d2b, #55a820);
+  border-color: #55a820;
+  color: white;
+  box-shadow: 0 8px 24px rgba(85, 168, 32, 0.25);
+}
+
+.descripcion-conexion {
+  max-width: 400px;
+  margin-top: 8px;
+}
+
+.descripcion-conexion p {
+  font-size: 16px;
+  color: #456657;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.indicador-conexion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 8px 16px;
+  background: #edf5e9;
+  border-radius: 20px;
+}
+
+.punto-verde {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #55a820;
+  animation: blink 1s infinite;
+}
+
+.indicador-conexion span:last-child {
+  color: #073d2b;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+@keyframes pulsar {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 24px rgba(255, 152, 0, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(255, 152, 0, 0.4);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}

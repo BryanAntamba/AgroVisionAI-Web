@@ -1,0 +1,62 @@
+<div class="modal-backdrop" (click)="cerrarModal()" role="presentation">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-editar-rec" (click)="$event.stopPropagation()">
+    <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h2 id="modal-editar-rec">Editar recomendación</h2>
+    <form class="modal-form" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+      <div class="modal-fields">
+        <div class="field field-full">
+          <label for="edit-titulo">Título</label>
+          <div class="input-shell modal-input-shell">
+            <i class="fa-solid fa-heading"></i>
+            <input id="edit-titulo" type="text" formControlName="titulo" />
+          </div>
+          <small>{{ validaciones.mensajeTitulo(f['titulo']) }}</small>
+        </div>
+        <div class="field field-full">
+          <label for="edit-descripcion">Descripción</label>
+          <div class="input-shell modal-input-shell">
+            <textarea id="edit-descripcion" rows="3" formControlName="descripcion"></textarea>
+          </div>
+          <small>{{ validaciones.mensajeDescripcion(f['descripcion']) }}</small>
+        </div>
+        <div class="field field-full">
+          <label for="edit-accion">Acción recomendada</label>
+          <div class="input-shell modal-input-shell">
+            <textarea id="edit-accion" rows="2" formControlName="accion"></textarea>
+          </div>
+          <small>{{ validaciones.mensajeAccion(f['accion']) }}</small>
+        </div>
+        <div class="modal-fields-row-selects">
+          <div class="field field-select">
+            <label for="edit-prioridad">Prioridad de la recomendación</label>
+            <app-desplegable-campo
+              formControlName="prioridad"
+              campoId="edit-prioridad"
+              icono="fa-solid fa-flag"
+              placeholder="Seleccione prioridad"
+              [opciones]="prioridades">
+            </app-desplegable-campo>
+            <small>{{ validaciones.mensajeSelect(f['prioridad'], 'La prioridad de la recomendación') }}</small>
+          </div>
+          <div class="field field-select">
+            <label for="edit-color">Color de la recomendación</label>
+            <app-desplegable-campo
+              formControlName="color"
+              campoId="edit-color"
+              icono="fa-solid fa-palette"
+              placeholder="Seleccione color"
+              [opciones]="colores">
+            </app-desplegable-campo>
+            <small>{{ validaciones.mensajeSelect(f['color'], 'El color de la recomendación') }}</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-cancel" type="button" (click)="cerrarModal()">Cancelar</button>
+        <button class="modal-submit" type="submit">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<article class="alerta-banner" role="alert">
+  <div class="alerta-icono" aria-hidden="true">
+    <i class="fa-solid fa-temperature-half"></i>
+  </div>
+  <div class="alerta-contenido">
+    <h3 class="alerta-titulo">{{ alerta.titulo }}</h3>
+    <p class="alerta-descripcion">{{ alerta.descripcionCorta }}</p>
+    <p class="alerta-fecha">{{ alerta.fechaHora }}</p>
+  </div>
+  <button type="button" class="alerta-cerrar" aria-label="Cerrar alerta" (click)="cerrar.emit()">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+</article>

@@ -1,0 +1,26 @@
+<div class="boton-iot-container">
+  <img src="assets/logotipos/escudo.png" alt="AgroVision AI Logo" class="logo-conexion" />
+  
+  <h1 class="titulo-agrovision">
+    <span class="texto-agrovision">AgroVision</span>
+    <span class="texto-ai">AI</span>
+  </h1>
+  
+  <button 
+    class="boton-conexion"
+    [class.conectando]="isConnecting"
+    [class.conectado]="isConnected"
+    (click)="onConectarDispositivo()"
+    [disabled]="isConnecting">
+    <i class="fas fa-power-off"></i>
+  </button>
+
+  <div class="descripcion-conexion">
+    <p>{{ descripcion }}</p>
+  </div>
+
+  <div *ngIf="isConnected" class="indicador-conexion">
+    <span class="punto-verde"></span>
+    <span>Dispositivo conectado</span>
+  </div>
+</div>

@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BarraAdmin } from '../../nadvars/barra-admin/barra-admin';
+import { BarraAdmin } from '../../navbars/barra-admin/barra-admin';
 import { DatosUsuario } from '../modales/registro-usuario/registro-usuario';
 import { RegistroUsuario } from '../modales/registro-usuario/registro-usuario';
 import { EditarUsuario, UsuarioEditar } from '../modales/editar-usuario/editar-usuario';
 import { PerfilUsuario } from '../modales/perfil-usuario/perfil-usuario';
 import { EliminarUsuario } from '../modales/eliminar-usuario/eliminar-usuario';
+import { datosSimuladosAdmin, UsuarioAdmin as UsuarioAdminInterface } from '../../../environments/datos-simulados-admin';
 
 type RolUsuario = 'Admin' | 'Agricultor';
 type EstadoCuenta = 'Activo' | 'Inactivo';
 type EstadoSesion = 'En linea' | 'Sin sesion';
+type EstadoDispositivo = 'Dispositivo vinculado' | 'Dispositivo no vinculado';
 type ModalModo = 'registro' | 'editar' | 'perfil';
 
 interface UsuarioAdmin {
@@ -25,6 +27,7 @@ interface UsuarioAdmin {
   rol: RolUsuario;
   cuenta: EstadoCuenta;
   sesion: EstadoSesion;
+  dispositivo?: EstadoDispositivo;
   fechaRegistro: string;
 }
 
@@ -54,94 +57,17 @@ export class PanelAdmin {
   usuarioSeleccionado: UsuarioAdmin | null = null;
   usuarioParaEliminar: UsuarioAdmin | null = null;
 
-  usuarios: UsuarioAdmin[] = [
-    {
-      id: 1,
-      nombre: 'Carlos',
-      segundoNombre: 'Andres',
-      apellido: 'Mendoza',
-      segundoApellido: 'Ruiz',
-      correoCorporativo: 'carlos.mendoza@agrovision.com',
-      correoElectronico: 'carlos.mendoza@gmail.com',
-      telefono: '994521188',
-      rol: 'Agricultor',
-      cuenta: 'Activo',
-      sesion: 'En linea',
-      fechaRegistro: '2026-05-18',
-    },
-    {
-      id: 2,
-      nombre: 'Mariana',
-      segundoNombre: 'Isabel',
-      apellido: 'Lopez',
-      segundoApellido: 'Vera',
-      correoCorporativo: 'mariana.lopez@agrovision.com',
-      correoElectronico: 'mariana.lopez@gmail.com',
-      telefono: '982146701',
-      rol: 'Agricultor',
-      cuenta: 'Inactivo',
-      sesion: 'Sin sesion',
-      fechaRegistro: '2026-04-28',
-    },
-    {
-      id: 3,
-      nombre: 'Jose',
-      segundoNombre: 'Miguel',
-      apellido: 'Cabrera',
-      segundoApellido: 'Solis',
-      correoCorporativo: 'jose.cabrera@agrovision.com',
-      correoElectronico: 'jose.cabrera@gmail.com',
-      telefono: '973358902',
-      rol: 'Admin',
-      cuenta: 'Activo',
-      sesion: 'En linea',
-      fechaRegistro: '2026-03-12',
-    },
-    {
-      id: 4,
-      nombre: 'Daniela',
-      segundoNombre: 'Sofia',
-      apellido: 'Paredes',
-      segundoApellido: 'Mora',
-      correoCorporativo: 'daniela.paredes@agrovision.com',
-      correoElectronico: 'daniela.paredes@gmail.com',
-      telefono: '968812034',
-      rol: 'Agricultor',
-      cuenta: 'Activo',
-      sesion: 'Sin sesion',
-      fechaRegistro: '2026-02-07',
-    },
-    {
-      id: 5,
-      nombre: 'Luis',
-      segundoNombre: 'Fernando',
-      apellido: 'Aguirre',
-      segundoApellido: 'Torres',
-      correoCorporativo: 'luis.aguirre@agrovision.com',
-      correoElectronico: 'luis.aguirre@gmail.com',
-      telefono: '951147790',
-      rol: 'Admin',
-      cuenta: 'Inactivo',
-      sesion: 'Sin sesion',
-      fechaRegistro: '2025-12-21',
-    },
-    {
-      id: 6,
-      nombre: 'Valeria',
-      segundoNombre: 'Emilia',
-      apellido: 'Sanchez',
-      segundoApellido: 'Castro',
-      correoCorporativo: 'valeria.sanchez@agrovision.com',
-      correoElectronico: 'valeria.sanchez@gmail.com',
-      telefono: '997804432',
-      rol: 'Agricultor',
-      cuenta: 'Activo',
-      sesion: 'En linea',
-      fechaRegistro: '2026-01-15',
-    },
-  ];
+  usuarios: UsuarioAdmin[] = datosSimuladosAdmin;
 
-  constructor() {}
+  constructor() {
+    // Agregar estado de dispositivo a agricultores
+    this.usuarios = this.usuarios.map((usuario, index) => ({
+      ...usuario,
+      dispositivo: usuario.rol === 'Agricultor' 
+        ? (index === 0 ? 'Dispositivo vinculado' : 'Dispositivo no vinculado')
+        : undefined
+    }));
+  }
 
   get usuariosFiltrados(): UsuarioAdmin[] {
     const termino = this.normalizar(this.busqueda);
@@ -302,6 +228,11 @@ export class PanelAdmin {
       (usuario) => usuario.id !== this.usuarioParaEliminar!.id
     );
     this.cerrarConfirmacionEliminar();
+  }
+
+  accederPanelAgricultor(usuario: UsuarioAdmin): void {
+    // Navegar al panel del agricultor
+    window.location.href = '/panel-agricultor';
   }
 
   private coincideFecha(fechaRegistro: string): boolean {

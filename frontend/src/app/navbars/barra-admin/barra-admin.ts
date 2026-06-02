@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-barra-admin',
-  imports: [RouterLink],
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './barra-admin.html',
   styleUrl: './barra-admin.css',
 })
-export class BarraAdmin {
-
-}
+export class BarraAdmin {}

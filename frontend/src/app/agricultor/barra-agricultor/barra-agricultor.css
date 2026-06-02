@@ -1,0 +1,104 @@
+.admin-navbar {
+  min-height: 72px;
+  padding: 10px 28px;
+  background:
+    radial-gradient(circle at top right, rgba(85, 168, 32, 0.2), transparent 34%),
+    #ffffff;
+  border-bottom: 1px solid #d7e4dc;
+  box-shadow: 0 10px 24px rgba(7, 61, 43, 0.12);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar-brand {
+  color: #073d2b;
+  font-size: 22px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color: #073d2b;
+}
+
+.brand-shield {
+  object-fit: contain;
+}
+
+.admin-navbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.navbar-nav .nav-link {
+  color: #456657;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: #55a820;
+}
+
+.navbar-nav .nav-link.active-link {
+  color: #073d2b;
+  font-weight: 900;
+}
+
+.logout-button {
+  min-height: 40px;
+  padding: 0 24px;
+  background: linear-gradient(135deg, #073d2b, #55a820);
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 24px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 6px 16px rgba(7, 61, 43, 0.16);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logout-button:hover,
+.logout-button:focus {
+  box-shadow: 0 8px 20px rgba(7, 61, 43, 0.24);
+  color: #ffffff;
+}
+
+@media (max-width: 991px) {
+  .admin-navbar {
+    padding: 10px 16px;
+  }
+
+  .admin-navbar-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 12px;
+  }
+
+  .navbar-nav {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 10px 0;
+    border-left: 3px solid transparent;
+    padding-left: 12px;
+  }
+
+  .navbar-nav .nav-link.active-link {
+    border-left-color: #55a820;
+    background: rgba(85, 168, 32, 0.05);
+  }
+}

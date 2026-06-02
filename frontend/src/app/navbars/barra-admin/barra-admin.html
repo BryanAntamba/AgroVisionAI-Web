@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg admin-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/panel-admin">
+      <img src="assets/logotipos/escudo.png" alt="AgroVision AI" width="42" height="42" class="brand-shield me-2" />
+      <span>Administrador</span>
+    </a>
+
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"
+      aria-controls="adminNavbar" aria-expanded="false" aria-label="Abrir navegación">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse admin-navbar-actions" id="adminNavbar">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-3">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/panel-admin" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Usuarios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/panel-admin/recomendaciones" routerLinkActive="active-link">Recomendaciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/panel-admin/editar-plataforma" routerLinkActive="active-link">Editar plataforma</a>
+        </li>
+      </ul>
+      <a class="btn logout-button" routerLink="/login">Cerrar Sesión</a>
+    </div>
+  </div>
+</nav>
