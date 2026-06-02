@@ -11,9 +11,9 @@ export class RecomendacionesValidaciones {
   static mensajeTitulo(control: AbstractControl | null): string {
     if (!control?.touched || !control.errors) return '';
     if (control.errors['required']) return 'El título es obligatorio.';
-    if (control.errors['maxlength']) return 'Máximo 100 caracteres.';
+    if (control.errors['maxlength']) return 'Máximo se permite 100 caracteres de ingreso.';
     if (control.errors['pattern']) {
-      return 'Solo letras, números, espacios y ():,%';
+      return 'Ingrese un titulo valido en el campo';
     }
     return '';
   }
@@ -23,7 +23,7 @@ export class RecomendacionesValidaciones {
     if (control.errors['required']) return 'La descripción es obligatoria.';
     if (control.errors['maxlength']) return 'Máximo 500 caracteres.';
     if (control.errors['pattern']) {
-      return 'Caracteres no permitidos. Use letras, números y . , : % ( )';
+      return 'Ingrese una descripcion valida en el campo requerido';
     }
     return '';
   }
@@ -32,7 +32,7 @@ export class RecomendacionesValidaciones {
     if (!control?.touched || !control.errors) return '';
     if (control.errors['required']) return 'La acción recomendada es obligatoria.';
     if (control.errors['pattern']) {
-      return 'Caracteres no permitidos. Use letras, números y . , : % ( )';
+      return 'Ingrese una descripcion valida en el campo requerido';
     }
     return '';
   }
