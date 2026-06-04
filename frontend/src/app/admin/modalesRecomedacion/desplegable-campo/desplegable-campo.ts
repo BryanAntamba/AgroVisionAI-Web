@@ -29,6 +29,8 @@ export class DesplegableCampo implements ControlValueAccessor {
   @Input({ required: true }) icono!: string;
   @Input({ required: true }) placeholder!: string;
   @Input({ required: true }) opciones: readonly string[] = [];
+  @Input() mostrarBadge: boolean = false; // Nuevo input para mostrar badges
+  @Input() tipoBadge: 'prioridad' | 'color' | 'none' = 'none'; // Tipo de badge
 
   valor = '';
   abierto = false;
@@ -97,5 +99,42 @@ export class DesplegableCampo implements ControlValueAccessor {
         this.onTouched();
       }
     }
+  }
+
+  getClaseBadge(opcion: string): string {
+    if (this.tipoBadge === 'prioridad') {
+      const clasePrioridad: Record<string, string> = {
+        'Baja': 'pri-baja',
+        'Media': 'pri-media',
+        'Alta': 'pri-alta',
+        'Critica': 'pri-critica',
+      };
+      return `badge-prioridad ${clasePrioridad[opcion] || ''}`;
+    }
+    
+    if (this.tipoBadge === 'color') {
+      const claseColor: Record<string, string> = {
+        'Verde': 'badge-color-verde',
+        'Amarillo': 'badge-color-amarillo',
+        'Naranja': 'badge-color-naranja',
+        'Rojo': 'badge-color-rojo',
+      };
+      return `badge-color ${claseColor[opcion] || ''}`;
+    }
+    
+    return '';
+  }
+
+  getIconoBadge(opcion: string): string {
+    if (this.tipoBadge === 'color') {
+      const iconos: Record<string, string> = {
+        'Verde': 'fa-circle-check',
+        'Amarillo': 'fa-triangle-exclamation',
+        'Naranja': 'fa-triangle-exclamation',
+        'Rojo': 'fa-circle-exclamation',
+      };
+      return iconos[opcion] || 'fa-circle';
+    }
+    return '';
   }
 }

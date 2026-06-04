@@ -15,44 +15,7 @@ export const PRIORIDADES_OPCIONES: PrioridadRecomendacion[] = ['Baja', 'Media', 
 
 export const COLORES_OPCIONES: ColorRecomendacion[] = ['Verde', 'Amarillo', 'Naranja', 'Rojo'];
 
-export const recomendacionesSimuladas: RecomendacionRegistrada[] = [
-  {
-    id: 1,
-    titulo: 'Cultivo en buen estado',
-    descripcion: 'No se detectaron enfermedades activas. Mantenga el riego programado y el monitoreo semanal de hojas.',
-    accion: 'Continúe con el plan de monitoreo habitual.',
-    prioridad: 'Baja',
-    color: 'Verde',
-    fechaRegistro: '2026-05-31T08:00:00',
-  },
-  {
-    id: 2,
-    titulo: 'Humedad foliar por debajo del óptimo',
-    descripcion: 'La humedad estimada se encuentra por debajo del rango recomendado para el cultivo (15 %).',
-    accion: 'Verifique el sistema de riego y aumente la frecuencia de monitoreo.',
-    prioridad: 'Media',
-    color: 'Amarillo',
-    fechaRegistro: '2026-05-31T09:15:00',
-  },
-  {
-    id: 3,
-    titulo: 'Leve amarillamiento detectado (2.1 %)',
-    descripcion: 'Dentro del rango normal, pero monitoree. Si supera el 5 %, revise nutrición.',
-    accion: 'Revise el nivel de nitrógeno y aumente la frecuencia de riego si es necesario.',
-    prioridad: 'Alta',
-    color: 'Naranja',
-    fechaRegistro: '2026-05-31T10:30:00',
-  },
-  {
-    id: 4,
-    titulo: 'Temperatura y luz en condiciones ideales',
-    descripcion: '22 °C y 52 000 lux están dentro del rango óptimo para el tomate.',
-    accion: 'No se requiere intervención de clima en este momento.',
-    prioridad: 'Baja',
-    color: 'Verde',
-    fechaRegistro: '2026-05-31T11:00:00',
-  },
-];
+import { recomendacionesSimuladas } from './recomendaciones-registradas';
 
 const STORAGE_KEY = 'agrovision_recomendaciones';
 
@@ -128,12 +91,15 @@ export class RecomendacionesStore {
     tipo: 'ok' | 'warn' | 'crit';
     titulo: string;
     mensaje: string;
+    accion: string;
     icono: string;
   }[] {
+    // Retornar todas las recomendaciones registradas sin filtrar
     return this.obtenerTodas().map((r) => ({
       tipo: colorATipoDashboard(r.color),
       titulo: r.titulo,
       mensaje: r.descripcion,
+      accion: r.accion,
       icono: colorAIcono(r.color),
     }));
   }

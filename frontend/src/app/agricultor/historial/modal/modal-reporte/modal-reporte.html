@@ -1,0 +1,128 @@
+<div class="modal-overlay" (click)="cerrarModal()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <header class="modal-header">
+      <h2>Reporte — {{ fechaFormateada }}</h2>
+    </header>
+
+    <div class="modal-content">
+      <!-- Información de la planta -->
+      <section class="planta-info">
+        <p>{{ registro.planta }}</p>
+      </section>
+
+      <!-- Diagnóstico -->
+      <section class="diagnostico-section">
+        <h3>Diagnóstico</h3>
+        <p class="diagnostico-titulo">{{ registro.diagnostico }}</p>
+        <p class="diagnostico-mensaje">{{ mensajeDiagnostico }}</p>
+      </section>
+
+      <!-- Salud y Confianza -->
+      <section class="metricas-principales">
+        <div class="metrica-card">
+          <p class="metrica-label">Salud</p>
+          <p class="metrica-valor">{{ registro.salud }} <span class="metrica-unidad">%</span></p>
+        </div>
+        <div class="metrica-card">
+          <p class="metrica-label">Resultado Inteligente</p>
+          <p class="metrica-valor">{{ registro.confianza }} <span class="metrica-unidad">%</span></p>
+        </div>
+      </section>
+
+      <!-- Probabilidades por condición -->
+      <section class="probabilidades-section">
+        <h3>Probabilidades por condición</h3>
+        <div class="predicciones-lista">
+          <div class="prediccion-item" *ngFor="let pred of predicciones">
+            <span class="prediccion-nombre">{{ pred.nombre }}</span>
+            <span class="prediccion-valor">{{ pred.porcentaje | number:'1.1-1' }} %</span>
+          </div>
+        </div>
+        <p class="otras-condiciones">Otras 9 condiciones analizadas: &lt; 0.1 % cada una</p>
+      </section>
+
+      <!-- Lecturas de sensores -->
+      <section class="sensores-section">
+        <h3>Lecturas de sensores al momento del análisis</h3>
+        <div class="sensores-grid">
+          <div class="sensor-item">
+            <p class="sensor-label">Temperatura</p>
+            <p class="sensor-valor">{{ registro.temperatura }} °C</p>
+          </div>
+          <div class="sensor-item">
+            <p class="sensor-label">Humedad aire</p>
+            <p class="sensor-valor">{{ registro.humedadAire }} %</p>
+          </div>
+          <div class="sensor-item">
+            <p class="sensor-label">Humedad suelo</p>
+            <p class="sensor-valor">{{ registro.humedadSuelo }} %</p>
+          </div>
+          <div class="sensor-item">
+            <p class="sensor-label">Luz</p>
+            <p class="sensor-valor">{{ (registro.luz / 1000) | number:'1.0-0' }}k lux</p>
+          </div>
+          <div class="sensor-item">
+            <p class="sensor-label">Hum. hoja</p>
+            <p class="sensor-valor">{{ humedadHojaEstimada }} %</p>
+          </div>
+          <div class="sensor-item">
+            <p class="sensor-label">Flujo aire</p>
+            <p class="sensor-valor">{{ flujoAireEstimado }} m/s</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Métricas de lesión -->
+      <section class="lesion-section">
+        <h3>Métricas de lesión</h3>
+        <div class="lesion-grid">
+          <div class="lesion-item">
+            <p class="lesion-label">Área afectada</p>
+            <p class="lesion-valor">{{ areaAfectada | number:'1.1-1' }} %</p>
+          </div>
+          <div class="lesion-item">
+            <p class="lesion-label">% Amarillo</p>
+            <p class="lesion-valor">{{ porcentajeAmarillo | number:'1.1-1' }} %</p>
+          </div>
+          <div class="lesion-item">
+            <p class="lesion-label">% Marrón</p>
+            <p class="lesion-valor">{{ porcentajeMarron | number:'1.1-1' }} %</p>
+          </div>
+          <div class="lesion-item">
+            <p class="lesion-label">Manchas</p>
+            <p class="lesion-valor">{{ manchasDetectadas }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recomendaciones de acción -->
+      <section class="recomendaciones-section">
+        <h3>Recomendaciones de acción</h3>
+        <div class="recomendaciones-lista">
+          <article class="recomendacion-card" *ngFor="let rec of recomendaciones" [ngClass]="rec.tipo">
+            <div class="rec-header">
+              <i class="fa-solid" [ngClass]="rec.icono"></i>
+              <h4>{{ rec.titulo }}</h4>
+            </div>
+            <p class="rec-mensaje">{{ rec.mensaje }}</p>
+            <div class="rec-accion">
+              <strong>Acción recomendada:</strong>
+              <p>{{ rec.accion }}</p>
+            </div>
+          </article>
+        </div>
+        <p class="sin-recomendaciones" *ngIf="recomendaciones.length === 0">
+          No hay recomendaciones registradas para este tipo de diagnóstico.
+        </p>
+      </section>
+
+      <div class="modal-actions">
+        <button class="modal-submit" type="button" (click)="cerrarModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

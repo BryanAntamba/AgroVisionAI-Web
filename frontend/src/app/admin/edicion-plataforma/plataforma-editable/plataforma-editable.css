@@ -932,3 +932,30 @@ h1 {
   line-height: 1.5;
 }
 
+
+/* ========== SECCIÓN HISTORIAL ========== */
+.estado-preview {
+  margin-top: 14px;
+}
+
+.badge-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.badge-activo {
+  background: #eaf7e5;
+  color: #23730f;
+  border: 1px solid #c8e6c9;
+}
+
+.badge-inactivo {
+  background: #f5eeee;
+  color: #9a2424;
+  border: 1px solid #e8c5c5;
+}

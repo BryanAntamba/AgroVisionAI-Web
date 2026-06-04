@@ -1,7 +1,8 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class RecomendacionesValidaciones {
-  static readonly TITULO_PATTERN = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s():,%]{1,100}$/;
+  // Patrón para título: solo letras (con acentos), números y espacios
+  static readonly TITULO_PATTERN = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/;
 
   static readonly TEXTO_DESCRIPTIVO_PATTERN =
     /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s().,:%]{1,500}$/;
@@ -13,7 +14,7 @@ export class RecomendacionesValidaciones {
     if (control.errors['required']) return 'El título es obligatorio.';
     if (control.errors['maxlength']) return 'Máximo se permite 100 caracteres de ingreso.';
     if (control.errors['pattern']) {
-      return 'Ingrese un titulo valido en el campo';
+      return 'Solo se permiten letras, números y espacios.';
     }
     return '';
   }

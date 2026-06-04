@@ -2,124 +2,87 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BarraAgricultor } from '../barra-agricultor/barra-agricultor';
+import { traducirDiagnostico } from '../../shared/mappers/clases-enfermedad';
+import { ModalReporte } from './modal/modal-reporte/modal-reporte';
+import { RegistroHistorial, historialSimulado } from '../../../environments/historial';
 
-interface RegistroHistorial {
-  id: number;
-  fecha: string;
-  hora: string;
-  temperatura: number;
-  humedadAire: number;
-  humedadSuelo: number;
-  luz: number;
-  diagnostico: string;
-  confianza: number;
-  estadoSalud: 'Excelente' | 'Precaución' | 'Crítico';
-}
+type EstadoFiltro = 'Todos' | 'Sano' | 'Alerta' | 'Crítico';
 
 @Component({
   selector: 'app-historial',
   standalone: true,
-  imports: [CommonModule, FormsModule, BarraAgricultor],
+  imports: [CommonModule, FormsModule, BarraAgricultor, ModalReporte],
   templateUrl: './historial.html',
   styleUrl: './historial.css',
 })
 export class Historial implements OnInit {
   busqueda = '';
-  ordenAlfabetico = 'fecha-desc';
-  filtroEstado = 'Todos';
+  filtroEstado: EstadoFiltro = 'Todos';
   fechaInicio = '';
   fechaFin = '';
 
-  registros: RegistroHistorial[] = [
-    {
-      id: 1,
-      fecha: '2026-05-30',
-      hora: '10:30',
-      temperatura: 22.0,
-      humedadAire: 65,
-      humedadSuelo: 75,
-      luz: 52000,
-      diagnostico: 'Tomato Healthy',
-      confianza: 92,
-      estadoSalud: 'Excelente',
-    },
-    {
-      id: 2,
-      fecha: '2026-05-29',
-      hora: '15:45',
-      temperatura: 25.4,
-      humedadAire: 60,
-      humedadSuelo: 68,
-      luz: 48000,
-      diagnostico: 'Tomato Healthy',
-      confianza: 89,
-      estadoSalud: 'Excelente',
-    },
-    {
-      id: 3,
-      fecha: '2026-05-28',
-      hora: '09:15',
-      temperatura: 19.2,
-      humedadAire: 82,
-      humedadSuelo: 42,
-      luz: 35000,
-      diagnostico: 'Early Blight',
-      confianza: 78,
-      estadoSalud: 'Precaución',
-    },
-    {
-      id: 4,
-      fecha: '2026-05-27',
-      hora: '11:00',
-      temperatura: 26.1,
-      humedadAire: 55,
-      humedadSuelo: 35,
-      luz: 62000,
-      diagnostico: 'Late Blight',
-      confianza: 85,
-      estadoSalud: 'Crítico',
-    },
-    {
-      id: 5,
-      fecha: '2026-05-26',
-      hora: '16:20',
-      temperatura: 23.8,
-      humedadAire: 68,
-      humedadSuelo: 71,
-      luz: 50000,
-      diagnostico: 'Tomato Healthy',
-      confianza: 91,
-      estadoSalud: 'Excelente',
-    }
-  ];
+  registros: RegistroHistorial[] = [];
+  registroSeleccionado: RegistroHistorial | null = null;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Cargar registros desde localStorage
+    const historialGuardado = localStorage.getItem('agrovision_historial');
+    if (historialGuardado) {
+      this.registros = JSON.parse(historialGuardado);
+    } else {
+      // Datos simulados
+      this.registros = [...historialSimulado];
+    }
+  }
 
   get registrosFiltrados(): RegistroHistorial[] {
     const termino = this.normalizar(this.busqueda);
 
     return this.registros
       .filter((registro) => {
-        const coincidenciaBusqueda =
-          !termino ||
-          this.normalizar(registro.diagnostico).includes(termino) ||
-          this.normalizar(registro.fecha).includes(termino);
-        const coincidenciaEstado =
-          this.filtroEstado === 'Todos' || registro.estadoSalud === this.filtroEstado;
+        const diagnosticoNormalizado = this.normalizar(registro.diagnostico);
+        const coincidenciaBusqueda = !termino || diagnosticoNormalizado.includes(termino);
+        
+        const estadoRegistro = this.obtenerEstado(registro.salud);
+        const coincidenciaEstado = this.filtroEstado === 'Todos' || estadoRegistro === this.filtroEstado;
+        
         const coincidenciaFecha = this.coincideFecha(registro.fecha);
 
         return coincidenciaBusqueda && coincidenciaEstado && coincidenciaFecha;
       })
       .sort((a, b) => {
-        if (this.ordenAlfabetico === 'fecha-desc') {
-          return new Date(`${b.fecha}T${b.hora}`).getTime() - new Date(`${a.fecha}T${a.hora}`).getTime();
-        } else if (this.ordenAlfabetico === 'fecha-asc') {
-          return new Date(`${a.fecha}T${a.hora}`).getTime() - new Date(`${b.fecha}T${b.hora}`).getTime();
-        } else if (this.ordenAlfabetico === 'confianza-desc') {
-          return b.confianza - a.confianza;
-        }
-        return 0;
+        // Ordenar por fecha descendente (más reciente primero)
+        return new Date(`${b.fecha}T${b.hora}`).getTime() - new Date(`${a.fecha}T${a.hora}`).getTime();
       });
+  }
+
+  get totalReportes(): number {
+    return this.registros.length;
+  }
+
+  get totalSanos(): number {
+    return this.registros.filter(r => this.obtenerEstado(r.salud) === 'Sano').length;
+  }
+
+  get totalAlerta(): number {
+    return this.registros.filter(r => this.obtenerEstado(r.salud) === 'Alerta').length;
+  }
+
+  get totalCriticos(): number {
+    return this.registros.filter(r => this.obtenerEstado(r.salud) === 'Crítico').length;
+  }
+
+  obtenerEstado(salud: number): EstadoFiltro {
+    if (salud >= 80) return 'Sano';
+    if (salud >= 50) return 'Alerta';
+    return 'Crítico';
+  }
+
+  obtenerClaseEstado(salud: number): string {
+    const estado = this.obtenerEstado(salud);
+    if (estado === 'Sano') return 'active';
+    if (estado === 'Alerta') return 'role';
+    return 'offline';
   }
 
   private coincideFecha(fechaRegistro: string): boolean {
@@ -140,5 +103,29 @@ export class Historial implements OnInit {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .trim();
+  }
+
+  abrirReporte(registro: RegistroHistorial): void {
+    this.registroSeleccionado = registro;
+  }
+
+  cerrarModalReporte(): void {
+    this.registroSeleccionado = null;
+  }
+
+  formatearFecha(fecha: string, hora: string): string {
+    const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    const partes = fecha.split('-');
+    const anio = partes[0];
+    const mes = meses[parseInt(partes[1], 10) - 1];
+    const dia = parseInt(partes[2], 10);
+    
+    const horaPartes = hora.split(':');
+    const horas = parseInt(horaPartes[0], 10);
+    const minutos = horaPartes[1];
+    const periodo = horas >= 12 ? 'pm' : 'am';
+    const hora12 = horas % 12 || 12;
+    
+    return `${dia} ${mes} ${anio} · ${hora12}:${minutos} ${periodo}`;
   }
 }

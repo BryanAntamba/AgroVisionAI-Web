@@ -131,8 +131,14 @@ input::placeholder {
   transition: color 200ms ease;
 }
 
-.resend-link:hover {
+.resend-link:hover:not(:disabled) {
   color: #073d2b;
+}
+
+.resend-link:disabled {
+  color: #aac0b3;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .resend-feedback {
@@ -141,10 +147,16 @@ input::placeholder {
   font-size: 13px;
   font-weight: 800;
   white-space: pre-line;
+  line-height: 1.6;
 }
 
 .resend-feedback.is-error {
   color: #c92b2b;
+}
+
+.resend-feedback strong {
+  color: #c92b2b;
+  font-size: 15px;
 }
 
 .fade-up {

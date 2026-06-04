@@ -6,7 +6,7 @@
       <p class="eyebrow">Monitoreo y Control</p>
       <h1>Historial de Monitoreo</h1>
       <p>
-        Consulta los datos históricos recolectados de tus sensores ESP32 y el estado fitosanitario de tus cultivos.
+        Visualiza el historial de datos de tus sensores y monitorea la salud de tus cultivos.
       </p>
     </div>
   </section>
@@ -19,27 +19,18 @@
         <input
           id="buscar-registro"
           type="search"
-          placeholder="Ej: Tomato Healthy, Late Blight"
+          placeholder="Ej: Tomate sano, Tizón temprano, Tizón tardío"
           [(ngModel)]="busqueda"
         />
       </div>
     </div>
 
     <div class="filter-field">
-      <label for="orden-registro">Orden</label>
-      <select id="orden-registro" [(ngModel)]="ordenAlfabetico">
-        <option value="fecha-desc">Más reciente primero</option>
-        <option value="fecha-asc">Más antiguo primero</option>
-        <option value="confianza-desc">Mayor confianza</option>
-      </select>
-    </div>
-
-    <div class="filter-field">
-      <label for="estado-registro">Estado Salud</label>
+      <label for="estado-registro">Estado</label>
       <select id="estado-registro" [(ngModel)]="filtroEstado">
         <option>Todos</option>
-        <option>Excelente</option>
-        <option>Precaución</option>
+        <option>Sano</option>
+        <option>Alerta</option>
         <option>Crítico</option>
       </select>
     </div>
@@ -67,20 +58,20 @@
 
   <section class="summary-strip" aria-label="Resumen de historial">
     <article>
-      <span>{{ registros.length }}</span>
-      <p>Total de lecturas</p>
+      <span>{{ totalReportes }}</span>
+      <p>Total de reportes</p>
     </article>
     <article>
-      <span>{{ registrosFiltrados.length }}</span>
-      <p>Resultados filtrados</p>
+      <span>{{ totalSanos }}</span>
+      <p>Sanos</p>
     </article>
     <article>
-      <span>{{ (registrosFiltrados.length > 0) ? (registrosFiltrados[0].temperatura | number:'1.1-1') : 'N/A' }}°C</span>
-      <p>Última Temperatura</p>
+      <span>{{ totalAlerta }}</span>
+      <p>En alerta</p>
     </article>
     <article>
-      <span>{{ (registrosFiltrados.length > 0) ? registrosFiltrados[0].confianza : 'N/A' }}%</span>
-      <p>Última Confianza AI</p>
+      <span>{{ totalCriticos }}</span>
+      <p>Críticos</p>
     </article>
   </section>
 
@@ -92,49 +83,40 @@
         </div>
         <div>
           <h2>{{ registro.diagnostico }}</h2>
-          <p>Confianza de detección: <strong>{{ registro.confianza }}%</strong></p>
+          <p><span class="badge" [ngClass]="obtenerClaseEstado(registro.salud)">{{ obtenerEstado(registro.salud) }}</span></p>
         </div>
-      </div>
-
-      <div class="badges">
-        <span class="badge role">Lectura ESP32</span>
-        <span class="badge" [ngClass]="{
-          'active': registro.estadoSalud === 'Excelente',
-          'role': registro.estadoSalud === 'Precaución',
-          'offline': registro.estadoSalud === 'Crítico'
-        }">
-          {{ registro.estadoSalud }}
-        </span>
       </div>
 
       <dl class="user-details">
         <div>
           <dt>Fecha y Hora</dt>
-          <dd>{{ registro.fecha }} {{ registro.hora }}</dd>
+          <dd>{{ formatearFecha(registro.fecha, registro.hora) }}</dd>
         </div>
         <div>
-          <dt>Temperatura Aire</dt>
-          <dd>{{ registro.temperatura }}°C</dd>
+          <dt>Salud</dt>
+          <dd>{{ registro.salud }} %</dd>
         </div>
         <div>
-          <dt>Humedad Aire</dt>
-          <dd>{{ registro.humedadAire }}%</dd>
-        </div>
-        <div>
-          <dt>Humedad Suelo</dt>
-          <dd>{{ registro.humedadSuelo }}%</dd>
+          <dt>Resultado de la IA</dt>
+          <dd>{{ registro.confianza }} %</dd>
         </div>
       </dl>
 
       <div class="card-actions" style="grid-template-columns: 1fr;">
-        <button type="button">
+        <button type="button" (click)="abrirReporte(registro)">
           <i class="fa-solid fa-circle-info"></i>Ver reporte completo
         </button>
       </div>
     </article>
 
     <p class="empty-state" *ngIf="registrosFiltrados.length === 0">
-      No se encontraron lecturas históricas con los filtros seleccionados.
+      No se encontraron reportes con los filtros seleccionados.
     </p>
   </section>
 </main>
+
+<app-modal-reporte
+  *ngIf="registroSeleccionado"
+  [registro]="registroSeleccionado"
+  (cerrar)="cerrarModalReporte()"
+></app-modal-reporte>

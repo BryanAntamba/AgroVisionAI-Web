@@ -841,6 +841,39 @@
 .rec-warn .rec-body p { color: #633806; }
 .rec-crit .rec-body p { color: #791f1f; }
 
+/* Acción recomendada */
+.rec-accion {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.rec-accion-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  opacity: 0.9;
+}
+
+.rec-accion-texto {
+  display: block;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.rec-ok .rec-accion-label { color: #23730f; }
+.rec-ok .rec-accion-texto { color: #1a5c0a; }
+
+.rec-warn .rec-accion-label { color: #854f0b; }
+.rec-warn .rec-accion-texto { color: #633806; }
+
+.rec-crit .rec-accion-label { color: #a32626; }
+.rec-crit .rec-accion-texto { color: #791f1f; }
+
 /* ── Conectividad ── */
 .sec-conectividad .sec-head h2 i {
   color: #55a820;

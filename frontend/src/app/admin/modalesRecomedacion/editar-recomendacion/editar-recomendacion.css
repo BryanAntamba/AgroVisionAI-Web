@@ -21,87 +21,15 @@ textarea {
   gap: 14px 16px;
 }
 
-/* Estilos para opciones de prioridad */
-.desplegable-opciones li[role="option"]:not(.seleccionada) {
-  position: relative;
-  padding-left: 40px;
-}
-
-.desplegable-opciones li[role="option"]:not(.seleccionada)::before {
-  content: '';
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-}
-
-/* Colores para prioridades */
-#edit-prioridad-lista li:nth-child(1)::before,
-#rec-prioridad-lista li:nth-child(1)::before {
-  background: #d4f0c8; /* Baja - Verde más claro */
-  border: 1px solid #a8d88f;
-}
-
-#edit-prioridad-lista li:nth-child(2)::before,
-#rec-prioridad-lista li:nth-child(2)::before {
-  background: #fdf5e7; /* Media - Amarillo */
-  border: 1px solid #f5d99f;
-}
-
-#edit-prioridad-lista li:nth-child(3)::before,
-#rec-prioridad-lista li:nth-child(3)::before {
-  background: #fff3e0; /* Alta - Naranja */
-  border: 1px solid #ffcc80;
-}
-
-#edit-prioridad-lista li:nth-child(4)::before,
-#rec-prioridad-lista li:nth-child(4)::before {
-  background: #fdecea; /* Crítica - Rojo */
-  border: 1px solid #f7c1c1;
-}
-
-/* Colores para colores de recomendación */
-#edit-color-lista li:nth-child(1)::before,
-#rec-color-lista li:nth-child(1)::before {
-  background: #d4f0c8; /* Verde más claro */
-  border: 1px solid #a8d88f;
-}
-
-#edit-color-lista li:nth-child(2)::before,
-#rec-color-lista li:nth-child(2)::before {
-  background: #fdf5e7; /* Amarillo */
-  border: 1px solid #f5d99f;
-}
-
-#edit-color-lista li:nth-child(3)::before,
-#rec-color-lista li:nth-child(3)::before {
-  background: #fff3e0; /* Naranja */
-  border: 1px solid #ffcc80;
-}
-
-#edit-color-lista li:nth-child(4)::before,
-#rec-color-lista li:nth-child(4)::before {
-  background: #fdecea; /* Rojo */
-  border: 1px solid #f7c1c1;
-}
-
-/* Ajuste para opciones seleccionadas - no mostrar el indicador de color */
-.desplegable-opciones li.seleccionada {
-  padding-left: 14px;
-}
-
-/* Quitar fondo gris de los desplegables */
-.modal-fields-row-selects .desplegable-trigger {
-  background: #ffffff;
+/* Fondo blanco para los desplegables dentro del modal */
+.modal-fields-row-selects ::ng-deep .desplegable-trigger {
+  background: #ffffff !important;
   border-color: #c8d8ce;
 }
 
-/* Cambiar color del placeholder a verde claro */
-.modal-fields-row-selects .desplegable-texto.placeholder {
-  color: #55a820;
+/* Color del placeholder */
+.modal-fields-row-selects ::ng-deep .desplegable-texto.placeholder {
+  color: #8fa69c;
 }
 
 @media (max-width: 700px) {
@@ -109,3 +37,4 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
+

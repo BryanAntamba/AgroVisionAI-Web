@@ -549,6 +549,43 @@
       </div>
     </section>
 
+    <!-- SECCIÓN 7: HISTORIAL DE MONITOREO -->
+    <section class="config-section">
+      <div class="section-header">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <h2>Historial de Monitoreo</h2>
+      </div>
+      <p class="section-description">
+        Habilita o deshabilita la sección de historial en la barra de navegación del Agricultor
+      </p>
+
+      <div class="config-grid">
+        <div class="config-item full-width">
+          <label class="config-label">
+            <input type="checkbox" [(ngModel)]="historialHabilitado" class="toggle-checkbox" />
+            Mostrar sección de Historial
+          </label>
+          <p class="config-help-small">
+            Al desactivar esta opción, el agricultor no podrá acceder a la página de historial de monitoreo desde la barra de navegación.
+          </p>
+          
+          <div class="estado-preview" *ngIf="historialHabilitado">
+            <div class="badge-estado badge-activo">
+              <i class="fa-solid fa-circle-check"></i>
+              Historial visible en barra de navegación
+            </div>
+          </div>
+          
+          <div class="estado-preview" *ngIf="!historialHabilitado">
+            <div class="badge-estado badge-inactivo">
+              <i class="fa-solid fa-eye-slash"></i>
+              Historial oculto en barra de navegación
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- BOTONES DE ACCIÓN FINALES -->
     <div class="action-buttons">
       <button type="button" class="btn-cancel" (click)="abrirResetearCambios()">

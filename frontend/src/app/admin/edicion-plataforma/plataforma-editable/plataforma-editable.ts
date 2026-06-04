@@ -84,6 +84,9 @@ export class PlataformaEditable implements OnInit {
     opacidadBackdrop: 45,
   };
 
+  // Configuración de Historial
+  historialHabilitado: boolean = true;
+
   constructor(private fb: FormBuilder, private temaService: TemaService) {
     // Cargar la configuración actual desde el servicio
     const config = this.temaService.getConfig();
@@ -92,6 +95,12 @@ export class PlataformaEditable implements OnInit {
     this.colores = config.colores;
     this.botones = config.botones;
     this.modales = config.modales;
+    
+    // Cargar configuración de historial desde localStorage
+    const historialConfig = localStorage.getItem('agrovision_historial_habilitado');
+    if (historialConfig !== null) {
+      this.historialHabilitado = JSON.parse(historialConfig);
+    }
 
     // Inicializar formulario con validaciones
     this.form = this.fb.group({
@@ -328,6 +337,9 @@ export class PlataformaEditable implements OnInit {
       faviconUrl: this.faviconPreview || undefined
     });
 
+    // Guardar configuración de historial
+    localStorage.setItem('agrovision_historial_habilitado', JSON.stringify(this.historialHabilitado));
+
     this.mostrarModalGuardadoExito = true;
   }
 
@@ -373,6 +385,10 @@ export class PlataformaEditable implements OnInit {
     this.colores = configDefault.colores;
     this.botones = configDefault.botones;
     this.modales = configDefault.modales;
+    
+    // Resetear configuración de historial
+    this.historialHabilitado = true;
+    localStorage.setItem('agrovision_historial_habilitado', JSON.stringify(true));
 
     this.mostrarModalResetExito = true;
   }

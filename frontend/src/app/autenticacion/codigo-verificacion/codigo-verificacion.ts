@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalesValidaciones } from '../../shared/validators/modales-validaciones';
 import { AutenticacionValidaciones } from '../../shared/validators/autenticacion-validaciones';
@@ -14,7 +14,7 @@ import { AutenticacionValidaciones } from '../../shared/validators/autenticacion
     '../../shared/styles/animaciones-autenticacion.css'
   ],
 })
-export class CodigoVerificacion {
+export class CodigoVerificacion implements OnDestroy {
   @Input() correo = '';
   @Output() codigoVerificado = new EventEmitter<void>();
   @Output() reenviarCodigo = new EventEmitter<void>();
@@ -24,15 +24,28 @@ export class CodigoVerificacion {
   intentosReenvio = 0;
   limiteReenvioAlcanzado = false;
   validators = AutenticacionValidaciones;
+  
+  tiempoRestante = 0;
+  intervaloCountdown: ReturnType<typeof setInterval> | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.codigoForm = this.fb.group({
       codigo: ['', [Validators.required, Validators.pattern(ModalesValidaciones.CODIGO_VERIFICACION_PATTERN)]],
     });
   }
 
+  ngOnDestroy(): void {
+    this.detenerCountdown();
+  }
+
   get codigoControl() {
     return this.codigoForm.get('codigo');
+  }
+
+  get tiempoFormateado(): string {
+    const minutos = Math.floor(this.tiempoRestante / 60);
+    const segundos = this.tiempoRestante % 60;
+    return `${minutos}:${segundos.toString().padStart(2, '0')}`;
   }
 
   soloNumeros(event: KeyboardEvent): void {
@@ -66,12 +79,38 @@ export class CodigoVerificacion {
     if (AutenticacionValidaciones.puedeReenviarCodigo(this.intentosReenvio)) {
       this.intentosReenvio++;
       this.limiteReenvioAlcanzado = false;
+      this.detenerCountdown();
       this.mensajeReenvio = AutenticacionValidaciones.getCodigoReenvioMensaje(this.intentosReenvio);
       this.reenviarCodigo.emit();
       return;
     }
 
     this.limiteReenvioAlcanzado = true;
-    this.mensajeReenvio = AutenticacionValidaciones.getCodigoReenvioMensaje(this.intentosReenvio + 1);
+    this.iniciarCountdown();
+  }
+
+  private iniciarCountdown(): void {
+    this.detenerCountdown();
+    this.tiempoRestante = 15 * 60; // 15 minutos en segundos
+    
+    this.intervaloCountdown = setInterval(() => {
+      this.tiempoRestante--;
+      this.cdr.detectChanges(); // Forzar detección de cambios
+      
+      if (this.tiempoRestante <= 0) {
+        this.detenerCountdown();
+        this.limiteReenvioAlcanzado = false;
+        this.mensajeReenvio = '';
+        this.intentosReenvio = 0;
+        this.cdr.detectChanges();
+      }
+    }, 1000);
+  }
+
+  private detenerCountdown(): void {
+    if (this.intervaloCountdown) {
+      clearInterval(this.intervaloCountdown);
+      this.intervaloCountdown = null;
+    }
   }
 }

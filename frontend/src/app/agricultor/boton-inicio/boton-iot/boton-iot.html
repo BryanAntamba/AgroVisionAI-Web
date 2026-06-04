@@ -10,14 +10,23 @@
     class="boton-conexion"
     [class.conectando]="isConnecting"
     [class.conectado]="isConnected"
+    [class.error]="errorConexion"
     (click)="onConectarDispositivo()"
-    [disabled]="isConnecting">
+    [disabled]="isConnecting || isConnected">
     <i class="fas fa-power-off"></i>
   </button>
 
-  <div class="descripcion-conexion">
+  <div class="descripcion-conexion" [class.error-text]="errorConexion">
     <p>{{ descripcion }}</p>
   </div>
+
+  <button 
+    *ngIf="errorConexion"
+    class="boton-reintentar"
+    (click)="reintentar()">
+    <i class="fas fa-rotate-right"></i>
+    Reintentar
+  </button>
 
   <div *ngIf="isConnected" class="indicador-conexion">
     <span class="punto-verde"></span>

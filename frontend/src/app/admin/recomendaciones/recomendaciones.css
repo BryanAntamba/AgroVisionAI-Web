@@ -139,6 +139,28 @@ label {
   border-radius: 8px;
   margin-bottom: 10px;
   background: #fbfdf9;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Colores de fondo según el color de la recomendación */
+.rec-card.rec-color-verde {
+  background: #eaf7e5;
+  border-color: #c0dd97;
+}
+
+.rec-card.rec-color-amarillo {
+  background: #fdf5e7;
+  border-color: #fac775;
+}
+
+.rec-card.rec-color-naranja {
+  background: #fff3e0;
+  border-color: #ffcc80;
+}
+
+.rec-card.rec-color-rojo {
+  background: #fdecea;
+  border-color: #f7c1c1;
 }
 
 .rec-card h3 {
@@ -150,6 +172,29 @@ label {
   margin: 0;
   font-size: 13px;
   color: #597268;
+}
+
+.rec-accion {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(7, 61, 43, 0.1);
+  font-size: 13px;
+}
+
+.rec-accion strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #073d2b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.rec-accion span {
+  display: block;
+  color: #597268;
+  line-height: 1.5;
 }
 
 .rec-prioridad {

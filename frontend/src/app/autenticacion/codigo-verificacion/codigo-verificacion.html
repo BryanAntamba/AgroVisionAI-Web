@@ -42,15 +42,20 @@
         type="button"
         class="resend-link fade-up delay-6 auth-link-motion"
         (click)="solicitarReenvio()"
+        [disabled]="limiteReenvioAlcanzado"
       >
         Reenviar codigo
       </button>
       <p
         class="resend-feedback"
         [ngClass]="{ 'is-error': limiteReenvioAlcanzado }"
-        *ngIf="mensajeReenvio"
+        *ngIf="mensajeReenvio || limiteReenvioAlcanzado"
       >
-        {{ mensajeReenvio }}
+        <span *ngIf="!limiteReenvioAlcanzado">{{ mensajeReenvio }}</span>
+        <span *ngIf="limiteReenvioAlcanzado">
+          Has alcanzado el límite de reenvíos.<br>
+          Inténtalo nuevamente en <strong>{{ tiempoFormateado }}</strong>
+        </span>
       </p>
     </div>
   </form>

@@ -32,23 +32,27 @@
           <div class="field field-select">
             <label for="edit-prioridad">Prioridad de la recomendación</label>
             <app-desplegable-campo
-              formControlName="prioridad"
               campoId="edit-prioridad"
               icono="fa-solid fa-flag"
               placeholder="Seleccione prioridad"
-              [opciones]="prioridades">
-            </app-desplegable-campo>
+              [opciones]="prioridades"
+              [mostrarBadge]="true"
+              tipoBadge="prioridad"
+              formControlName="prioridad"
+            ></app-desplegable-campo>
             <small>{{ validaciones.mensajeSelect(f['prioridad'], 'La prioridad de la recomendación') }}</small>
           </div>
           <div class="field field-select">
             <label for="edit-color">Color de la recomendación</label>
             <app-desplegable-campo
-              formControlName="color"
               campoId="edit-color"
               icono="fa-solid fa-palette"
               placeholder="Seleccione color"
-              [opciones]="colores">
-            </app-desplegable-campo>
+              [opciones]="colores"
+              [mostrarBadge]="true"
+              tipoBadge="color"
+              formControlName="color"
+            ></app-desplegable-campo>
             <small>{{ validaciones.mensajeSelect(f['color'], 'El color de la recomendación') }}</small>
           </div>
         </div>

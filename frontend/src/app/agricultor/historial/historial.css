@@ -61,7 +61,7 @@ h1 {
 
 .filters-bar {
   display: grid;
-  grid-template-columns: minmax(260px, 1.4fr) repeat(2, minmax(140px, 0.8fr)) minmax(320px, 1.3fr);
+  grid-template-columns: minmax(260px, 1.5fr) minmax(160px, 0.8fr) minmax(320px, 1.3fr);
   gap: 14px;
   padding: 18px;
   border: 1px solid #d7e4dc;
@@ -291,7 +291,7 @@ dd {
 
 @media (max-width: 1120px) {
   .filters-bar {
-    grid-template-columns: minmax(240px, 1.2fr) repeat(2, minmax(150px, 1fr));
+    grid-template-columns: minmax(240px, 1.2fr) minmax(150px, 1fr);
   }
 
   .date-filter {

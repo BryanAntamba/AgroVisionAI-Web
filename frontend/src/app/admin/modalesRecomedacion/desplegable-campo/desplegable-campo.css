@@ -98,3 +98,71 @@
   background: var(--btn-color-inicial, #0a5239);
   color: #ffffff;
 }
+
+/* Estilos de badges */
+.badge-prioridad,
+.badge-color {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Badges de prioridad */
+.pri-baja {
+  background: #eaf7e5;
+  color: #23730f;
+}
+
+.pri-media {
+  background: #fdf5e7;
+  color: #b56c07;
+}
+
+.pri-alta {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.pri-critica {
+  background: #fdecea;
+  color: #c62828;
+}
+
+/* Badges de color */
+.badge-color-verde {
+  background: #eaf7e5;
+  color: #23730f;
+}
+
+.badge-color-amarillo {
+  background: #fdf5e7;
+  color: #b56c07;
+}
+
+.badge-color-naranja {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.badge-color-rojo {
+  background: #fdecea;
+  color: #c62828;
+}
+
+/* Ajustes para opciones con badge */
+.desplegable-opciones li:has(.badge-prioridad),
+.desplegable-opciones li:has(.badge-color) {
+  padding: 8px 10px;
+}
+
+.desplegable-opciones li.seleccionada .badge-prioridad,
+.desplegable-opciones li.seleccionada .badge-color {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DesplegableCampo } from '../../../shared/components/desplegable-campo/desplegable-campo';
+import { DesplegableCampo } from '../desplegable-campo/desplegable-campo';
 import {
   COLORES_OPCIONES,
   PrioridadRecomendacion,

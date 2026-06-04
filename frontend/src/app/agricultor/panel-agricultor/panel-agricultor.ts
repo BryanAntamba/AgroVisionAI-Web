@@ -65,6 +65,7 @@ interface RecomendacionVista {
   tipo: 'ok' | 'warn' | 'crit';
   titulo: string;
   mensaje: string;
+  accion: string;
   icono: string;
 }
 

@@ -28,7 +28,11 @@
       [attr.aria-selected]="opcion === valor"
       (click)="elegir(opcion)"
     >
-      {{ opcion }}
+      <span *ngIf="mostrarBadge" [class]="getClaseBadge(opcion)">
+        <i *ngIf="tipoBadge === 'color'" class="fa-solid" [ngClass]="getIconoBadge(opcion)"></i>
+        {{ opcion }}
+      </span>
+      <span *ngIf="!mostrarBadge">{{ opcion }}</span>
     </li>
   </ul>
 </div>
