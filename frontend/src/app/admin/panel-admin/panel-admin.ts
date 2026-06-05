@@ -49,6 +49,7 @@ export class PanelAdmin {
   busqueda = '';
   filtroRol = 'Todos';
   filtroEstado = 'Todos';
+  filtroDispositivo = 'Todos';
   fechaInicio = '';
   fechaFin = '';
   ordenAlfabetico = 'az';
@@ -83,9 +84,12 @@ export class PanelAdmin {
           this.filtroEstado === 'Todos' ||
           usuario.cuenta === this.filtroEstado ||
           usuario.sesion === this.filtroEstado;
+        const coincideDispositivo =
+          this.filtroDispositivo === 'Todos' ||
+          usuario.dispositivo === this.filtroDispositivo;
         const coincideFecha = this.coincideFecha(usuario.fechaRegistro);
 
-        return coincideBusqueda && coincideRol && coincideEstado && coincideFecha;
+        return coincideBusqueda && coincideRol && coincideEstado && coincideDispositivo && coincideFecha;
       })
       .sort((a, b) => {
         const nombreA = `${a.apellido} ${a.segundoApellido} ${a.nombre}`;

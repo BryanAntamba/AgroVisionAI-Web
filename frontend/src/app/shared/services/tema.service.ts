@@ -24,6 +24,8 @@ export interface BotonesConfig {
   colorInicial: string;
   colorFinal: string;
   colorTexto: string;
+  destructivoColor: string;
+  destructivoHover: string;
 }
 
 export interface ModalesConfig {
@@ -71,6 +73,8 @@ export class TemaService {
       colorInicial: '#073d2b',
       colorFinal: '#55a820',
       colorTexto: '#ffffff',
+      destructivoColor: '#a32626',
+      destructivoHover: '#8b1f1f',
     },
     modales: {
       colorBackdrop: '#073d2b',
@@ -141,11 +145,17 @@ export class TemaService {
     root.style.setProperty('--btn-color-inicial', config.botones.colorInicial);
     root.style.setProperty('--btn-color-final', config.botones.colorFinal);
     root.style.setProperty('--btn-color-texto', config.botones.colorTexto);
+    root.style.setProperty('--btn-destructivo-color', config.botones.destructivoColor);
+    root.style.setProperty('--btn-destructivo-hover', config.botones.destructivoHover);
     
     const btnBackground = config.botones.tipo === 'solido'
       ? config.botones.colorInicial
       : `linear-gradient(135deg, ${config.botones.colorInicial}, ${config.botones.colorFinal})`;
     root.style.setProperty('--btn-background', btnBackground);
+    
+    // Shadow para botones destructivos
+    const destructivoShadow = this.hexToRgba(config.botones.destructivoColor, 0.24);
+    root.style.setProperty('--btn-destructivo-shadow', destructivoShadow);
 
     // 3. Modales (Backdrop)
     root.style.setProperty('--modal-color-backdrop', config.modales.colorBackdrop);

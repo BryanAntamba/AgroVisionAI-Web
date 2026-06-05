@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DesplegableCampo } from '../desplegable-campo/desplegable-campo';
 import {
   COLORES_OPCIONES,
   PRIORIDADES_OPCIONES,
@@ -12,11 +11,11 @@ import { DatosRecomendacionForm } from '../registrar-recomendacion/registrar-rec
 
 @Component({
   selector: 'app-editar-recomendacion',
-  imports: [CommonModule, ReactiveFormsModule, DesplegableCampo],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './editar-recomendacion.html',
   styleUrls: [
     '../../modales/registro-usuario/registro-usuario.css',
-    '../registrar-recomendacion/registrar-recomendacion.css',
+    './editar-recomendacion.css',
     '../../../shared/styles/validacion-errores.css',
   ],
 })

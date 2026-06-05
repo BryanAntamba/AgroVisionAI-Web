@@ -19,22 +19,46 @@ textarea {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px 16px;
-}
-
-/* Fondo blanco para los desplegables dentro del modal */
-.modal-fields-row-selects ::ng-deep .desplegable-trigger {
-  background: #ffffff !important;
-  border-color: #c8d8ce;
-}
-
-/* Color del placeholder */
-.modal-fields-row-selects ::ng-deep .desplegable-texto.placeholder {
-  color: #8fa69c;
+  margin-bottom: 0; /* Removido el espacio extra innecesario */
+  position: relative;
+  z-index: 10;
 }
 
 @media (max-width: 700px) {
   .modal-fields-row-selects {
     grid-template-columns: 1fr;
+    margin-bottom: 0;
   }
 }
 
+/* Estilos especiales para los selects de prioridad y color */
+.select-prioridad,
+.select-color {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 14px;
+  border: 1px solid #c8d8ce;
+  border-radius: 8px;
+  background: #ffffff !important;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.select-prioridad:focus,
+.select-color:focus {
+  border-color: #55a820;
+  box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13);
+}
+
+/* Todas las opciones con estilo normal */
+.select-prioridad option,
+.select-color option {
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 400;
+  padding: 8px;
+}

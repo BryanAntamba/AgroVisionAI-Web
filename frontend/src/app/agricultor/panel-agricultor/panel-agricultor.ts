@@ -9,12 +9,13 @@ import {
   TipoAlertaSensor,
 } from '../../../environments/datos-alertas-simuladas';
 import { RecomendacionesStore } from '../../../environments/modales-recomendacion';
-import { traducirDiagnostico } from '../../shared/mappers/clases-enfermedad';
+import { traducirDiagnostico } from '../../shared/traductor-enfermedades/clases-enfermedad';
 import { AlertaDht22 } from '../modales/alerta-dht22/alerta-dht22';
 import { AlertaCam } from '../modales/alerta-cam/alerta-cam';
 import { AlertaCapaciteV2 } from '../modales/alerta-capacite-v2/alerta-capacite-v2';
 import { AlertaAntenaWifi } from '../modales/alerta-antena-wifi/alerta-antena-wifi';
 import { AlertaSensorLdr } from '../modales/alerta-sensor-ldr/alerta-sensor-ldr';
+import { ApagarEquipoIOT } from '../modales/apagar-equipo-iot/apagar-equipo-iot';
 
 type PillTipo = 'ok' | 'warn' | 'est' | 'crit';
 type RecTipo = 'ok' | 'warn' | 'crit';
@@ -81,6 +82,7 @@ interface RecomendacionVista {
     AlertaCapaciteV2,
     AlertaAntenaWifi,
     AlertaSensorLdr,
+    ApagarEquipoIOT,
   ],
   templateUrl: './panel-agricultor.html',
   styleUrl: './panel-agricultor.css',

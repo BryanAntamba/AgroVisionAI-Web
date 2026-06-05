@@ -31,28 +31,24 @@
         <div class="modal-fields-row-selects">
           <div class="field field-select">
             <label for="edit-prioridad">Prioridad de la recomendación</label>
-            <app-desplegable-campo
-              campoId="edit-prioridad"
-              icono="fa-solid fa-flag"
-              placeholder="Seleccione prioridad"
-              [opciones]="prioridades"
-              [mostrarBadge]="true"
-              tipoBadge="prioridad"
-              formControlName="prioridad"
-            ></app-desplegable-campo>
+            <select id="edit-prioridad" class="select-prioridad" formControlName="prioridad">
+              <option value="" disabled hidden>Seleccione prioridad</option>
+              <option value="Baja">Baja</option>
+              <option value="Media">Media</option>
+              <option value="Alta">Alta</option>
+              <option value="Critica">Critica</option>
+            </select>
             <small>{{ validaciones.mensajeSelect(f['prioridad'], 'La prioridad de la recomendación') }}</small>
           </div>
           <div class="field field-select">
             <label for="edit-color">Color de la recomendación</label>
-            <app-desplegable-campo
-              campoId="edit-color"
-              icono="fa-solid fa-palette"
-              placeholder="Seleccione color"
-              [opciones]="colores"
-              [mostrarBadge]="true"
-              tipoBadge="color"
-              formControlName="color"
-            ></app-desplegable-campo>
+            <select id="edit-color" class="select-color" formControlName="color">
+              <option value="" disabled hidden>Seleccione color</option>
+              <option value="Verde">Verde</option>
+              <option value="Amarillo">Amarillo</option>
+              <option value="Naranja">Naranja</option>
+              <option value="Rojo">Rojo</option>
+            </select>
             <small>{{ validaciones.mensajeSelect(f['color'], 'El color de la recomendación') }}</small>
           </div>
         </div>

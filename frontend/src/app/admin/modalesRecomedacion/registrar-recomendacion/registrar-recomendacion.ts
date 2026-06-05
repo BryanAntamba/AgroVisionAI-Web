@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DesplegableCampo } from '../desplegable-campo/desplegable-campo';
 import {
   COLORES_OPCIONES,
   PrioridadRecomendacion,
@@ -20,7 +19,7 @@ export interface DatosRecomendacionForm {
 
 @Component({
   selector: 'app-registrar-recomendacion',
-  imports: [CommonModule, ReactiveFormsModule, DesplegableCampo],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registrar-recomendacion.html',
   styleUrls: [
     '../../modales/registro-usuario/registro-usuario.css',

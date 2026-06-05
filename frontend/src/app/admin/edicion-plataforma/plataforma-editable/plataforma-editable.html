@@ -442,18 +442,53 @@
           </div>
         </div>
 
+        <!-- Color Botones Destructivos -->
+        <div class="config-item">
+          <label class="config-label">Color Botones Destructivos</label>
+          <p class="config-help-small">
+            Color de botones como "Eliminar" o "Apagar dispositivo"
+          </p>
+          <div class="color-picker-group">
+            <input type="color" [(ngModel)]="botones.destructivoColor" />
+            <input type="text" [(ngModel)]="botones.destructivoColor" placeholder="#a32626" maxlength="7" />
+          </div>
+        </div>
+
+        <!-- Color Hover Botones Destructivos -->
+        <div class="config-item">
+          <label class="config-label">Hover Botones Destructivos</label>
+          <p class="config-help-small">
+            Color al pasar el cursor sobre botones destructivos
+          </p>
+          <div class="color-picker-group">
+            <input type="color" [(ngModel)]="botones.destructivoHover" />
+            <input type="text" [(ngModel)]="botones.destructivoHover" placeholder="#8b1f1f" maxlength="7" />
+          </div>
+        </div>
+
         <!-- Vista Previa del Botón -->
         <div class="config-item full-width">
           <label class="config-label">Vista Previa</label>
-          <button 
-            type="button"
-            class="btn-preview" 
-            [style.background]="getBtnPreviewBackground()"
-            [style.color]="botones.colorTexto"
-          >
-            <i class="fa-solid fa-floppy-disk"></i>
-            Botón de Ejemplo
-          </button>
+          <div class="button-previews">
+            <button 
+              type="button"
+              class="btn-preview" 
+              [style.background]="getBtnPreviewBackground()"
+              [style.color]="botones.colorTexto"
+            >
+              <i class="fa-solid fa-floppy-disk"></i>
+              Botón Principal
+            </button>
+            <button 
+              type="button"
+              class="btn-preview btn-destructivo" 
+              [style.background]="botones.destructivoColor"
+              [style.color]="'#ffffff'"
+            >
+              <i class="fa-solid fa-trash"></i>
+              Botón Destructivo
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -543,43 +578,6 @@
                 <i class="fa-solid fa-circle-info"></i>
                 <p>Ejemplo de modal</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECCIÓN 7: HISTORIAL DE MONITOREO -->
-    <section class="config-section">
-      <div class="section-header">
-        <i class="fa-solid fa-clock-rotate-left"></i>
-        <h2>Historial de Monitoreo</h2>
-      </div>
-      <p class="section-description">
-        Habilita o deshabilita la sección de historial en la barra de navegación del Agricultor
-      </p>
-
-      <div class="config-grid">
-        <div class="config-item full-width">
-          <label class="config-label">
-            <input type="checkbox" [(ngModel)]="historialHabilitado" class="toggle-checkbox" />
-            Mostrar sección de Historial
-          </label>
-          <p class="config-help-small">
-            Al desactivar esta opción, el agricultor no podrá acceder a la página de historial de monitoreo desde la barra de navegación.
-          </p>
-          
-          <div class="estado-preview" *ngIf="historialHabilitado">
-            <div class="badge-estado badge-activo">
-              <i class="fa-solid fa-circle-check"></i>
-              Historial visible en barra de navegación
-            </div>
-          </div>
-          
-          <div class="estado-preview" *ngIf="!historialHabilitado">
-            <div class="badge-estado badge-inactivo">
-              <i class="fa-solid fa-eye-slash"></i>
-              Historial oculto en barra de navegación
             </div>
           </div>
         </div>

@@ -528,6 +528,13 @@ h1 {
 }
 
 /* ========== VISTA PREVIA ========== */
+.button-previews {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .btn-preview {
   display: inline-flex;
   align-items: center;
@@ -541,6 +548,10 @@ h1 {
   font-weight: 800;
   cursor: default;
   transition: all 0.3s ease;
+}
+
+.btn-preview.btn-destructivo {
+  box-shadow: 0 8px 16px rgba(163, 38, 38, 0.24);
 }
 
 .icons-preview {

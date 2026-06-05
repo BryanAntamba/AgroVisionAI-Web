@@ -1,3 +1,5 @@
+/* Estilos del componente boton-iot para la conexión del dispositivo AgroVisionAI IOT */
+
 .boton-iot-container {
   display: flex;
   flex-direction: column;
@@ -83,6 +85,14 @@
   box-shadow: 0 8px 24px rgba(85, 168, 32, 0.25);
 }
 
+.boton-conexion.error {
+  background: linear-gradient(135deg, #c62828, #9a2424);
+  border-color: #c62828;
+  color: white;
+  box-shadow: 0 8px 24px rgba(198, 40, 40, 0.25);
+  animation: shake 0.5s;
+}
+
 .descripcion-conexion {
   max-width: 400px;
   margin-top: 8px;
@@ -94,6 +104,11 @@
   font-weight: 700;
   line-height: 1.5;
   margin: 0;
+}
+
+.descripcion-conexion.error-text p {
+  color: #c92b2b;
+  font-weight: 800;
 }
 
 .indicador-conexion {
@@ -118,40 +133,6 @@
   color: #073d2b;
   font-weight: 800;
   font-size: 13px;
-}
-
-@keyframes pulsar {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 8px 24px rgba(255, 152, 0, 0.2);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 12px 30px rgba(255, 152, 0, 0.4);
-  }
-}
-
-@keyframes blink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-/* Estado de error */
-.boton-conexion.error {
-  background: linear-gradient(135deg, #c62828, #9a2424);
-  border-color: #c62828;
-  color: white;
-  box-shadow: 0 8px 24px rgba(198, 40, 40, 0.25);
-  animation: shake 0.5s;
-}
-
-.descripcion-conexion.error-text p {
-  color: #c92b2b;
-  font-weight: 800;
 }
 
 .boton-reintentar {
@@ -181,6 +162,27 @@
 
 .boton-reintentar:active {
   transform: translateY(0);
+}
+
+/* Animaciones */
+@keyframes pulsar {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 24px rgba(255, 152, 0, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(255, 152, 0, 0.4);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 @keyframes shake {

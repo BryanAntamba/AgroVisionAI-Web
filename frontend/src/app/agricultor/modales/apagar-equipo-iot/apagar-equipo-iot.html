@@ -1,0 +1,38 @@
+<div
+  class="modal-backdrop"
+  (click)="cerrarModal()"
+  role="presentation"
+>
+  <div
+    class="modal-card modal-card-confirm"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="modal-apagar-titulo"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      class="modal-close"
+      type="button"
+      aria-label="Cerrar"
+      (click)="cerrarModal()"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h2 id="modal-apagar-titulo">¿Apagar el dispositivo?</h2>
+
+    <p class="confirm-message">
+      El monitoreo en tiempo real se detendrá. Podrá reconectar el dispositivo cuando lo necesite.
+    </p>
+
+    <div class="modal-actions">
+      <button class="modal-cancel" type="button" (click)="cerrarModal()">
+        Cancelar
+      </button>
+      <button class="modal-apagar" type="button" (click)="confirmarApagado()">
+        <i class="fa-solid fa-power-off"></i>
+        Apagar
+      </button>
+    </div>
+  </div>
+</div>

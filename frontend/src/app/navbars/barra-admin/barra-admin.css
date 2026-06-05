@@ -30,15 +30,16 @@
 }
 
 .nav-link {
-  color: #456657;
+  color: var(--color-links-normales, #456657);
   font-weight: 700;
   font-size: 15px;
   padding: 8px 12px;
+  text-decoration: none;
 }
 
-.nav-link:hover,
-.nav-link.active-link {
-  color: #55a820;
+.nav-link:hover {
+  color: var(--color-links-activos, #55a820);
+  font-weight: 700;
 }
 
 .logout-button {
@@ -46,8 +47,8 @@
   padding: 10px 18px;
   border: 0;
   border-radius: 8px;
-  background: linear-gradient(135deg, #073d2b, #55a820);
-  color: #ffffff;
+  background: var(--btn-background, linear-gradient(135deg, #073d2b, #55a820));
+  color: var(--btn-color-texto, #ffffff);
   font-size: 16px;
   font-weight: 800;
   box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
@@ -59,12 +60,65 @@
 .logout-button:hover,
 .logout-button:focus {
   background: linear-gradient(135deg, #052f21, #4a941d);
-  color: #ffffff;
+  color: var(--btn-color-texto, #ffffff);
   text-decoration: none;
 }
 
 .navbar-toggler {
-  border-color: #c8d8ce;
+  border: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.navbar-toggler:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  background-image: none;
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #073d2b;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background-color: #073d2b;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before {
+  top: -8px;
+}
+
+.navbar-toggler-icon::after {
+  bottom: -8px;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+  background-color: transparent;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+  bottom: 0;
+  transform: rotate(-45deg);
 }
 
 @media (max-width: 991px) {
@@ -75,10 +129,22 @@
   .logout-button {
     width: 100%;
     margin-top: 8px;
+    justify-content: center;
   }
 
   .admin-navbar-actions {
     align-items: stretch;
     padding-top: 12px;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 10px 0;
+    padding-left: 12px;
+    font-weight: 700;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #55a820;
+    font-weight: 700;
   }
 }

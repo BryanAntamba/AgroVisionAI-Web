@@ -160,7 +160,7 @@
           <h3>{{ diagnosticoEspanol }}</h3>
           <p>{{ datos.diagnostico_final.descripcion }}</p>
           <div class="conf-row">
-            <span class="conf-lbl">Confianza del modelo</span>
+            <span class="conf-lbl">Resultado inteligente</span>
             <div class="conf-track">
               <div class="conf-fill" [style.width.%]="datos.diagnostico_final.confianza_final"></div>
             </div>
@@ -279,13 +279,8 @@
   </div>
 </div>
 
-<div class="modal-overlay" *ngIf="mostrarModalApagado" (click)="cerrarModalApagado()">
-  <div class="modal-apagado" (click)="$event.stopPropagation()" role="dialog" aria-labelledby="modalApagadoTitulo" aria-modal="true">
-    <h3 id="modalApagadoTitulo">¿Apagar el dispositivo?</h3>
-    <p>El monitoreo en tiempo real se detendrá. Podrá reconectar el dispositivo cuando lo necesite.</p>
-    <div class="modal-acciones">
-      <button type="button" class="btn-modal-cancelar" (click)="cerrarModalApagado()">Cancelar</button>
-      <button type="button" class="btn-modal-confirmar" (click)="confirmarApagado()">Sí, apagar</button>
-    </div>
-  </div>
-</div>
+<app-apagar-equipo-iot 
+  *ngIf="mostrarModalApagado"
+  (cerrar)="cerrarModalApagado()"
+  (confirmar)="confirmarApagado()">
+</app-apagar-equipo-iot>

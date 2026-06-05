@@ -66,21 +66,10 @@
 }
 
 .confirm-message {
-  margin: 0 0 12px;
+  margin: 0 0 22px;
   color: var(--color-textos-descriptivos, #456657);
   font-size: 15px;
   line-height: 1.5;
-}
-
-.confirm-message strong {
-  color: var(--color-titulos, #073d2b);
-}
-
-.confirm-warning {
-  margin: 0 0 22px;
-  color: #a32626;
-  font-size: 13px;
-  font-weight: 700;
 }
 
 .modal-actions {
@@ -103,7 +92,12 @@
   font-weight: 800;
 }
 
-.modal-delete {
+.modal-cancel:hover,
+.modal-cancel:focus {
+  background: #edf5e9;
+}
+
+.modal-apagar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -120,7 +114,7 @@
   box-shadow: 0 12px 24px var(--btn-destructivo-shadow, rgba(163, 38, 38, 0.24));
 }
 
-.modal-delete:hover,
-.modal-delete:focus {
+.modal-apagar:hover,
+.modal-apagar:focus {
   background: var(--btn-destructivo-hover, #8b1f1f);
 }

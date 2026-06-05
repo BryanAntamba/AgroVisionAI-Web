@@ -76,6 +76,8 @@ export class PlataformaEditable implements OnInit {
     colorInicial: '#073d2b',
     colorFinal: '#55a820',
     colorTexto: '#ffffff',
+    destructivoColor: '#a32626',
+    destructivoHover: '#8b1f1f',
   };
 
   // Configuración de Modales

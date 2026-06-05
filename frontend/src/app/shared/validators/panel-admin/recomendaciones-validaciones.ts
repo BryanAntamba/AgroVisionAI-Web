@@ -5,9 +5,9 @@ export class RecomendacionesValidaciones {
   static readonly TITULO_PATTERN = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/;
 
   static readonly TEXTO_DESCRIPTIVO_PATTERN =
-    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s().,:%]{1,500}$/;
+    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s().,:%°]{1,500}$/;
 
-  static readonly ACCION_PATTERN = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s().,:%]+$/;
+  static readonly ACCION_PATTERN = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s().,:%°]+$/;
 
   static mensajeTitulo(control: AbstractControl | null): string {
     if (!control?.touched || !control.errors) return '';
