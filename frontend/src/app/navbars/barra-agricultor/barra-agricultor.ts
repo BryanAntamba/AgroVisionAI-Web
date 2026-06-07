@@ -1,39 +1,59 @@
-import { Component, AfterViewInit, OnDestroy, Renderer2, ElementRef } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit, AfterViewInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-barra-agricultor',
-  imports: [RouterLink],
+  standalone: true,
+  imports: [RouterLink, CommonModule],
   templateUrl: './barra-agricultor.html',
   styleUrl: './barra-agricultor.css',
 })
-export class BarraAgricultor implements AfterViewInit, OnDestroy {
-  private collapseElement: HTMLElement | null = null;
-  private isMenuOpen = false;
+export class BarraAgricultor implements OnInit, AfterViewInit {
+  historialHabilitado: boolean = true;
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {}
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
-  ngAfterViewInit() {
-    this.collapseElement = this.el.nativeElement.querySelector('#adminNavbar');
+  ngOnInit(): void {
+    // Cargar configuración de historial
+    const historialConfig = localStorage.getItem('agrovision_historial_habilitado');
+    if (historialConfig !== null) {
+      this.historialHabilitado = JSON.parse(historialConfig);
+    }
   }
 
-  toggleMenu() {
-    const button = this.el.nativeElement.querySelector('.navbar-toggler');
-    
-    if (this.collapseElement) {
-      this.isMenuOpen = !this.isMenuOpen;
-      
-      if (this.isMenuOpen) {
-        this.renderer.addClass(this.collapseElement, 'show');
-        this.renderer.setAttribute(button, 'aria-expanded', 'true');
-      } else {
-        this.renderer.removeClass(this.collapseElement, 'show');
-        this.renderer.setAttribute(button, 'aria-expanded', 'false');
+  ngAfterViewInit(): void {
+    // Solo ejecutar en el navegador
+    if (isPlatformBrowser(this.platformId)) {
+      // Esperar a que Bootstrap esté disponible
+      setTimeout(() => {
+        this.initializeBootstrapCollapse();
+      }, 100);
+    }
+  }
+
+  private initializeBootstrapCollapse(): void {
+    const bootstrap = (window as any).bootstrap;
+    if (bootstrap) {
+      const collapseElement = document.getElementById('agricultorNavbar');
+      if (collapseElement) {
+        // Inicializar Bootstrap Collapse sin toggle automático
+        new bootstrap.Collapse(collapseElement, {
+          toggle: false
+        });
       }
     }
   }
 
-  ngOnDestroy() {
-    // Limpieza si es necesario
+  cerrarSesion(): void {
+    // Apagar el dispositivo al cerrar sesión
+    localStorage.setItem('dispositivoConectado', 'false');
+    localStorage.setItem('dispositivoDesconectado', 'true');
+    
+    // Navegar a login
+    this.router.navigate(['/login']);
   }
 }

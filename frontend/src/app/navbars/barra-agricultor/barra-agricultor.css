@@ -29,22 +29,41 @@
   justify-content: flex-end;
 }
 
+.navbar-nav .nav-link {
+  color: var(--color-links-normales, #456657);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: var(--color-links-activos, #55a820);
+}
+
 .logout-button {
   min-height: 46px;
   padding: 10px 18px;
   border: 0;
   border-radius: 8px;
-  background: linear-gradient(135deg, #073d2b, #55a820);
-  color: #ffffff;
+  background: var(--btn-background, linear-gradient(135deg, #073d2b, #55a820));
+  color: var(--btn-color-texto, #ffffff);
   font-size: 16px;
   font-weight: 800;
   box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
+  transition: background 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
 }
 
 .logout-button:hover,
 .logout-button:focus {
   background: linear-gradient(135deg, #052f21, #4a941d);
-  color: #ffffff;
+  color: var(--btn-color-texto, #ffffff);
+  text-decoration: none;
 }
 
 .navbar-toggler {
@@ -112,10 +131,22 @@
   .logout-button {
     width: 100%;
     margin-top: 8px;
+    justify-content: center;
   }
 
   .admin-navbar-actions {
     align-items: stretch;
     padding-top: 12px;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 10px 0;
+    padding-left: 12px;
+    font-weight: 700;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: var(--color-links-activos, #55a820);
+    font-weight: 700;
   }
 }

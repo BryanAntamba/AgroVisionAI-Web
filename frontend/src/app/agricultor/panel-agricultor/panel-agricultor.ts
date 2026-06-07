@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BarraAgricultor } from '../barra-agricultor/barra-agricultor';
+import { BarraAgricultor } from '../../navbars/barra-agricultor/barra-agricultor';
 import { BotonIOT } from '../boton-inicio/boton-iot/boton-iot';
 import { datosIOTSimulados } from '../../../environments/datos-iot-simulados';
 import {

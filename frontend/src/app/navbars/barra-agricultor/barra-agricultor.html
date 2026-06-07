@@ -5,20 +5,21 @@
       <span>Agricultor</span>
     </a>
 
-    <button
-      #menuToggler
-      class="navbar-toggler ms-auto"
-      type="button"
-      (click)="toggleMenu()"
-      aria-controls="adminNavbar"
-      [attr.aria-expanded]="false"
-      aria-label="Abrir navegación"
-    >
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#agricultorNavbar"
+      aria-controls="agricultorNavbar" aria-expanded="false" aria-label="Abrir navegación">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse admin-navbar-actions" id="adminNavbar">
-      <a class="btn logout-button" routerLink="/login">Cerrar Sesión</a>
+    <div class="collapse navbar-collapse admin-navbar-actions" id="agricultorNavbar">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-3">
+        <li class="nav-item" *ngIf="historialHabilitado">
+          <a class="nav-link" routerLink="/historial">Historial</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/panel-agricultor">Reporte</a>
+        </li>
+      </ul>
+      <button class="btn logout-button" type="button" (click)="cerrarSesion()">Cerrar Sesión</button>
     </div>
   </div>
 </nav>
