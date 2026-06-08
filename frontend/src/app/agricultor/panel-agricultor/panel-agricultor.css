@@ -972,7 +972,39 @@
 }
 
 /* ── Modal Reporte Guardado ── */
+.modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1000 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 24px 16px;
+  background: rgba(7, 61, 43, 0.45) !important;
+  animation: fade-in 0.2s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .modal-exito {
+  position: relative;
   background: #fff;
   border-radius: 12px;
   padding: 32px 28px;
@@ -981,6 +1013,7 @@
   text-align: center;
   border: 1px solid #d7e4dc;
   box-shadow: 0 20px 60px rgba(7, 61, 43, 0.15);
+  animation: slide-up 0.3s ease-out;
 }
 
 .modal-exito-icono {
