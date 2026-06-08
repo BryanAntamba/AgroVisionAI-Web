@@ -6,7 +6,7 @@ import { RecomendacionRegistrada } from '../../../../environments/modales-recome
   selector: 'app-visualizar-recomendacion',
   imports: [CommonModule],
   templateUrl: './visualizar-recomendacion.html',
-  styleUrls: ['../../modales/registro-usuario/registro-usuario.css'],
+  styleUrls: ['./visualizar-recomendacion.css'],
 })
 export class VisualizarRecomendacion {
   @Input({ required: true }) recomendacion!: RecomendacionRegistrada;

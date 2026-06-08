@@ -14,7 +14,6 @@ import { DatosRecomendacionForm } from '../registrar-recomendacion/registrar-rec
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './editar-recomendacion.html',
   styleUrls: [
-    '../../modales/registro-usuario/registro-usuario.css',
     './editar-recomendacion.css',
     '../../../shared/styles/validacion-errores.css',
   ],

@@ -5,7 +5,7 @@ import { AlertaSensorData } from '../../../../environments/datos-alertas-simulad
   selector: 'app-alerta-antena-wifi',
   imports: [],
   templateUrl: './alerta-antena-wifi.html',
-  styleUrls: ['../../../shared/styles/alerta-sensor.css'],
+  styleUrls: ['./alerta-antena-wifi.css'],
 })
 export class AlertaAntenaWifi {
   @Input({ required: true }) alerta!: AlertaSensorData;

@@ -22,7 +22,6 @@ export interface DatosRecomendacionForm {
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registrar-recomendacion.html',
   styleUrls: [
-    '../../modales/registro-usuario/registro-usuario.css',
     './registrar-recomendacion.css',
     '../../../shared/styles/validacion-errores.css',
   ],

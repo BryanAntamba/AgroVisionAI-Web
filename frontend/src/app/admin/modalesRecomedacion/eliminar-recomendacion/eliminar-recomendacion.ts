@@ -6,7 +6,7 @@ import { RecomendacionRegistrada } from '../../../../environments/modales-recome
   selector: 'app-eliminar-recomendacion',
   imports: [CommonModule],
   templateUrl: './eliminar-recomendacion.html',
-  styleUrls: ['../../modales/eliminar-usuario/eliminar-usuario.css'],
+  styleUrls: ['./eliminar-recomendacion.css'],
 })
 export class EliminarRecomendacion {
   @Input({ required: true }) recomendacion!: RecomendacionRegistrada;

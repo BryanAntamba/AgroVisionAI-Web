@@ -5,7 +5,7 @@ import { AlertaSensorData } from '../../../../environments/datos-alertas-simulad
   selector: 'app-alerta-dht22',
   imports: [],
   templateUrl: './alerta-dht22.html',
-  styleUrls: ['../../../shared/styles/alerta-sensor.css'],
+  styleUrls: ['./alerta-dht22.css'],
 })
 export class AlertaDht22 {
   @Input({ required: true }) alerta!: AlertaSensorData;

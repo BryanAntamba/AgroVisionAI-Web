@@ -5,7 +5,7 @@ import { AlertaSensorData } from '../../../../environments/datos-alertas-simulad
   selector: 'app-alerta-sensor-ldr',
   imports: [],
   templateUrl: './alerta-sensor-ldr.html',
-  styleUrls: ['../../../shared/styles/alerta-sensor.css'],
+  styleUrls: ['./alerta-sensor-ldr.css'],
 })
 export class AlertaSensorLdr {
   @Input({ required: true }) alerta!: AlertaSensorData;

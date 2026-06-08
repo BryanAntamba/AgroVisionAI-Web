@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
-import { BarraAdmin } from '../../../navbars/barra-admin/barra-admin';
-import { EdicionPlataformaValidaciones } from '../../../shared/validators/panel-admin/valdiacion-edicionPlataforma/edicionPlataforma-validaciones';
-import { TemaService, NavbarConfig, ColoresConfig, BotonesConfig, ModalesConfig } from '../../../shared/services/tema.service';
+import { BarraAdmin } from '../../navbars/barra-admin/barra-admin';
+import { EdicionPlataformaValidaciones } from '../../shared/validators/panel-admin/valdiacion-edicionPlataforma/edicionPlataforma-validaciones';
+import { TemaService, NavbarConfig, ColoresConfig, BotonesConfig, ModalesConfig } from '../../shared/services/tema.service';
+
 
 interface ImagenCarrusel {
   id: number;

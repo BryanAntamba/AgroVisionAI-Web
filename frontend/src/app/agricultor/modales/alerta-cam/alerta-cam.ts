@@ -5,7 +5,7 @@ import { AlertaSensorData } from '../../../../environments/datos-alertas-simulad
   selector: 'app-alerta-cam',
   imports: [],
   templateUrl: './alerta-cam.html',
-  styleUrls: ['../../../shared/styles/alerta-sensor.css'],
+  styleUrls: ['./alerta-cam.css'],
 })
 export class AlertaCam {
   @Input({ required: true }) alerta!: AlertaSensorData;
