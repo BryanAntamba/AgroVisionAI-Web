@@ -14,7 +14,9 @@ import { AlertaCam } from '../modales/alerta-cam/alerta-cam';
 import { AlertaCapaciteV2 } from '../modales/alerta-capacite-v2/alerta-capacite-v2';
 import { AlertaAntenaWifi } from '../modales/alerta-antena-wifi/alerta-antena-wifi';
 import { AlertaSensorLDR } from '../modales/alerta-sensor-ldr/alerta-sensor-ldr';
-import { ApagarEquipoIOT } from '../modales/apagar-equipo-iot/apagar-equipo-iot';
+// Modales separados en componentes independientes
+import { DesconectarDispositivo } from '../modales/desconectar-dispositivo/desconectar-dispositivo';
+import { GuardarReporte } from '../modales/guardar-reporte/guardar-reporte';
 
 // Definición de tipos de estado para las "píldoras" visuales (OK, Advertencia, Crítico, Estimado)
 type PillTipo = 'ok' | 'warn' | 'est' | 'crit';
@@ -89,7 +91,8 @@ interface RecomendacionVista {
     AlertaCapaciteV2,
     AlertaAntenaWifi,
     AlertaSensorLDR,
-    ApagarEquipoIOT,
+    DesconectarDispositivo,
+    GuardarReporte,
   ],
   templateUrl: './panel-agricultor.html',
   styleUrl: './panel-agricultor.css',
@@ -233,34 +236,35 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     }
   }
 
-  // Muestra el modal de confirmación de apagado
+  // Muestra el modal de confirmación de desconexión
   abrirModalApagado(): void {
     this.mostrarModalApagado = true;
   }
 
-  // Cierra el modal de confirmación de apagado
+  // Cierra el modal de confirmación de desconexión
   cerrarModalApagado(): void {
     this.mostrarModalApagado = false;
   }
 
-  // Lógica para confirmar el apagado desde el modal
+  // Lógica para confirmar la desconexión desde el modal
   confirmarApagado(): void {
     this.cerrarModalApagado();
     this.desconectarDispositivo();
   }
 
-  // Ejecuta la desconexión simulada (con un timeout de 2 segundos)
+  // Ejecuta la desconexión del dispositivo (con un timeout de 2 segundos)
   desconectarDispositivo(): void {
     if (this.isDisconnecting) return;
     this.isDisconnecting = true;
-    this.detenerSimulacionCapturas(); // Detiene las actualizaciones
+    this.detenerSimulacionCapturas(); // Detiene las capturas en vivo
     setTimeout(() => {
       this.isDisconnecting = false;
+      this.dispositivoConectado = false;
       this.dispositivoDesconectado = true;
       this.errorReconexion = '';
       this.intentosReconexion = 0;
       // Persiste el estado como desconectado
-      localStorage.setItem('dispositivoConectado', 'true');
+      localStorage.setItem('dispositivoConectado', 'false');
       localStorage.setItem('dispositivoDesconectado', 'true');
     }, 2000);
   }

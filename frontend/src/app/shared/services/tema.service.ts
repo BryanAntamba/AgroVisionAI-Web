@@ -57,6 +57,14 @@ export interface ModalesConfig {
   colorBackdrop: string;
   // Define la opacidad del backdrop en porcentaje (0-100)
   opacidadBackdrop: number;
+  // Define el color del botón destructivo en modales de confirmación (desconectar)
+  botonesFondoDestructivo: string;
+  // Define el color del botón destructivo al pasar mouse
+  botonesHoverDestructivo: string;
+  // Define el color del ícono de éxito en modales positivos (guardar reporte)
+  iconoExitoColor: string;
+  // Define el color de fondo del ícono de éxito
+  iconoExitoFondo: string;
 }
 
 // Define la interfaz PlataformaConfig que agrupa todas las configuraciones visuales de la plataforma
@@ -146,6 +154,14 @@ export class TemaService {
       colorBackdrop: '#073d2b',
       // Opacidad del backdrop al 45%
       opacidadBackdrop: 45,
+      // Color rojo para botones destructivos (desconectar dispositivo)
+      botonesFondoDestructivo: '#a32626',
+      // Color rojo más oscuro al pasar mouse
+      botonesHoverDestructivo: '#8b1f1f',
+      // Color verde del ícono de éxito (reporte guardado)
+      iconoExitoColor: '#55a820',
+      // Fondo claro verde para el ícono de éxito
+      iconoExitoFondo: '#eaf7e5',
     }
   };
 
@@ -277,6 +293,18 @@ export class TemaService {
     const backdropRgba = this.hexToRgba(config.modales.colorBackdrop, config.modales.opacidadBackdrop / 100);
     // Establece la variable CSS del backdrop en formato RGBA
     root.style.setProperty('--modal-backdrop-rgba', backdropRgba);
+    
+    // Establece colores para botones destructivos en modales (desconectar dispositivo)
+    root.style.setProperty('--modal-btn-destructivo-color', config.modales.botonesFondoDestructivo);
+    root.style.setProperty('--modal-btn-destructivo-hover', config.modales.botonesHoverDestructivo);
+    
+    // Convierte el color destructivo a RGBA para usar como sombra en modales
+    const btnDestructivoShadow = this.hexToRgba(config.modales.botonesFondoDestructivo, 0.24);
+    root.style.setProperty('--modal-btn-destructivo-shadow', btnDestructivoShadow);
+    
+    // Establece colores para ícono de éxito en modales (guardar reporte)
+    root.style.setProperty('--modal-icono-exito-color', config.modales.iconoExitoColor);
+    root.style.setProperty('--modal-icono-exito-fondo', config.modales.iconoExitoFondo);
 
     // SECCIÓN 4: Aplica la configuración de la navbar
     // Establece el color base de la navbar

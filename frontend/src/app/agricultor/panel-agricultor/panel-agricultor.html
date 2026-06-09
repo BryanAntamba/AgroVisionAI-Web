@@ -269,7 +269,7 @@
         <span>{{ estadoConexionTexto }}</span>
       </div>
       <div class="conectividad-acciones">
-        <!-- Botón para apagar -->
+        <!-- Botón para desconectar -->
         <button
           *ngIf="!dispositivoDesconectado"
           type="button"
@@ -277,7 +277,7 @@
           [disabled]="isDisconnecting"
           (click)="abrirModalApagado()">
           <i class="fa-solid fa-power-off" aria-hidden="true"></i>
-          {{ isDisconnecting ? 'Apagando...' : 'Apagar dispositivo' }}
+          {{ isDisconnecting ? 'Desconectando...' : 'Desconectar dispositivo' }}
         </button>
         <!-- Botón para reconectar -->
         <button
@@ -295,21 +295,15 @@
   </div>
 </main>
 
-<!-- Modal: Confirmación de que el reporte fue guardado exitosamente -->
-<div class="modal-overlay" *ngIf="mostrarModalReporteGuardado" (click)="cerrarModalReporteGuardado()">
-  <div class="modal-exito" (click)="$event.stopPropagation()" role="dialog" aria-labelledby="modalReporteTitulo" aria-modal="true">
-    <div class="modal-exito-icono" aria-hidden="true">
-      <i class="fa-solid fa-circle-check"></i>
-    </div>
-    <h3 id="modalReporteTitulo">Reporte guardado correctamente</h3>
-    <p>El reporte se guardó con éxito y estará disponible en el historial.</p>
-    <button type="button" class="btn-modal-aceptar" (click)="cerrarModalReporteGuardado()">Aceptar</button>
-  </div>
-</div>
+<!-- Modal: Guardado de reporte -->
+<app-guardar-reporte 
+  *ngIf="mostrarModalReporteGuardado"
+  (cerrar)="cerrarModalReporteGuardado()">
+</app-guardar-reporte>
 
-<!-- Modal componente externo: Apagar Equipo IoT -->
-<app-apagar-equipo-iot 
+<!-- Modal: Desconectar dispositivo -->
+<app-desconectar-dispositivo 
   *ngIf="mostrarModalApagado"
   (cerrar)="cerrarModalApagado()"
   (confirmar)="confirmarApagado()">
-</app-apagar-equipo-iot>
+</app-desconectar-dispositivo>

@@ -9,7 +9,7 @@
     class="modal-card modal-card-confirm"
     role="alertdialog"
     aria-modal="true"
-    aria-labelledby="modal-apagar-titulo"
+    aria-labelledby="modal-desconectar-titulo"
     (click)="$event.stopPropagation()"
   >
     <!-- Botón con la 'X' en la esquina superior derecha para cerrar -->
@@ -23,7 +23,7 @@
     </button>
 
     <!-- Título de confirmación principal -->
-    <h2 id="modal-apagar-titulo">¿Desconectar el dispositivo?</h2>
+    <h2 id="modal-desconectar-titulo">¿Desconectar el dispositivo?</h2>
 
     <!-- Texto descriptivo con la advertencia de lo que sucederá -->
     <p class="confirm-message">
@@ -37,7 +37,7 @@
         Cancelar
       </button>
       <!-- Botón principal para confirmar la desconexión -->
-      <button class="modal-apagar" type="button" (click)="confirmarApagado()">
+      <button class="modal-desconectar" type="button" (click)="confirmarDesconexion()">
         <i class="fa-solid fa-plug"></i>
         Desconectar
       </button>

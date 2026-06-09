@@ -633,6 +633,67 @@
       </div>
     </section>
 
+    <!-- SECCIÓN 7: MODALESS EDITABLES (Desconectar y Guardar Reporte) -->
+    <section class="config-section">
+      <div class="section-header">
+        <i class="fa-solid fa-square-check"></i>
+        <h2>Modales de Acción</h2>
+      </div>
+      <p class="section-description">
+        Personaliza los colores de los botones y elementos en los modales de desconexión y guardado de reportes
+      </p>
+
+      <div class="config-grid">
+        <!-- Color botón destructivo (Desconectar) -->
+        <div class="config-item">
+          <label class="config-label">Color Botón Destructivo (Desconectar)</label>
+          <p class="config-help-small">
+            Color del botón "Desconectar dispositivo" en el modal
+          </p>
+          <div class="color-picker-group">
+            <input type="color" [(ngModel)]="modales.botonesFondoDestructivo" formControlName="botonesFondoDestructivo" />
+            <input type="text" [(ngModel)]="modales.botonesFondoDestructivo" formControlName="botonesFondoDestructivo" placeholder="#a32626" maxlength="7" />
+          </div>
+        </div>
+
+        <!-- Color botón hover destructivo -->
+        <div class="config-item">
+          <label class="config-label">Color Hover Botón Destructivo</label>
+          <p class="config-help-small">
+            Color al pasar el mouse sobre "Desconectar"
+          </p>
+          <div class="color-picker-group">
+            <input type="color" [(ngModel)]="modales.botonesHoverDestructivo" formControlName="botonesHoverDestructivo" />
+            <input type="text" [(ngModel)]="modales.botonesHoverDestructivo" formControlName="botonesHoverDestructivo" placeholder="#8b1f1f" maxlength="7" />
+          </div>
+        </div>
+
+        <!-- Color ícono éxito -->
+        <div class="config-item">
+          <label class="config-label">Color Ícono Éxito (Reporte)</label>
+          <p class="config-help-small">
+            Color del ícono de check en "Reporte guardado"
+          </p>
+          <div class="color-picker-group">
+            <input type="color" [(ngModel)]="modales.iconoExitoColor" formControlName="iconoExitoColor" />
+            <input type="text" [(ngModel)]="modales.iconoExitoColor" formControlName="iconoExitoColor" placeholder="#55a820" maxlength="7" />
+          </div>
+        </div>
+
+        <!-- Color fondo ícono éxito -->
+        <div class="config-item">
+          <label class="config-label">Color Fondo Ícono Éxito</label>
+          <p class="config-help-small">
+            Color del fondo circular del ícono de check
+          </p>
+          <div class="color-picker-group">
+            <input type="color" [(ngModel)]="modales.iconoExitoFondo" formControlName="iconoExitoFondo" />
+            <input type="text" [(ngModel)]="modales.iconoExitoFondo" formControlName="iconoExitoFondo" placeholder="#eaf7e5" maxlength="7" />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- BOTONES DE ACCIÓN FINALES -->
     <div class="action-buttons">
       <button type="button" class="btn-cancel" (click)="abrirResetearCambios()">

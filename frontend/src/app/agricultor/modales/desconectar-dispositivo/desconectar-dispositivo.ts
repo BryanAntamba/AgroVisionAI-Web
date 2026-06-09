@@ -2,13 +2,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-apagar-equipo-iot',
+  selector: 'app-desconectar-dispositivo',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './apagar-equipo-iot.html',
-  styleUrl: './apagar-equipo-iot.css',
+  templateUrl: './desconectar-dispositivo.html',
+  styleUrl: './desconectar-dispositivo.css',
 })
-export class ApagarEquipoIOT {
+export class DesconectarDispositivo {
   // Emite un evento para indicar que se debe cerrar o cancelar el modal
   @Output() cerrar = new EventEmitter<void>();
   // Emite un evento para confirmar que el usuario desea desconectar el equipo
@@ -20,7 +20,7 @@ export class ApagarEquipoIOT {
   }
 
   // Función ejecutada al hacer clic en el botón de "Desconectar"
-  confirmarApagado(): void {
+  confirmarDesconexion(): void {
     this.confirmar.emit();
   }
 }

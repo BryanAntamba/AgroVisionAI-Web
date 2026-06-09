@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 // Importa el decorador Component y la interfaz OnInit para el ciclo de vida
 import { Component, OnInit } from '@angular/core';
 // Importa clases y decoradores necesarios para formularios reactivos y validaciones
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule, FormControl } from '@angular/forms';
 // Importa el componente de barra de navegación del administrador
 import { BarraAdmin } from '../../navbars/barra-admin/barra-admin';
 // Importa las validaciones personalizadas para el formulario de edición de plataforma
@@ -143,6 +143,14 @@ export class PlataformaEditable implements OnInit {
     colorBackdrop: '#073d2b',
     // Opacidad del backdrop (0-100)
     opacidadBackdrop: 45,
+    // Color del botón destructivo (Desconectar dispositivo)
+    botonesFondoDestructivo: '#a32626',
+    // Color hover del botón destructivo
+    botonesHoverDestructivo: '#8b1f1f',
+    // Color del ícono de éxito (check verde)
+    iconoExitoColor: '#55a820',
+    // Color de fondo del ícono de éxito
+    iconoExitoFondo: '#eaf7e5',
   };
 
   // ===== CONFIGURACIÓN DE HISTORIAL =====
@@ -195,6 +203,12 @@ export class PlataformaEditable implements OnInit {
       // Actualiza la propiedad nombrePlataforma cada vez que cambia el valor del campo
       this.nombrePlataforma = value;
     });
+
+    // Agrega controles para los modales editables
+    this.form.addControl('botonesFondoDestructivo', new FormControl(this.modales.botonesFondoDestructivo));
+    this.form.addControl('botonesHoverDestructivo', new FormControl(this.modales.botonesHoverDestructivo));
+    this.form.addControl('iconoExitoColor', new FormControl(this.modales.iconoExitoColor));
+    this.form.addControl('iconoExitoFondo', new FormControl(this.modales.iconoExitoFondo));
   }
 
   // Método del ciclo de vida que se ejecuta una vez al inicializar el componente
