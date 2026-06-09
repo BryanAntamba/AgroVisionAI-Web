@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BarraAgricultor } from '../../navbars/barra-agricultor/barra-agricultor';
-import { traducirDiagnostico } from '../../shared/traductor-enfermedades/clases-enfermedad';
+import { traducirDiagnostico } from '../../shared/utils/traductor-enfermedades/clases-enfermedad';
 import { ModalReporte } from './modal/modal-reporte/modal-reporte';
 import { RegistroHistorial, historialSimulado } from '../../../environments/historial';
 

@@ -7,7 +7,7 @@ import { BotonIOT } from '../boton-iot/boton-iot';
 import { datosIOTSimulados } from '../../../environments/datos-iot-simulados';
 import { alertasActivasAlInicio, catalogoAlertasSensores, TipoAlertaSensor } from '../../../environments/datos-alertas-simuladas';
 import { RecomendacionesStore } from '../../../environments/modales-recomendacion';
-import { traducirDiagnostico } from '../../shared/traductor-enfermedades/clases-enfermedad';
+import { traducirDiagnostico } from '../../shared/utils/traductor-enfermedades/clases-enfermedad';
 // Modales de alertas de los diferentes sensores
 import { AlertaDht22 } from '../modales/alerta-dht22/alerta-dht22';
 import { AlertaCam } from '../modales/alerta-cam/alerta-cam';
