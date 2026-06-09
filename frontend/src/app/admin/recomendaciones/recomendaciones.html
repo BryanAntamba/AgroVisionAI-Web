@@ -1,23 +1,38 @@
+<!-- Componente de barra de navegación del administrador -->
 <app-barra-admin></app-barra-admin>
 
+<!-- Contenedor principal de la página de recomendaciones -->
 <main class="dashboard-page">
+  <!-- Sección de encabezado con título y botón de acción principal -->
   <section class="dashboard-header">
+    <!-- Contenedor de texto descriptivo -->
     <div>
+      <!-- Texto pequeño que indica la sección actual -->
       <p class="eyebrow">Administración</p>
+      <!-- Título principal de la página -->
       <h1>Recomendaciones de acción</h1>
+      <!-- Descripción de las funcionalidades disponibles -->
       <p>Registre y administre las recomendaciones que verá el agricultor en su panel.</p>
     </div>
+    <!-- Botón principal para abrir el modal de registro de nuevas recomendaciones -->
     <button class="create-button" type="button" (click)="abrirRegistrar()">
+      <!-- Ícono de agregar -->
       <i class="fa-solid fa-plus"></i>
       Registrar recomendación
     </button>
   </section>
 
+  <!-- Barra de filtros para refinar la lista de recomendaciones -->
   <section class="filters-bar">
+    <!-- Campo de búsqueda de recomendaciones -->
     <div class="search-field">
+      <!-- Etiqueta del campo de búsqueda -->
       <label for="buscar-rec">Buscar recomendación</label>
+      <!-- Contenedor estilizado que simula un input con ícono -->
       <div class="input-shell">
+        <!-- Ícono de lupa para indicar búsqueda -->
         <i class="fa-solid fa-magnifying-glass"></i>
+        <!-- Input de búsqueda vinculado a 'busqueda' con evento que aplica filtros al cambiar -->
         <input
           id="buscar-rec"
           type="search"
@@ -27,48 +42,77 @@
         />
       </div>
     </div>
+    <!-- Campo de filtro por prioridad de la recomendación -->
     <div class="filter-field">
+      <!-- Etiqueta del filtro de prioridad -->
       <label for="filtro-prioridad">Prioridad</label>
+      <!-- Select vinculado a 'filtroPrioridad' con evento que aplica filtros al cambiar -->
       <select id="filtro-prioridad" [(ngModel)]="filtroPrioridad" (ngModelChange)="aplicarFiltros()">
+        <!-- Opción para mostrar todas las prioridades -->
         <option value="Todas">Todas</option>
+        <!-- Opción para filtrar solo prioridad baja -->
         <option value="Baja">Baja</option>
+        <!-- Opción para filtrar solo prioridad media -->
         <option value="Media">Media</option>
+        <!-- Opción para filtrar solo prioridad alta -->
         <option value="Alta">Alta</option>
+        <!-- Opción para filtrar solo prioridad crítica -->
         <option value="Critica">Critica</option>
       </select>
     </div>
   </section>
 
+  <!-- Sección que muestra la lista de recomendaciones filtradas -->
   <section class="lista-recomendaciones">
+    <!-- Título que indica el número de recomendaciones visibles -->
     <h2>Recomendaciones registradas ({{ vistaPrevia.length }})</h2>
+    <!-- Mensaje mostrado cuando no hay recomendaciones que coincidan con los filtros -->
     <p class="lista-vacia" *ngIf="!vistaPrevia.length">No hay recomendaciones con los filtros actuales.</p>
+    <!-- Tarjeta individual para cada recomendación, iterada con *ngFor -->
     <article
       class="rec-card"
       *ngFor="let rec of vistaPrevia"
       [ngClass]="'rec-color-' + rec.color.toLowerCase()"
     >
+      <!-- Cuerpo de la tarjeta con la información de la recomendación -->
       <div class="rec-card-body">
+        <!-- Fila del encabezado con el badge de prioridad -->
         <div class="rec-card-header-row">
+          <!-- Badge de prioridad con clase dinámica según el nivel de prioridad -->
           <span class="rec-prioridad" [ngClass]="'pri-' + rec.prioridad.toLowerCase()">
+            <!-- Ícono dinámico según el color de la recomendación -->
             <i class="fa-solid" [ngClass]="iconoRec(rec.color)"></i>
+            <!-- Texto de la prioridad -->
             {{ rec.prioridad }}
           </span>
         </div>
+        <!-- Título de la recomendación -->
         <h3>{{ rec.titulo }}</h3>
+        <!-- Descripción de la recomendación -->
         <p class="rec-descripcion">{{ rec.descripcion }}</p>
+        <!-- Sección de acción recomendada, mostrada solo si existe la propiedad 'accion' -->
         <div class="rec-accion" *ngIf="rec.accion">
+          <!-- Etiqueta en negrita para identificar la acción -->
           <strong>Acción recomendada:</strong>
+          <!-- Texto de la acción recomendada -->
           <span>{{ rec.accion }}</span>
         </div>
       </div>
+      <!-- Contenedor de botones de acción para la recomendación -->
       <div class="rec-card-actions">
+        <!-- Botón para editar la recomendación -->
         <button type="button" class="btn-icon" title="Editar" (click)="abrirEditar(rec)">
+          <!-- Ícono de lápiz -->
           <i class="fa-solid fa-pen"></i>
         </button>
+        <!-- Botón para visualizar los detalles completos de la recomendación -->
         <button type="button" class="btn-icon" title="Visualizar" (click)="abrirVisualizar(rec)">
+          <!-- Ícono de ojo -->
           <i class="fa-solid fa-eye"></i>
         </button>
+        <!-- Botón para eliminar la recomendación con estilo de peligro -->
         <button type="button" class="btn-icon btn-icon-danger" title="Eliminar" (click)="abrirEliminar(rec)">
+          <!-- Ícono de papelera -->
           <i class="fa-solid fa-trash"></i>
         </button>
       </div>
@@ -76,12 +120,14 @@
   </section>
 </main>
 
+<!-- Modal de registro de recomendación, renderizado solo cuando la bandera está activa -->
 <app-registrar-recomendacion
   *ngIf="mostrarRegistrar"
   (cerrar)="cerrarRegistrar()"
   (guardar)="guardarRegistro($event)"
 ></app-registrar-recomendacion>
 
+<!-- Modal de edición de recomendación, renderizado solo cuando la bandera está activa y hay una seleccionada -->
 <app-editar-recomendacion
   *ngIf="mostrarEditar && seleccionada"
   [recomendacion]="seleccionada"
@@ -89,12 +135,14 @@
   (guardar)="guardarEdicion($event)"
 ></app-editar-recomendacion>
 
+<!-- Modal de visualización de recomendación, renderizado solo cuando la bandera está activa y hay una seleccionada -->
 <app-visualizar-recomendacion
   *ngIf="mostrarVisualizar && seleccionada"
   [recomendacion]="seleccionada"
   (cerrar)="cerrarVisualizar()"
 ></app-visualizar-recomendacion>
 
+<!-- Modal de confirmación de eliminación, renderizado solo cuando la bandera está activa y hay una seleccionada -->
 <app-eliminar-recomendacion
   *ngIf="mostrarEliminar && seleccionada"
   [recomendacion]="seleccionada"

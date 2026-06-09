@@ -1,126 +1,141 @@
+/* Estilos del componente host */
 :host {
-  display: block;
-  color: var(--color-titulos, #073d2b);
-  font-family: Arial, Helvetica, sans-serif;
+  display: block; /* El componente se muestra como bloque */
+  color: var(--color-titulos, #073d2b); /* Color de texto verde oscuro usando variable CSS */
+  font-family: Arial, Helvetica, sans-serif; /* Fuente sans-serif estándar */
 }
 
+/* Fondo oscuro semitransparente que cubre toda la ventana */
 .modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: 24px 16px;
-  background: var(--modal-backdrop-rgba, rgba(7, 61, 43, 0.45));
+  position: fixed; /* Posición fija para cubrir toda la pantalla */
+  inset: 0; /* Equivale a top:0, right:0, bottom:0, left:0 */
+  z-index: 1000; /* Índice alto para estar sobre otros elementos */
+  display: grid; /* Layout de grid */
+  place-items: center; /* Centra el contenido horizontal y verticalmente */
+  padding: 24px 16px; /* Espaciado interno */
+  background: var(--modal-backdrop-rgba, rgba(7, 61, 43, 0.45)); /* Fondo verde oscuro con 45% de opacidad */
 }
 
+/* Tarjeta contenedora del modal */
 .modal-card {
-  position: relative;
-  width: min(760px, 100%);
-  max-height: min(92vh, 920px);
-  overflow: auto;
-  padding: 28px 28px 24px;
-  border: 1px solid #d7e4dc;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 24px 48px rgba(7, 61, 43, 0.2);
+  position: relative; /* Posición relativa para elementos absolutos internos */
+  width: min(760px, 100%); /* Ancho máximo de 760px o 100% si es más pequeño */
+  max-height: min(92vh, 920px); /* Altura máxima de 92% del viewport o 920px */
+  overflow: auto; /* Scroll automático si el contenido excede la altura */
+  padding: 28px 28px 24px; /* Espaciado interno: arriba, lados, abajo */
+  border: 1px solid #d7e4dc; /* Borde verde claro */
+  border-radius: 8px; /* Bordes redondeados */
+  background: #ffffff; /* Fondo blanco sólido */
+  box-shadow: 0 24px 48px rgba(7, 61, 43, 0.2); /* Sombra para efecto de elevación */
 }
 
+/* Versión compacta de la tarjeta para modales de confirmación */
 .modal-card-confirm {
-  width: min(480px, 100%);
-  max-height: none;
-  overflow: visible;
+  width: min(480px, 100%); /* Ancho reducido a 480px máximo */
+  max-height: none; /* Sin límite de altura máxima */
+  overflow: visible; /* Contenido visible sin scroll */
 }
 
+/* Título principal del modal */
 .modal-card h2 {
-  margin: 0 44px 22px 0;
-  font-size: 28px;
-  line-height: 1.15;
-  text-align: left;
+  margin: 0 44px 22px 0; /* Margen: sin arriba, derecha (espacio para botón X), abajo, sin izquierda */
+  font-size: 28px; /* Tamaño de fuente grande */
+  line-height: 1.15; /* Altura de línea ajustada */
+  text-align: left; /* Alineación a la izquierda */
 }
 
+/* Título en modal de confirmación con menos margen inferior */
 .modal-card-confirm h2 {
-  margin-bottom: 16px;
+  margin-bottom: 16px; /* Reduce el espacio bajo el título */
 }
 
+/* Botón de cierre (X) en la esquina superior derecha */
 .modal-close {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 0;
-  border-radius: 8px;
-  background: #f5faf3;
-  color: #073d2b;
-  cursor: pointer;
-  font-size: 18px;
+  position: absolute; /* Posicionamiento absoluto dentro de .modal-card */
+  top: 18px; /* 18px desde arriba */
+  right: 18px; /* 18px desde la derecha */
+  display: grid; /* Grid para centrar el ícono */
+  place-items: center; /* Centra el contenido */
+  width: 40px; /* Ancho del botón */
+  height: 40px; /* Alto del botón */
+  border: 0; /* Sin borde */
+  border-radius: 8px; /* Bordes redondeados */
+  background: #f5faf3; /* Fondo verde muy claro */
+  color: #073d2b; /* Color del ícono verde oscuro */
+  cursor: pointer; /* Cursor de mano */
+  font-size: 18px; /* Tamaño del ícono */
 }
 
+/* Estados hover y focus del botón de cierre */
 .modal-close:hover,
 .modal-close:focus {
-  background: #edf5e9;
-  color: #55a820;
+  background: #edf5e9; /* Fondo más oscuro al interactuar */
+  color: #55a820; /* Color verde brillante */
 }
 
+/* Mensaje de confirmación principal */
 .confirm-message {
-  margin: 0 0 12px;
-  color: var(--color-textos-descriptivos, #456657);
-  font-size: 15px;
-  line-height: 1.5;
+  margin: 0 0 12px; /* Margen solo en la parte inferior */
+  color: var(--color-textos-descriptivos, #456657); /* Color de texto verde medio */
+  font-size: 15px; /* Tamaño de fuente */
+  line-height: 1.5; /* Altura de línea para legibilidad */
 }
 
+/* Texto en negrita dentro del mensaje de confirmación */
 .confirm-message strong {
-  color: var(--color-titulos, #073d2b);
+  color: var(--color-titulos, #073d2b); /* Color más oscuro para resaltar */
 }
 
+/* Mensaje de advertencia en rojo */
 .confirm-warning {
-  margin: 0 0 22px;
-  color: #a32626;
-  font-size: 13px;
-  font-weight: 700;
+  margin: 0 0 22px; /* Margen inferior */
+  color: #a32626; /* Rojo oscuro para indicar peligro */
+  font-size: 13px; /* Tamaño de fuente pequeño */
+  font-weight: 700; /* Fuente en negrita para énfasis */
 }
 
+/* Contenedor de los botones de acción */
 .modal-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 10px;
-  padding-top: 4px;
+  display: flex; /* Flexbox para alinear botones */
+  flex-wrap: wrap; /* Permite que los botones se ajusten en múltiples líneas */
+  justify-content: flex-end; /* Alinea los botones a la derecha */
+  gap: 10px; /* Espaciado entre botones */
+  padding-top: 4px; /* Espaciado superior */
 }
 
+/* Botón de cancelar */
 .modal-cancel {
-  min-height: 54px;
-  padding: 0 18px;
-  border: 1px solid #d7e4dc;
-  border-radius: 8px;
-  background: #fbfdf9;
-  color: var(--color-titulos, #073d2b);
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 800;
+  min-height: 54px; /* Altura mínima del botón */
+  padding: 0 18px; /* Espaciado horizontal interno */
+  border: 1px solid #d7e4dc; /* Borde verde claro */
+  border-radius: 8px; /* Bordes redondeados */
+  background: #fbfdf9; /* Fondo casi blanco */
+  color: var(--color-titulos, #073d2b); /* Texto verde oscuro */
+  cursor: pointer; /* Cursor de mano */
+  font-size: 16px; /* Tamaño de fuente */
+  font-weight: 800; /* Fuente extra negrita */
 }
 
+/* Botón de eliminar (destructivo) con ícono */
 .modal-delete {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 54px;
-  padding: 0 22px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--btn-destructivo-color, #a32626);
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 800;
-  box-shadow: 0 12px 24px var(--btn-destructivo-shadow, rgba(163, 38, 38, 0.24));
+  display: inline-flex; /* Flexbox inline para alinear ícono y texto */
+  align-items: center; /* Centra verticalmente el contenido */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  gap: 8px; /* Espaciado entre ícono y texto */
+  min-height: 54px; /* Altura mínima */
+  padding: 0 22px; /* Espaciado horizontal interno */
+  border: 0; /* Sin borde */
+  border-radius: 8px; /* Bordes redondeados */
+  background: var(--btn-destructivo-color, #a32626); /* Fondo rojo oscuro usando variable CSS */
+  color: #ffffff; /* Texto blanco */
+  cursor: pointer; /* Cursor de mano */
+  font-size: 16px; /* Tamaño de fuente */
+  font-weight: 800; /* Fuente extra negrita */
+  box-shadow: 0 12px 24px var(--btn-destructivo-shadow, rgba(163, 38, 38, 0.24)); /* Sombra roja */
 }
 
+/* Estados hover y focus del botón de eliminar */
 .modal-delete:hover,
 .modal-delete:focus {
-  background: var(--btn-destructivo-hover, #8b1f1f);
+  background: var(--btn-destructivo-hover, #8b1f1f); /* Fondo rojo más oscuro al interactuar */
 }

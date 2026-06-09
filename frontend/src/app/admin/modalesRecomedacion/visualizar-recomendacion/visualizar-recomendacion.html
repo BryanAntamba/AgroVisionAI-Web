@@ -1,17 +1,31 @@
+<!-- Fondo oscuro semitransparente que cubre toda la pantalla -->
 <div class="modal-backdrop" (click)="cerrarModal()" role="presentation">
+  <!-- Tarjeta del modal centrada en pantalla -->
   <div class="modal-card" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+    <!-- Botón de cierre (X) en la esquina superior derecha -->
     <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <!-- Ícono de X para cerrar -->
       <i class="fa-solid fa-xmark"></i>
     </button>
+    <!-- Título principal del modal -->
     <h2>Detalle de recomendación</h2>
+    <!-- Contenedor del formulario (en este caso solo visualización) -->
     <div class="modal-form">
+      <!-- Campo: Título de la recomendación (solo lectura) -->
       <p><strong>Título:</strong> {{ recomendacion.titulo }}</p>
+      <!-- Campo: Descripción de la recomendación (solo lectura) -->
       <p><strong>Descripción:</strong> {{ recomendacion.descripcion }}</p>
+      <!-- Campo: Acción recomendada (solo lectura) -->
       <p><strong>Acción recomendada:</strong> {{ recomendacion.accion }}</p>
+      <!-- Campo: Prioridad de la recomendación (solo lectura) -->
       <p><strong>Prioridad:</strong> {{ recomendacion.prioridad }}</p>
+      <!-- Campo: Color de la recomendación (solo lectura) -->
       <p><strong>Color:</strong> {{ recomendacion.color }}</p>
+      <!-- Campo: Fecha de registro formateada (solo lectura) -->
       <p><strong>Registrada:</strong> {{ formatearFecha(recomendacion.fechaRegistro) }}</p>
+      <!-- Contenedor de botones de acción -->
       <div class="modal-actions">
+        <!-- Botón único para cerrar el modal (no hay edición en este componente) -->
         <button class="modal-submit" type="button" (click)="cerrarModal()">Cerrar</button>
       </div>
     </div>

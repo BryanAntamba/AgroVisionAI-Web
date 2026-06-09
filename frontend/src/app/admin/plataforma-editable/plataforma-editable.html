@@ -1,46 +1,73 @@
+<!-- Componente de barra de navegación del administrador -->
 <app-barra-admin></app-barra-admin>
 
+<!-- Contenedor principal de la página de edición de plataforma -->
 <main class="editar-plataforma-page">
+  <!-- Sección de encabezado con título y descripción -->
   <section class="page-header">
     <div>
+      <!-- Texto pequeño que indica la sección actual -->
       <p class="eyebrow">Configuración</p>
+      <!-- Título principal de la página -->
       <h1>Editar Plataforma</h1>
+      <!-- Descripción de las funcionalidades disponibles -->
       <p>Personaliza la identidad visual y los colores de toda la plataforma</p>
     </div>
   </section>
 
+  <!-- Formulario reactivo vinculado al FormGroup 'form' con evento de submit -->
   <form [formGroup]="form" class="config-container"  (ngSubmit)="guardarCambios()">
     <!-- SECCIÓN 1: IDENTIDAD VISUAL -->
+    <!-- Sección para personalizar logo, favicon, carrusel y nombre de la plataforma -->
     <section class="config-section">
+      <!-- Encabezado de la sección con ícono y título -->
       <div class="section-header">
+        <!-- Ícono de imagen -->
         <i class="fa-solid fa-image"></i>
+        <!-- Título de la sección -->
         <h2>Identidad Visual</h2>
       </div>
+      <!-- Descripción de la funcionalidad de la sección -->
       <p class="section-description">Personaliza el logo, icono y nombre que representan tu plataforma</p>
 
+      <!-- Grid de configuraciones -->
       <div class="config-grid">
         <!-- Logo Principal -->
+        <!-- Item de configuración que ocupa todo el ancho -->
         <div class="config-item full-width">
+          <!-- Etiqueta con ícono para el logo principal -->
           <label class="config-label">
+            <!-- Ícono de edificio -->
             <i class="fa-solid fa-building"></i>
             Logo Principal de la Plataforma
           </label>
+          <!-- Texto de ayuda explicando dónde aparece el logo -->
           <p class="config-help">
             Este logo aparecerá en todas las barras de navegación (Admin y Agricultor), páginas de 
             autenticación y paneles. El cambio no afectará el tamaño, solo la imagen.
           </p>
+          <!-- Área de carga de archivo con preview -->
           <div class="file-upload-area">
+            <!-- Caja de vista previa mostrada solo si existe logoPreview -->
             <div class="preview-box" *ngIf="logoPreview">
+              <!-- Imagen de vista previa con src dinámico -->
               <img [src]="logoPreview" alt="Vista previa del logo" />
+              <!-- Botón para remover la vista previa -->
               <button type="button" class="remove-preview" (click)="removerLogo()">
+                <!-- Ícono de X para cerrar -->
                 <i class="fa-solid fa-xmark"></i>
               </button>
             </div>
+            <!-- Placeholder mostrado cuando no hay vista previa -->
             <div class="upload-placeholder" *ngIf="!logoPreview">
+              <!-- Ícono de nube con flecha hacia arriba -->
               <i class="fa-solid fa-cloud-arrow-up"></i>
+              <!-- Texto indicando el logo actual -->
               <p>Logo actual: escudo.png</p>
             </div>
+            <!-- Contenedor de acciones de carga -->
             <div class="upload-actions">
+              <!-- Input file oculto para seleccionar logo -->
               <input 
                 type="file" 
                 id="logo-upload" 
@@ -48,11 +75,15 @@
                 (change)="onLogoChange($event)"
                 #logoInput
               />
+              <!-- Botón para abrir el selector de archivos -->
               <button type="button" class="btn-secondary" (click)="logoInput.click()">
+                <!-- Ícono de subir -->
                 <i class="fa-solid fa-upload"></i>
                 Subir Nuevo Logo
               </button>
+              <!-- Botón para cancelar, mostrado solo si hay vista previa -->
               <button type="button" class="btn-tertiary" (click)="cancelarLogo()" *ngIf="logoPreview">
+                <!-- Ícono de rotar hacia la izquierda -->
                 <i class="fa-solid fa-rotate-left"></i>
                 Cancelar
               </button>
@@ -60,28 +91,42 @@
           </div>
         </div>
 
-        <!-- Icono de Pestaña -->
+        <!-- Icono de Pestaña (Favicon) -->
+        <!-- Item de configuración para el favicon que ocupa todo el ancho -->
         <div class="config-item full-width">
+          <!-- Etiqueta con ícono para el favicon -->
           <label class="config-label">
+            <!-- Ícono de ventana maximizada -->
             <i class="fa-solid fa-window-maximize"></i>
             Icono de Pestaña (Favicon)
           </label>
+          <!-- Texto de ayuda con recomendaciones técnicas para el favicon -->
           <p class="config-help">
             Pequeño icono que aparece en la pestaña del navegador. Se recomienda usar imágenes 
             cuadradas de 32x32px o 64x64px en formato PNG o ICO.
           </p>
+          <!-- Área de carga de archivo con preview -->
           <div class="file-upload-area">
+            <!-- Caja de vista previa con clase especial para favicon, mostrada solo si existe faviconPreview -->
             <div class="preview-box favicon-preview" *ngIf="faviconPreview">
+              <!-- Imagen de vista previa con src dinámico -->
               <img [src]="faviconPreview" alt="Vista previa del favicon" />
+              <!-- Botón para remover la vista previa del favicon -->
               <button type="button" class="remove-preview" (click)="removerFavicon()">
+                <!-- Ícono de X para cerrar -->
                 <i class="fa-solid fa-xmark"></i>
               </button>
             </div>
+            <!-- Placeholder mostrado cuando no hay vista previa del favicon -->
             <div class="upload-placeholder" *ngIf="!faviconPreview">
+              <!-- Ícono de hoja -->
               <i class="fa-solid fa-leaf"></i>
+              <!-- Texto indicando el favicon actual -->
               <p>Icono actual: iconoHoja.png</p>
             </div>
+            <!-- Contenedor de acciones de carga -->
             <div class="upload-actions">
+              <!-- Input file oculto para seleccionar favicon con formatos específicos -->
               <input 
                 type="file" 
                 id="favicon-upload" 
@@ -89,11 +134,15 @@
                 (change)="onFaviconChange($event)"
                 #faviconInput
               />
+              <!-- Botón para abrir el selector de archivos del favicon -->
               <button type="button" class="btn-secondary" (click)="faviconInput.click()">
+                <!-- Ícono de subir -->
                 <i class="fa-solid fa-upload"></i>
                 Subir Nuevo Icono
               </button>
+              <!-- Botón para cancelar, mostrado solo si hay vista previa del favicon -->
               <button type="button" class="btn-tertiary" (click)="cancelarFavicon()" *ngIf="faviconPreview">
+                <!-- Ícono de rotar hacia la izquierda -->
                 <i class="fa-solid fa-rotate-left"></i>
                 Cancelar
               </button>

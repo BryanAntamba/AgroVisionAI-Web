@@ -1,8 +1,10 @@
+<!-- Fondo oscuro semitransparente que cubre toda la pantalla -->
 <div
   class="modal-backdrop"
   (click)="cerrarModal()"
   role="presentation"
 >
+  <!-- Tarjeta del modal centrada en pantalla -->
   <div
     class="modal-card"
     role="dialog"
@@ -10,18 +12,28 @@
     aria-labelledby="modal-titulo-perfil"
     (click)="$event.stopPropagation()"
   >
+    <!-- Botón de cierre (X) en la esquina superior derecha -->
     <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <!-- Ícono de X para cerrar -->
       <i class="fa-solid fa-xmark"></i>
     </button>
 
+    <!-- Título principal del modal -->
     <h2 id="modal-titulo-perfil">Perfil de usuario</h2>
 
+    <!-- Formulario reactivo vinculado al FormGroup (modo solo lectura) -->
     <form class="modal-form" [formGroup]="usuarioForm" novalidate>
+      <!-- Contenedor en grid de 2 columnas para los campos del formulario -->
       <div class="modal-fields">
+        <!-- Campo: Nombre (solo lectura) -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="nombre">Nombre</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de usuario -->
             <i class="fa-solid fa-user"></i>
+            <!-- Input en modo solo lectura -->
             <input
               id="nombre"
               type="text"
@@ -32,10 +44,15 @@
           </div>
         </div>
 
+        <!-- Campo: Segundo nombre (solo lectura) -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="segundoNombre">Segundo nombre</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de usuario -->
             <i class="fa-solid fa-user"></i>
+            <!-- Input en modo solo lectura -->
             <input
               id="segundoNombre"
               type="text"
@@ -46,10 +63,15 @@
           </div>
         </div>
 
+        <!-- Campo: Apellido (solo lectura) -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="apellido">Apellido</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de usuario -->
             <i class="fa-solid fa-user"></i>
+            <!-- Input en modo solo lectura -->
             <input
               id="apellido"
               type="text"
@@ -60,10 +82,15 @@
           </div>
         </div>
 
+        <!-- Campo: Segundo apellido (solo lectura) -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="segundoApellido">Segundo apellido</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de usuario -->
             <i class="fa-solid fa-user"></i>
+            <!-- Input en modo solo lectura -->
             <input
               id="segundoApellido"
               type="text"
@@ -74,10 +101,15 @@
           </div>
         </div>
 
+        <!-- Campo: Correo corporativo (ocupa ambas columnas, solo lectura) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="correoCorporativo">Correo corporativo</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de sobre/email -->
             <i class="fa-solid fa-envelope"></i>
+            <!-- Input de tipo email en modo solo lectura -->
             <input
               id="correoCorporativo"
               type="email"
@@ -89,10 +121,15 @@
           </div>
         </div>
 
+        <!-- Campo: Correo electrónico personal (ocupa ambas columnas, solo lectura) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="correoElectronico">Correo electronico</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de sobre/email -->
             <i class="fa-solid fa-envelope"></i>
+            <!-- Input de tipo email en modo solo lectura -->
             <input
               id="correoElectronico"
               type="email"
@@ -104,10 +141,15 @@
           </div>
         </div>
 
+        <!-- Campo: Teléfono (ocupa ambas columnas, solo lectura) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="telefono">Numero de telefono</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de teléfono -->
             <i class="fa-solid fa-phone"></i>
+            <!-- Input de tipo tel con teclado numérico, solo lectura, máximo 10 caracteres -->
             <input
               id="telefono"
               type="tel"
@@ -120,10 +162,15 @@
           </div>
         </div>
 
+        <!-- Campo: Contraseña (solo lectura, valor de placeholder) -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="password">Contrasena</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de candado -->
             <i class="fa-solid fa-lock"></i>
+            <!-- Input de tipo password en modo solo lectura -->
             <input
               id="password"
               type="password"
@@ -135,10 +182,15 @@
           </div>
         </div>
 
+        <!-- Campo: Confirmar contraseña (solo lectura, valor de placeholder) -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="confirmarPassword">Confirmar contrasena</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de candado -->
             <i class="fa-solid fa-lock"></i>
+            <!-- Input de tipo password en modo solo lectura -->
             <input
               id="confirmarPassword"
               type="password"
@@ -150,22 +202,33 @@
           </div>
         </div>
 
+        <!-- Campo: Rol (ocupa ambas columnas, solo lectura) -->
         <div class="field field-full">
+          <!-- Etiqueta del grupo de opciones -->
           <span class="rol-label">Rol</span>
+          <!-- Contenedor de los radio buttons con clase especial para modo solo lectura -->
           <div class="rol-options rol-readonly">
+            <!-- Opción: Admin (radio deshabilitado por el formulario) -->
             <label class="rol-option">
+              <!-- Radio button vinculado al control 'rol' -->
               <input type="radio" formControlName="rol" value="Admin" />
+              <!-- Texto de la opción -->
               <span>Admin</span>
             </label>
+            <!-- Opción: Agricultor (radio deshabilitado por el formulario) -->
             <label class="rol-option">
+              <!-- Radio button vinculado al control 'rol' -->
               <input type="radio" formControlName="rol" value="Agricultor" />
+              <!-- Texto de la opción -->
               <span>Agricultor</span>
             </label>
           </div>
         </div>
       </div>
 
+      <!-- Contenedor de botones de acción (versión simplificada con un solo botón) -->
       <div class="modal-actions modal-actions-single">
+        <!-- Botón único para cerrar el modal (no hay guardado porque es solo lectura) -->
         <button class="modal-submit" type="button" (click)="cerrarModal()">Cerrar</button>
       </div>
     </form>

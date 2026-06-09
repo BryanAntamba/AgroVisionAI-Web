@@ -1,60 +1,105 @@
+<!-- Fondo oscuro semitransparente que cubre toda la pantalla -->
 <div class="modal-backdrop" (click)="cerrarModal()" role="presentation">
+  <!-- Tarjeta del modal centrada en pantalla -->
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-editar-rec" (click)="$event.stopPropagation()">
+    <!-- Botón de cierre (X) en la esquina superior derecha -->
     <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <!-- Ícono de X para cerrar -->
       <i class="fa-solid fa-xmark"></i>
     </button>
+    <!-- Título principal del modal -->
     <h2 id="modal-editar-rec">Editar recomendación</h2>
+    <!-- Formulario reactivo vinculado al FormGroup con manejador de submit -->
     <form class="modal-form" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+      <!-- Contenedor de los campos del formulario -->
       <div class="modal-fields">
+        <!-- Campo: Título (ocupa ambas columnas) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="edit-titulo">Título</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de encabezado/título -->
             <i class="fa-solid fa-heading"></i>
+            <!-- Input vinculado al control del formulario -->
             <input id="edit-titulo" type="text" formControlName="titulo" />
           </div>
+          <!-- Mensaje de validación dinámico proporcionado por la clase de validaciones -->
           <small>{{ validaciones.mensajeTitulo(f['titulo']) }}</small>
         </div>
+        <!-- Campo: Descripción (ocupa ambas columnas) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="edit-descripcion">Descripción</label>
+          <!-- Contenedor del textarea -->
           <div class="input-shell modal-input-shell">
+            <!-- Textarea con 3 filas vinculado al control del formulario -->
             <textarea id="edit-descripcion" rows="3" formControlName="descripcion"></textarea>
           </div>
+          <!-- Mensaje de validación dinámico para la descripción -->
           <small>{{ validaciones.mensajeDescripcion(f['descripcion']) }}</small>
         </div>
+        <!-- Campo: Acción recomendada (ocupa ambas columnas) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="edit-accion">Acción recomendada</label>
+          <!-- Contenedor del textarea -->
           <div class="input-shell modal-input-shell">
+            <!-- Textarea con 2 filas vinculado al control del formulario -->
             <textarea id="edit-accion" rows="2" formControlName="accion"></textarea>
           </div>
+          <!-- Mensaje de validación dinámico para la acción -->
           <small>{{ validaciones.mensajeAccion(f['accion']) }}</small>
         </div>
+        <!-- Contenedor especial para los campos select en una fila horizontal -->
         <div class="modal-fields-row-selects">
+          <!-- Campo: Prioridad -->
           <div class="field field-select">
+            <!-- Etiqueta del campo -->
             <label for="edit-prioridad">Prioridad de la recomendación</label>
+            <!-- Select vinculado al control del formulario -->
             <select id="edit-prioridad" class="select-prioridad" formControlName="prioridad">
+              <!-- Opción deshabilitada como placeholder -->
               <option value="" disabled hidden>Seleccione prioridad</option>
+              <!-- Opción: Baja -->
               <option value="Baja">Baja</option>
+              <!-- Opción: Media -->
               <option value="Media">Media</option>
+              <!-- Opción: Alta -->
               <option value="Alta">Alta</option>
+              <!-- Opción: Crítica -->
               <option value="Critica">Critica</option>
             </select>
+            <!-- Mensaje de validación dinámico para el select de prioridad -->
             <small>{{ validaciones.mensajeSelect(f['prioridad'], 'La prioridad de la recomendación') }}</small>
           </div>
+          <!-- Campo: Color -->
           <div class="field field-select">
+            <!-- Etiqueta del campo -->
             <label for="edit-color">Color de la recomendación</label>
+            <!-- Select vinculado al control del formulario -->
             <select id="edit-color" class="select-color" formControlName="color">
+              <!-- Opción deshabilitada como placeholder -->
               <option value="" disabled hidden>Seleccione color</option>
+              <!-- Opción: Verde -->
               <option value="Verde">Verde</option>
+              <!-- Opción: Amarillo -->
               <option value="Amarillo">Amarillo</option>
+              <!-- Opción: Naranja -->
               <option value="Naranja">Naranja</option>
+              <!-- Opción: Rojo -->
               <option value="Rojo">Rojo</option>
             </select>
+            <!-- Mensaje de validación dinámico para el select de color -->
             <small>{{ validaciones.mensajeSelect(f['color'], 'El color de la recomendación') }}</small>
           </div>
         </div>
       </div>
+      <!-- Contenedor de botones de acción -->
       <div class="modal-actions">
+        <!-- Botón de cancelar que cierra el modal sin guardar -->
         <button class="modal-cancel" type="button" (click)="cerrarModal()">Cancelar</button>
+        <!-- Botón de submit que guarda los cambios de la recomendación -->
         <button class="modal-submit" type="submit">Guardar cambios</button>
       </div>
     </form>

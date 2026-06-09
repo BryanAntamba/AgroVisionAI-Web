@@ -1,6 +1,9 @@
+<!-- Carga la barra superior de navegación del agricultor -->
 <app-barra-agricultor></app-barra-agricultor>
 
+<!-- Contenedor principal de la pantalla de historial -->
 <main class="dashboard-page">
+  <!-- Encabezado con título descriptivo de la sección -->
   <section class="dashboard-header">
     <div>
       <p class="eyebrow">Monitoreo y Control</p>
@@ -11,11 +14,15 @@
     </div>
   </section>
 
+  <!-- Sección de barra de filtros (búsqueda de texto, estado y fechas) -->
   <section class="filters-bar" aria-label="Filtros del historial">
+    
+    <!-- Filtro de Búsqueda por Texto -->
     <div class="search-field">
       <label for="buscar-registro">Buscar diagnóstico</label>
       <div class="input-shell">
         <i class="fa-solid fa-magnifying-glass"></i>
+        <!-- Enlace bidireccional ngModel con la variable "busqueda" en TypeScript -->
         <input
           id="buscar-registro"
           type="search"
@@ -25,6 +32,7 @@
       </div>
     </div>
 
+    <!-- Filtro Select por Estado de Salud -->
     <div class="filter-field">
       <label for="estado-registro">Estado</label>
       <select id="estado-registro" [(ngModel)]="filtroEstado">
@@ -35,9 +43,11 @@
       </select>
     </div>
 
+    <!-- Filtro de Rango de Fechas -->
     <div class="filter-field date-filter">
       <label>Rango de fecha</label>
       <div class="date-range">
+        <!-- Fecha de inicio -->
         <div class="input-shell">
           <input
             type="date"
@@ -45,6 +55,7 @@
             [(ngModel)]="fechaInicio"
           />
         </div>
+        <!-- Fecha de fin -->
         <div class="input-shell">
           <input
             type="date"
@@ -56,37 +67,49 @@
     </div>
   </section>
 
+  <!-- Cinta de resumen rápido con contadores -->
   <section class="summary-strip" aria-label="Resumen de historial">
     <article>
+      <!-- Llama al getter totalReportes de TS -->
       <span>{{ totalReportes }}</span>
       <p>Total de reportes</p>
     </article>
     <article>
+      <!-- Llama al getter totalSanos de TS -->
       <span>{{ totalSanos }}</span>
       <p>Sanos</p>
     </article>
     <article>
+      <!-- Llama al getter totalAlerta de TS -->
       <span>{{ totalAlerta }}</span>
       <p>En alerta</p>
     </article>
     <article>
+      <!-- Llama al getter totalCriticos de TS -->
       <span>{{ totalCriticos }}</span>
       <p>Críticos</p>
     </article>
   </section>
 
+  <!-- Malla (Grid) de tarjetas donde se muestran los resultados filtrados -->
   <section class="users-grid" aria-label="Listado de historial">
+    
+    <!-- Directiva *ngFor para iterar y renderizar cada registro individual que cumpla los filtros -->
     <article class="user-card" *ngFor="let registro of registrosFiltrados">
+      
+      <!-- Encabezado de la tarjeta con el ícono y el título de la enfermedad -->
       <div class="user-card-header">
         <div class="avatar">
           <i class="fa-solid fa-leaf"></i>
         </div>
         <div>
           <h2>{{ registro.diagnostico }}</h2>
+          <!-- Etiqueta de estado que cambia de clase CSS (color) dinámicamente -->
           <p><span class="badge" [ngClass]="obtenerClaseEstado(registro.salud)">{{ obtenerEstado(registro.salud) }}</span></p>
         </div>
       </div>
 
+      <!-- Datos detallados numéricos y de fecha del registro -->
       <dl class="user-details">
         <div>
           <dt>Fecha y Hora</dt>
@@ -102,6 +125,7 @@
         </div>
       </dl>
 
+      <!-- Botón de acción para abrir los detalles completos del reporte -->
       <div class="card-actions" style="grid-template-columns: 1fr;">
         <button type="button" (click)="abrirReporte(registro)">
           <i class="fa-solid fa-circle-info"></i>Ver reporte completo
@@ -109,12 +133,14 @@
       </div>
     </article>
 
+    <!-- Mensaje condicional que se muestra únicamente si la lista de registros está vacía -->
     <p class="empty-state" *ngIf="registrosFiltrados.length === 0">
       No se encontraron reportes con los filtros seleccionados.
     </p>
   </section>
 </main>
 
+<!-- Componente Modal Reporte Externo. Se monta en el DOM solo si 'registroSeleccionado' no es null -->
 <app-modal-reporte
   *ngIf="registroSeleccionado"
   [registro]="registroSeleccionado"

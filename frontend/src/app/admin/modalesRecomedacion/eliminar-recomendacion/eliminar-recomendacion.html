@@ -1,8 +1,10 @@
+<!-- Fondo oscuro semitransparente que cubre toda la pantalla -->
 <div
   class="modal-backdrop"
   (click)="cerrarModal()"
   role="presentation"
 >
+  <!-- Tarjeta del modal de confirmación centrada (versión compacta) -->
   <div
     class="modal-card modal-card-confirm"
     role="alertdialog"
@@ -10,29 +12,39 @@
     aria-labelledby="modal-eliminar-recomendacion-titulo"
     (click)="$event.stopPropagation()"
   >
+    <!-- Botón de cierre (X) en la esquina superior derecha -->
     <button
       class="modal-close"
       type="button"
       aria-label="Cerrar"
       (click)="cerrarModal()"
     >
+      <!-- Ícono de X para cerrar -->
       <i class="fa-solid fa-xmark"></i>
     </button>
 
+    <!-- Título principal del modal de confirmación -->
     <h2 id="modal-eliminar-recomendacion-titulo">Eliminar recomendación</h2>
 
+    <!-- Mensaje de confirmación que muestra el título de la recomendación a eliminar -->
     <p class="confirm-message">
       ¿Está seguro de que desea eliminar la recomendación
+      <!-- Muestra el título de la recomendación en negrita -->
       <strong>{{ recomendacion.titulo }}</strong>?
     </p>
 
+    <!-- Advertencia en rojo indicando que la acción es irreversible -->
     <p class="confirm-warning">Esta acción no se puede deshacer.</p>
 
+    <!-- Contenedor de botones de acción del modal -->
     <div class="modal-actions">
+      <!-- Botón para cancelar y cerrar el modal sin eliminar -->
       <button class="modal-cancel" type="button" (click)="cerrarModal()">
         Cancelar
       </button>
+      <!-- Botón destructivo para confirmar la eliminación -->
       <button class="modal-delete" type="button" (click)="confirmarEliminacion()">
+        <!-- Ícono de basurero -->
         <i class="fa-solid fa-trash"></i>
         Eliminar recomendación
       </button>

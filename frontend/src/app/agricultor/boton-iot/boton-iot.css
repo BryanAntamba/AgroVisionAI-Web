@@ -1,5 +1,6 @@
 /* Estilos del componente boton-iot para la conexión del dispositivo AgroVisionAI IOT */
 
+/* Contenedor principal para centrar horizontal y verticalmente el botón y el logo en la pantalla */
 .boton-iot-container {
   display: flex;
   flex-direction: column;
@@ -7,12 +8,13 @@
   justify-content: center;
   width: 100%;
   max-width: 600px;
-  margin: 60px auto;
+  margin: 60px auto; /* Centrado automático */
   padding: 20px;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
 }
 
+/* Configuración de tamaño de la imagen (escudo) con sombra inferior */
 .logo-conexion {
   width: 200px;
   height: 200px;
@@ -21,63 +23,72 @@
   filter: drop-shadow(0 10px 20px rgba(7, 61, 43, 0.1));
 }
 
+/* Título principal que agrupa ambas partes del nombre "AgroVision" "AI" */
 .titulo-agrovision {
   font-size: 48px;
   font-weight: 800;
   margin: 0 0 32px 0;
   line-height: 1;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.5px; /* Compresión ligera del texto */
 }
 
+/* Parte izquierda del título */
 .texto-agrovision {
   color: #073d2b;
 }
 
+/* Parte derecha del título */
 .texto-ai {
   color: #073d2b;
 }
 
+/* Diseño base del botón circular de conexión interactivo */
 .boton-conexion {
   width: 100px;
   height: 100px;
-  border-radius: 50%;
+  border-radius: 50%; /* Lo hace redondo */
   border: 4px solid #c8d8ce;
   background: #fdfefe;
   color: #073d2b;
-  font-size: 2.3rem;
+  font-size: 2.3rem; /* Tamaño del icono interno */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animación fluida de propiedades CSS */
   box-shadow: 0 4px 12px rgba(7, 61, 43, 0.05);
   margin-bottom: 24px;
 }
 
+/* Efecto interactivo al pasar el ratón (Hover) cuando NO está desactivado */
 .boton-conexion:hover:not(:disabled) {
-  transform: scale(1.08);
+  transform: scale(1.08); /* Crece un 8% */
   border-color: #55a820;
   color: #55a820;
-  box-shadow: 0 8px 24px rgba(85, 168, 32, 0.15);
+  box-shadow: 0 8px 24px rgba(85, 168, 32, 0.15); /* Aumenta la sombra */
 }
 
+/* Efecto al hacer clic en el botón (Presionado) */
 .boton-conexion:active:not(:disabled) {
-  transform: scale(0.96);
+  transform: scale(0.96); /* Se encoje levemente */
 }
 
+/* Opacidad reducida y cursor bloqueado cuando el botón se deshabilita por TypeScript */
 .boton-conexion:disabled {
   cursor: not-allowed;
   opacity: 0.7;
 }
 
+/* Clase dinámica agregada por Angular al conectar: Gradiente Naranja y Animación Pulsar */
 .boton-conexion.conectando {
   background: linear-gradient(135deg, #FF9800, #F57C00);
   border-color: #FF9800;
   color: white;
-  animation: pulsar 1.5s infinite;
+  animation: pulsar 1.5s infinite; /* Llama a la keyframe pulsar */
   box-shadow: 0 8px 24px rgba(255, 152, 0, 0.25);
 }
 
+/* Clase dinámica agregada por Angular al conectar exitosamente: Gradiente Verde */
 .boton-conexion.conectado {
   background: linear-gradient(135deg, #073d2b, #55a820);
   border-color: #55a820;
@@ -85,19 +96,22 @@
   box-shadow: 0 8px 24px rgba(85, 168, 32, 0.25);
 }
 
+/* Clase dinámica agregada por Angular cuando hay error: Gradiente Rojo y Animación Temblar */
 .boton-conexion.error {
   background: linear-gradient(135deg, #c62828, #9a2424);
   border-color: #c62828;
   color: white;
   box-shadow: 0 8px 24px rgba(198, 40, 40, 0.25);
-  animation: shake 0.5s;
+  animation: shake 0.5s; /* Llama a la keyframe shake */
 }
 
+/* Contenedor del texto informativo descriptivo */
 .descripcion-conexion {
   max-width: 400px;
   margin-top: 8px;
 }
 
+/* Tipografía y color del texto informativo */
 .descripcion-conexion p {
   font-size: 16px;
   color: #456657;
@@ -106,11 +120,13 @@
   margin: 0;
 }
 
+/* Clase dinámica: Cambia el texto a color rojo resaltado en caso de error */
 .descripcion-conexion.error-text p {
   color: #c92b2b;
   font-weight: 800;
 }
 
+/* Etiqueta / Banner redondeado inferior que aparece cuando la conexión es un éxito */
 .indicador-conexion {
   display: flex;
   align-items: center;
@@ -121,6 +137,7 @@
   border-radius: 20px;
 }
 
+/* Pequeño punto verde intermitente del indicador de éxito */
 .punto-verde {
   width: 10px;
   height: 10px;
@@ -129,12 +146,14 @@
   animation: blink 1s infinite;
 }
 
+/* Estilo del texto "Dispositivo conectado" */
 .indicador-conexion span:last-child {
   color: #073d2b;
   font-weight: 800;
   font-size: 13px;
 }
 
+/* Estilos para el botón secundario de "Reintentar" conexión */
 .boton-reintentar {
   display: inline-flex;
   align-items: center;
@@ -153,6 +172,7 @@
   box-shadow: 0 4px 12px rgba(85, 168, 32, 0.1);
 }
 
+/* Efecto hover: botón reintentar se rellena de verde y flota hacia arriba */
 .boton-reintentar:hover {
   background: #55a820;
   color: #ffffff;
@@ -160,11 +180,14 @@
   box-shadow: 0 6px 16px rgba(85, 168, 32, 0.2);
 }
 
+/* Efecto activo del botón reintentar */
 .boton-reintentar:active {
   transform: translateY(0);
 }
 
-/* Animaciones */
+/* --- Animaciones Keyframes definidas --- */
+
+/* Animación de pulsación o latido para el estado 'conectando' */
 @keyframes pulsar {
   0%, 100% {
     transform: scale(1);
@@ -176,6 +199,7 @@
   }
 }
 
+/* Animación de parpadeo (opacidad) para el punto verde indicador */
 @keyframes blink {
   0%, 100% {
     opacity: 1;
@@ -185,6 +209,7 @@
   }
 }
 
+/* Animación de sacudida rápida horizontal para indicar rechazo / error */
 @keyframes shake {
   0%, 100% {
     transform: translateX(0);

@@ -1,28 +1,43 @@
+<!-- Componente de barra de navegación específica para administradores -->
 <app-barra-admin></app-barra-admin>
 
+<!-- Contenedor principal de la página del dashboard -->
 <main class="dashboard-page">
+  <!-- Sección de encabezado con título y botón de acción principal -->
   <section class="dashboard-header">
+    <!-- Contenedor de texto descriptivo del panel -->
     <div>
+      <!-- Texto superior pequeño que indica la sección actual -->
       <p class="eyebrow">Administracion</p>
+      <!-- Título principal de la página -->
       <h1>Panel Administrador</h1>
+      <!-- Descripción breve de las funcionalidades disponibles -->
       <p>
         Gestiona agricultores y administradores por nombre, correo, rol, estado de cuenta y fecha
         de registro.
       </p>
     </div>
 
+    <!-- Botón principal para abrir el modal de registro de nuevos usuarios -->
     <button class="create-button" type="button" (click)="abrirRegistro()">
+      <!-- Ícono de agregar usuario -->
       <i class="fa-solid fa-user-plus"></i>
       Registrar usuario
     </button>
   </section>
 
 
+  <!-- Barra de filtros para refinar la lista de usuarios mostrados -->
   <section class="filters-bar" aria-label="Filtros de usuarios">
+    <!-- Campo de búsqueda de ancho completo -->
     <div class="search-field search-full-width">
+      <!-- Etiqueta asociada al campo de búsqueda -->
       <label for="buscar-usuario">Buscar usuario</label>
+      <!-- Contenedor estilizado que simula un input con ícono -->
       <div class="input-shell">
+        <!-- Ícono de lupa para indicar búsqueda -->
         <i class="fa-solid fa-magnifying-glass"></i>
+        <!-- Input de búsqueda vinculado a la propiedad 'busqueda' mediante two-way binding -->
         <input
           id="buscar-usuario"
           type="search"
@@ -32,54 +47,86 @@
       </div>
     </div>
 
+    <!-- Campo de filtro para ordenar alfabéticamente -->
     <div class="filter-field">
+      <!-- Etiqueta del filtro de orden -->
       <label for="orden-usuarios">Orden alfabetico</label>
+      <!-- Select vinculado a la propiedad 'ordenAlfabetico' -->
       <select id="orden-usuarios" [(ngModel)]="ordenAlfabetico">
+        <!-- Opción para ordenar de A a Z -->
         <option value="az">A-Z</option>
+        <!-- Opción para ordenar de Z a A -->
         <option value="za">Z-A</option>
       </select>
     </div>
 
+    <!-- Campo de filtro por rol de usuario -->
     <div class="filter-field">
+      <!-- Etiqueta del filtro de rol -->
       <label for="rol-usuarios">Rol</label>
+      <!-- Select vinculado a la propiedad 'filtroRol' -->
       <select id="rol-usuarios" [(ngModel)]="filtroRol">
+        <!-- Opción para mostrar todos los roles -->
         <option>Todos</option>
+        <!-- Opción para filtrar solo administradores -->
         <option>Admin</option>
+        <!-- Opción para filtrar solo agricultores -->
         <option>Agricultor</option>
       </select>
     </div>
 
+    <!-- Campo de filtro por estado de cuenta o sesión -->
     <div class="filter-field">
+      <!-- Etiqueta del filtro de estado -->
       <label for="estado-usuarios">Estado</label>
+      <!-- Select vinculado a la propiedad 'filtroEstado' -->
       <select id="estado-usuarios" [(ngModel)]="filtroEstado">
+        <!-- Opción para mostrar todos los estados -->
         <option>Todos</option>
+        <!-- Opción para filtrar cuentas activas -->
         <option>Activo</option>
+        <!-- Opción para filtrar cuentas inactivas -->
         <option>Inactivo</option>
+        <!-- Opción para filtrar usuarios con sesión activa -->
         <option>En linea</option>
+        <!-- Opción para filtrar usuarios sin sesión activa -->
         <option>Sin sesion</option>
       </select>
     </div>
 
+    <!-- Campo de filtro por estado de dispositivo IoT -->
     <div class="filter-field">
+      <!-- Etiqueta del filtro de dispositivo -->
       <label for="dispositivo-usuarios">Dispositivo</label>
+      <!-- Select vinculado a la propiedad 'filtroDispositivo' -->
       <select id="dispositivo-usuarios" [(ngModel)]="filtroDispositivo">
+        <!-- Opción para mostrar todos los estados de dispositivo -->
         <option>Todos</option>
+        <!-- Opción para filtrar usuarios con dispositivo vinculado -->
         <option>Dispositivo vinculado</option>
+        <!-- Opción para filtrar usuarios sin dispositivo vinculado -->
         <option>Dispositivo no vinculado</option>
       </select>
     </div>
 
+    <!-- Campo de filtro por rango de fechas de registro -->
     <div class="filter-field date-filter">
+      <!-- Etiqueta del filtro de fecha -->
       <label>Rango de fecha</label>
+      <!-- Contenedor para los dos inputs de fecha (inicio y fin) -->
       <div class="date-range">
+        <!-- Contenedor estilizado para fecha de inicio -->
         <div class="input-shell">
+          <!-- Input de fecha vinculado a 'fechaInicio' -->
           <input
             type="date"
             aria-label="Fecha de inicio"
             [(ngModel)]="fechaInicio"
           />
         </div>
+        <!-- Contenedor estilizado para fecha de fin -->
         <div class="input-shell">
+          <!-- Input de fecha vinculado a 'fechaFin' -->
           <input
             type="date"
             aria-label="Fecha de fin"
@@ -90,91 +137,138 @@
     </div>
   </section>
 
+  <!-- Cinta de resumen con estadísticas clave del sistema -->
   <section class="summary-strip" aria-label="Resumen de usuarios">
+    <!-- Tarjeta que muestra el total de usuarios registrados -->
     <article>
+      <!-- Número total de usuarios -->
       <span>{{ usuarios.length }}</span>
+      <!-- Descripción de la estadística -->
       <p>Usuarios registrados</p>
     </article>
+    <!-- Tarjeta que muestra el número de resultados visibles después de aplicar filtros -->
     <article>
+      <!-- Número de usuarios filtrados actualmente visibles -->
       <span>{{ usuariosFiltrados.length }}</span>
+      <!-- Descripción de la estadística -->
       <p>Resultados visibles</p>
     </article>
+    <!-- Tarjeta que muestra el total de agricultores en el sistema -->
     <article>
+      <!-- Número total de usuarios con rol 'Agricultor' -->
       <span>{{ totalAgricultores }}</span>
+      <!-- Descripción de la estadística -->
       <p>Agricultores</p>
     </article>
+    <!-- Tarjeta que muestra el número de usuarios con sesión activa -->
     <article>
+      <!-- Número de usuarios actualmente en línea -->
       <span>{{ totalSesionesActivas }}</span>
+      <!-- Descripción de la estadística -->
       <p>Con sesion activa</p>
     </article>
   </section>
 
+  <!-- Grid de tarjetas de usuarios que muestra la lista filtrada -->
   <section class="users-grid" aria-label="Listado de usuarios">
+    <!-- Tarjeta individual para cada usuario, iterada con *ngFor -->
     <article class="user-card" *ngFor="let usuario of usuariosFiltrados">
+      <!-- Encabezado de la tarjeta con avatar y datos principales -->
       <div class="user-card-header">
+        <!-- Avatar circular con las iniciales del usuario -->
         <div class="avatar">{{ iniciales(usuario) }}</div>
+        <!-- Contenedor de nombre y correo -->
         <div>
+          <!-- Nombre completo del usuario -->
           <h2>{{ nombreCompleto(usuario) }}</h2>
+          <!-- Correo electrónico del usuario -->
           <p>{{ usuario.correoElectronico }}</p>
         </div>
       </div>
 
+      <!-- Contenedor de badges que muestran el estado del usuario -->
       <div class="badges">
+        <!-- Badge que muestra el rol del usuario -->
         <span class="badge role">{{ usuario.rol }}</span>
+        <!-- Badge de estado de cuenta, con clase dinámica según si está activo o inactivo -->
         <span class="badge" [ngClass]="usuario.cuenta === 'Activo' ? 'active' : 'inactive'">
           {{ usuario.cuenta }}
         </span>
+        <!-- Badge de estado de sesión, con clase dinámica según si está en línea u offline -->
         <span class="badge" [ngClass]="usuario.sesion === 'En linea' ? 'online' : 'offline'">
           {{ usuario.sesion }}
         </span>
+        <!-- Badge de estado de dispositivo, mostrado solo si el usuario tiene la propiedad 'dispositivo' -->
         <span *ngIf="usuario.dispositivo" class="badge" [ngClass]="usuario.dispositivo === 'Dispositivo vinculado' ? 'device-linked' : 'device-unlinked'">
           {{ usuario.dispositivo }}
         </span>
       </div>
 
+      <!-- Lista de detalles adicionales del usuario (fecha y teléfono) -->
       <dl class="user-details">
+        <!-- Detalle de fecha de registro -->
         <div>
+          <!-- Título del campo -->
           <dt>Fecha</dt>
+          <!-- Valor del campo: fecha de registro -->
           <dd>{{ usuario.fechaRegistro }}</dd>
         </div>
+        <!-- Detalle de teléfono -->
         <div>
+          <!-- Título del campo -->
           <dt>Telefono</dt>
+          <!-- Valor del campo: número de teléfono -->
           <dd>{{ usuario.telefono }}</dd>
         </div>
       </dl>
 
+      <!-- Contenedor de botones de acción para cada usuario -->
       <div class="card-actions">
+        <!-- Botón para abrir el modal de edición de usuario -->
         <button type="button" (click)="abrirEditar(usuario)">
+          <!-- Ícono de editar -->
           <i class="fa-solid fa-pen"></i>Editar
         </button>
+        <!-- Botón para abrir el modal de visualización de perfil -->
         <button type="button" (click)="abrirPerfil(usuario)">
+          <!-- Ícono de tarjeta de identificación -->
           <i class="fa-solid fa-id-card"></i>Perfil
         </button>
+        <!-- Botón para acceder al panel del agricultor, mostrado solo si el rol es 'Agricultor' -->
         <button *ngIf="usuario.rol === 'Agricultor'" type="button" class="access-panel" (click)="accederPanelAgricultor(usuario)">
+          <!-- Ícono de entrada -->
           <i class="fa-solid fa-arrow-right-to-bracket"></i>Acceder al panel
         </button>
+        <!-- Botón para activar o desactivar la cuenta del usuario -->
         <button type="button" (click)="cambiarEstado(usuario)">
+          <!-- Ícono de encendido/apagado -->
           <i class="fa-solid fa-power-off"></i>
+          <!-- Texto dinámico: 'Desactivar' si está activo, 'Activar' si está inactivo -->
           {{ usuario.cuenta === 'Activo' ? 'Desactivar' : 'Activar' }}
         </button>
+        <!-- Botón para abrir el modal de confirmación de eliminación -->
         <button class="danger" type="button" (click)="abrirConfirmacionEliminar(usuario)">
+          <!-- Ícono de papelera -->
           <i class="fa-solid fa-trash"></i>Eliminar
         </button>
       </div>
     </article>
 
+    <!-- Mensaje de estado vacío mostrado cuando no hay usuarios que coincidan con los filtros -->
     <p class="empty-state" *ngIf="usuariosFiltrados.length === 0">
       No se encontraron usuarios con los filtros seleccionados.
     </p>
   </section>
 </main>
 
+<!-- Modal de registro de usuario, renderizado solo cuando el modo es 'registro' -->
 <app-registro-usuario
   *ngIf="modalModo === 'registro'"
   (cerrar)="cerrarModal()"
   (guardar)="guardarRegistro($event)"
 ></app-registro-usuario>
 
+<!-- Modal de edición de usuario, renderizado solo cuando el modo es 'editar' y hay un usuario seleccionado -->
 <app-editar-usuario
   *ngIf="modalModo === 'editar' && usuarioSeleccionado"
   [usuario]="convertirAUsuarioEditar(usuarioSeleccionado)"
@@ -182,12 +276,14 @@
   (guardar)="guardarEdicion($event)"
 ></app-editar-usuario>
 
+<!-- Modal de visualización de perfil, renderizado solo cuando el modo es 'perfil' y hay un usuario seleccionado -->
 <app-perfil-usuario
   *ngIf="modalModo === 'perfil' && usuarioSeleccionado"
   [usuario]="convertirAUsuarioEditar(usuarioSeleccionado)"
   (cerrar)="cerrarModal()"
 ></app-perfil-usuario>
 
+<!-- Modal de confirmación de eliminación, renderizado solo cuando hay un usuario marcado para eliminar -->
 <app-eliminar-usuario
   *ngIf="usuarioParaEliminar"
   [usuario]="convertirAUsuarioEditar(usuarioParaEliminar)"

@@ -1,19 +1,22 @@
+/* Color y fuente predeterminada para todo el modal */
 :host {
   display: block;
   color: var(--color-titulos, #073d2b);
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Pantalla completa oscura y semitransparente que bloquea el fondo */
 .modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 1000;
   display: grid;
-  place-items: center;
+  place-items: center; /* Centra el contenido horizontal y verticalmente */
   padding: 24px 16px;
   background: var(--modal-backdrop-rgba, rgba(7, 61, 43, 0.45));
 }
 
+/* Estilo base para las tarjetas modales */
 .modal-card {
   position: relative;
   width: min(760px, 100%);
@@ -26,12 +29,14 @@
   box-shadow: 0 24px 48px rgba(7, 61, 43, 0.2);
 }
 
+/* Estilo específico para este modal de confirmación (más pequeño y sin scroll) */
 .modal-card-confirm {
   width: min(480px, 100%);
   max-height: none;
   overflow: visible;
 }
 
+/* Espaciado del título general */
 .modal-card h2 {
   margin: 0 44px 22px 0;
   font-size: 28px;
@@ -39,10 +44,12 @@
   text-align: left;
 }
 
+/* Espaciado del título para el modal de confirmación */
 .modal-card-confirm h2 {
   margin-bottom: 16px;
 }
 
+/* Botón 'X' en la esquina superior derecha */
 .modal-close {
   position: absolute;
   top: 18px;
@@ -59,12 +66,14 @@
   font-size: 18px;
 }
 
+/* Efecto hover sobre la 'X' */
 .modal-close:hover,
 .modal-close:focus {
   background: #edf5e9;
   color: #55a820;
 }
 
+/* Texto del mensaje de advertencia ("El monitoreo se detendrá...") */
 .confirm-message {
   margin: 0 0 22px;
   color: var(--color-textos-descriptivos, #456657);
@@ -72,6 +81,7 @@
   line-height: 1.5;
 }
 
+/* Contenedor flexible para los botones en la parte inferior derecha */
 .modal-actions {
   display: flex;
   flex-wrap: wrap;
@@ -80,6 +90,7 @@
   padding-top: 4px;
 }
 
+/* Estilo para el botón de "Cancelar" */
 .modal-cancel {
   min-height: 54px;
   padding: 0 18px;
@@ -92,11 +103,13 @@
   font-weight: 800;
 }
 
+/* Efecto hover sobre "Cancelar" */
 .modal-cancel:hover,
 .modal-cancel:focus {
   background: #edf5e9;
 }
 
+/* Estilo para el botón principal "Apagar" (rojo, indicando peligro/acción destructiva) */
 .modal-apagar {
   display: inline-flex;
   align-items: center;
@@ -114,6 +127,7 @@
   box-shadow: 0 12px 24px var(--btn-destructivo-shadow, rgba(163, 38, 38, 0.24));
 }
 
+/* Efecto hover sobre "Apagar" (rojo más oscuro) */
 .modal-apagar:hover,
 .modal-apagar:focus {
   background: var(--btn-destructivo-hover, #8b1f1f);

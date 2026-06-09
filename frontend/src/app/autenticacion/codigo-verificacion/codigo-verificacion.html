@@ -1,19 +1,25 @@
+<!-- Contenedor de la tarjeta del código de verificación -->
 <div class="verification-card-content">
+  <!-- Logotipo -->
   <img
     class="verification-logo fade-up delay-1"
     src="assets/logotipos/escudo.png"
     alt="AgroVision AI"
   />
 
+  <!-- Título principal -->
   <h1 class="fade-up delay-2">Codigo de verificacion</h1>
 
+  <!-- Texto instructivo, interpolando la variable correo -->
   <p class="verification-description fade-up delay-3">
     Ingresa el codigo de 6 digitos enviado a {{ correo }}.
   </p>
 
+  <!-- Formulario que vincula código ingresado al Reactive Form -->
   <form [formGroup]="codigoForm" (ngSubmit)="verificarCodigo()" novalidate>
     <div class="field fade-up delay-4">
       <label for="verification-code">Codigo de verificacion</label>
+      <!-- Estilos personalizados para mostrar el input con el escudo a la izquierda -->
       <div class="input-shell code-shell">
         <i class="fa-solid fa-shield-halved"></i>
         <input
@@ -29,15 +35,19 @@
         />
       </div>
 
+      <!-- Muestra errores de validación si el código no cumple el patrón (ej. no tiene 6 dígitos) -->
       <small *ngIf="validators.getCodigoVerificacionError(codigoControl)">
         {{ validators.getCodigoVerificacionError(codigoControl) }}
       </small>
     </div>
 
+    <!-- Botón para confirmar y proceder a verificar el código -->
     <button class="submit-button fade-up delay-5" type="submit">Verificar codigo</button>
 
+    <!-- Sección de reenvío de código -->
     <div class="resend-section">
       <p class="resend-text fade-up delay-6">¿No recibiste el codigo?</p>
+      <!-- Botón para solicitar reenvío, se deshabilita si se superó el límite -->
       <button
         type="button"
         class="resend-link fade-up delay-6 auth-link-motion"
@@ -46,12 +56,14 @@
       >
         Reenviar codigo
       </button>
+      <!-- Mensajes dinámicos de feedback (ej: "Intentos restantes" o la "cuenta regresiva") -->
       <p
         class="resend-feedback"
         [ngClass]="{ 'is-error': limiteReenvioAlcanzado }"
         *ngIf="mensajeReenvio || limiteReenvioAlcanzado"
       >
         <span *ngIf="!limiteReenvioAlcanzado">{{ mensajeReenvio }}</span>
+        <!-- Se muestra cuando se supera el límite y empieza a contar el tiempo de espera -->
         <span *ngIf="limiteReenvioAlcanzado">
           Has alcanzado el límite de reenvíos.<br>
           Inténtalo nuevamente en <strong>{{ tiempoFormateado }}</strong>

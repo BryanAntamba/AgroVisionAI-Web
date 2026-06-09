@@ -1,26 +1,27 @@
+// Importaciones de Angular y componentes internos
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+// Importaciones de componentes de la interfaz de usuario (barra, botón IoT, modales)
 import { BarraAgricultor } from '../../navbars/barra-agricultor/barra-agricultor';
-import { BotonIOT } from '../boton-inicio/boton-iot/boton-iot';
+import { BotonIOT } from '../boton-iot/boton-iot';
 import { datosIOTSimulados } from '../../../environments/datos-iot-simulados';
-import {
-  alertasActivasAlInicio,
-  catalogoAlertasSensores,
-  TipoAlertaSensor,
-} from '../../../environments/datos-alertas-simuladas';
+import { alertasActivasAlInicio, catalogoAlertasSensores, TipoAlertaSensor } from '../../../environments/datos-alertas-simuladas';
 import { RecomendacionesStore } from '../../../environments/modales-recomendacion';
 import { traducirDiagnostico } from '../../shared/traductor-enfermedades/clases-enfermedad';
+// Modales de alertas de los diferentes sensores
 import { AlertaDht22 } from '../modales/alerta-dht22/alerta-dht22';
 import { AlertaCam } from '../modales/alerta-cam/alerta-cam';
 import { AlertaCapaciteV2 } from '../modales/alerta-capacite-v2/alerta-capacite-v2';
 import { AlertaAntenaWifi } from '../modales/alerta-antena-wifi/alerta-antena-wifi';
-import { AlertaSensorLdr } from '../modales/alerta-sensor-ldr/alerta-sensor-ldr';
+import { AlertaSensorLDR } from '../modales/alerta-sensor-ldr/alerta-sensor-ldr';
 import { ApagarEquipoIOT } from '../modales/apagar-equipo-iot/apagar-equipo-iot';
 
+// Definición de tipos de estado para las "píldoras" visuales (OK, Advertencia, Crítico, Estimado)
 type PillTipo = 'ok' | 'warn' | 'est' | 'crit';
 type RecTipo = 'ok' | 'warn' | 'crit';
 type MetricaEstado = 'ok' | 'warn' | 'crit';
 
+// Interfaz que define la estructura de datos para la tarjeta de cada sensor
 interface TarjetaSensor {
   id: string;
   nombre: string;
@@ -37,12 +38,14 @@ interface TarjetaSensor {
   notaEstimado?: string;
 }
 
+// Interfaz para la lista de predicciones de diagnóstico
 interface PrediccionFila {
   nombre: string;
   porcentaje: number;
   color: string;
 }
 
+// Interfaz para las métricas de lesión visual en la hoja
 interface MetricaLesionCard {
   id: string;
   nombre: string;
@@ -56,12 +59,14 @@ interface MetricaLesionCard {
   leyenda: { color: string; texto: string }[];
 }
 
+// Interfaz para la barra de salud (colores y porcentajes)
 interface BarraSalud {
   etiqueta: string;
   valor: number;
   color: string;
 }
 
+// Interfaz para las recomendaciones generadas para el agricultor
 interface RecomendacionVista {
   tipo: 'ok' | 'warn' | 'crit';
   titulo: string;
@@ -70,9 +75,11 @@ interface RecomendacionVista {
   icono: string;
 }
 
+// Decorador del componente principal del Panel del Agricultor
 @Component({
-  selector: 'app-panel-agricultor',
-  standalone: true,
+  selector: 'app-panel-agricultor', // Selector HTML
+  standalone: true, // Componente independiente
+  // Importa todos los subcomponentes que se usarán en la vista
   imports: [
     CommonModule,
     BarraAgricultor,
@@ -81,30 +88,41 @@ interface RecomendacionVista {
     AlertaCam,
     AlertaCapaciteV2,
     AlertaAntenaWifi,
-    AlertaSensorLdr,
+    AlertaSensorLDR,
     ApagarEquipoIOT,
   ],
   templateUrl: './panel-agricultor.html',
   styleUrl: './panel-agricultor.css',
 })
 export class PanelAgricultor implements OnInit, OnDestroy {
+  // Constante para el perímetro del anillo SVG de salud
   readonly circunferenciaAnillo = 213.6;
 
+  // Variables de estado de la conexión del dispositivo IoT
   dispositivoConectado = false;
   dispositivoDesconectado = false;
+  
+  // Datos simulados provenientes del "backend/entorno"
   datos = datosIOTSimulados;
 
+  // Variables de control de modales y estados de botones
   isDisconnecting = false;
   isReconnecting = false;
   mostrarModalApagado = false;
   mostrarModalReporteGuardado = false;
   errorReconexion = '';
+  
+  // Fecha actual de la captura
   fechaUltimaCaptura = datosIOTSimulados.meta.fecha_captura;
+  
+  // Lista de alertas visibles en pantalla
   alertasVisibles: TipoAlertaSensor[] = [];
 
+  // Controles internos de la simulación de reconexión y temporizador de capturas
   private intentosReconexion = 0;
   private intervaloCaptura: ReturnType<typeof setInterval> | null = null;
 
+  // Mapa de colores asociados a cada tipo de enfermedad o diagnóstico
   private readonly coloresPrediccion: Record<string, string> = {
     healthy: '#55a820',
     early_blight: '#b56c07',
@@ -118,48 +136,61 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     yellow_leaf_curl: '#FFC107',
   };
 
+  // Colores para las barras de salud (de más grave a menos grave/saludable)
   private readonly coloresBarrasSalud = ['#55a820', '#63A022', '#97C459'];
 
+  // Hook OnInit: Se ejecuta al inicializar el componente
   ngOnInit(): void {
+    // Recupera el estado de conexión guardado en el navegador (Local Storage)
     const estado = localStorage.getItem('dispositivoConectado');
     const desconectado = localStorage.getItem('dispositivoDesconectado');
     this.dispositivoConectado = estado === 'true';
     this.dispositivoDesconectado = desconectado === 'true';
 
+    // Si está conectado y no desconectado explícitamente, inicia la simulación de datos en vivo
     if (this.dispositivoConectado && !this.dispositivoDesconectado) {
       this.iniciarSimulacionCapturas();
     }
 
+    // Carga las alertas activas por defecto
     this.alertasVisibles = [...alertasActivasAlInicio];
   }
 
+  // Hook OnDestroy: Limpia recursos (como el intervalo) al cambiar de página
   ngOnDestroy(): void {
     this.detenerSimulacionCapturas();
   }
 
+  // Obtiene el string de la planta con formato "Planta #01"
   get etiquetaPlanta(): string {
     const n = this.datos.captura.numero_planta;
     return `Planta #${String(n).padStart(2, '0')}`;
   }
 
+  // Devuelve el texto descriptivo del estado de la conexión
   get estadoConexionTexto(): string {
     return this.dispositivoDesconectado ? 'Dispositivo desconectado' : 'Dispositivo conectado';
   }
 
+  // Obtiene la lista de recomendaciones desde el store
   get recomendaciones(): RecomendacionVista[] {
     return RecomendacionesStore.paraDashboard();
   }
 
+  // Obtiene los datos detallados de una alerta específica desde el catálogo
   getAlerta(id: TipoAlertaSensor) {
     return catalogoAlertasSensores[id];
   }
 
+  // Remueve una alerta de la lista de alertas visibles (cuando el usuario la cierra)
   cerrarAlerta(id: TipoAlertaSensor): void {
     this.alertasVisibles = this.alertasVisibles.filter((a) => a !== id);
   }
 
+  // Guarda una captura del estado actual de los sensores en el LocalStorage
   guardarReporte(): void {
     const ahora = new Date();
+    // Construye el objeto reporte con los datos actuales
     const reporte = {
       id: Date.now(),
       fecha: ahora.toISOString().slice(0, 10),
@@ -174,55 +205,67 @@ export class PanelAgricultor implements OnInit, OnDestroy {
       luz: this.datos.sensores_tiempo_real.intensidad_luz_lux,
     };
 
+    // Obtiene el historial previo, agrega el nuevo reporte al inicio, y lo guarda
     const prev = JSON.parse(localStorage.getItem('agrovision_historial') ?? '[]');
     prev.unshift(reporte);
     localStorage.setItem('agrovision_historial', JSON.stringify(prev));
+    // Muestra el modal de éxito
     this.mostrarModalReporteGuardado = true;
   }
 
+  // Cierra el modal de reporte guardado
   cerrarModalReporteGuardado(): void {
     this.mostrarModalReporteGuardado = false;
   }
 
+  // Callback cuando el usuario logra conectar el dispositivo IoT simulado
   onConectadoDispositivo(conectado: boolean): void {
     this.dispositivoConectado = conectado;
     this.dispositivoDesconectado = false;
     this.errorReconexion = '';
     this.intentosReconexion = 0;
+    // Persiste el estado
     localStorage.setItem('dispositivoConectado', conectado ? 'true' : 'false');
     localStorage.setItem('dispositivoDesconectado', 'false');
+    // Inicia capturas
     if (conectado) {
       this.iniciarSimulacionCapturas();
     }
   }
 
+  // Muestra el modal de confirmación de apagado
   abrirModalApagado(): void {
     this.mostrarModalApagado = true;
   }
 
+  // Cierra el modal de confirmación de apagado
   cerrarModalApagado(): void {
     this.mostrarModalApagado = false;
   }
 
+  // Lógica para confirmar el apagado desde el modal
   confirmarApagado(): void {
     this.cerrarModalApagado();
     this.desconectarDispositivo();
   }
 
+  // Ejecuta la desconexión simulada (con un timeout de 2 segundos)
   desconectarDispositivo(): void {
     if (this.isDisconnecting) return;
     this.isDisconnecting = true;
-    this.detenerSimulacionCapturas();
+    this.detenerSimulacionCapturas(); // Detiene las actualizaciones
     setTimeout(() => {
       this.isDisconnecting = false;
       this.dispositivoDesconectado = true;
       this.errorReconexion = '';
       this.intentosReconexion = 0;
+      // Persiste el estado como desconectado
       localStorage.setItem('dispositivoConectado', 'true');
       localStorage.setItem('dispositivoDesconectado', 'true');
     }, 2000);
   }
 
+  // Simula el proceso de reconexión del dispositivo
   reconectarDispositivo(): void {
     if (this.isReconnecting) return;
     this.isReconnecting = true;
@@ -232,11 +275,13 @@ export class PanelAgricultor implements OnInit, OnDestroy {
       this.isReconnecting = false;
       this.intentosReconexion++;
 
+      // Simula que la reconexión puede fallar dependiendo de 'intentos_para_exito'
       if (this.intentosReconexion < this.datos.reconexion.intentos_para_exito) {
         this.errorReconexion = 'No se pudo conectar el dispositivo. Inténtelo de nuevo.';
         return;
       }
 
+      // Si tiene éxito, restablece estados y reanuda capturas
       this.intentosReconexion = 0;
       this.dispositivoDesconectado = false;
       localStorage.setItem('dispositivoConectado', 'true');
@@ -245,16 +290,16 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     }, 2000);
   }
 
+  // Inicia un intervalo (setInterval) para actualizar periódicamente los datos (Simulación en Vivo)
   private iniciarSimulacionCapturas(): void {
     this.detenerSimulacionCapturas();
     this.intervaloCaptura = setInterval(() => {
       if (this.dispositivoDesconectado) return;
       this.fechaUltimaCaptura = this.formatearFechaCaptura(new Date());
-      // Cuando exista la cámara, aquí se asignará datos.imagenes.original con la URL recibida
-      // this.datos.imagenes.tiene_captura = true;
     }, this.datos.captura.intervalo_nueva_captura_ms);
   }
 
+  // Detiene el intervalo de capturas en vivo
   private detenerSimulacionCapturas(): void {
     if (this.intervaloCaptura) {
       clearInterval(this.intervaloCaptura);
@@ -262,6 +307,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     }
   }
 
+  // Formatea la fecha al estilo "15 oct 2023 · 3:30 pm"
   private formatearFechaCaptura(fecha: Date): string {
     const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
     const dia = fecha.getDate();
@@ -274,19 +320,23 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     return `${dia} ${mes} ${anio} · ${hora12}:${minutos} ${periodo}`;
   }
 
+  // Traduce el diagnóstico (en inglés) al español usando la función auxiliar
   get diagnosticoEspanol(): string {
     return traducirDiagnostico(this.datos.diagnostico_final.diagnostico_final);
   }
 
+  // Evalúa si el diagnóstico indica que la planta está sana
   get diagnosticoEsSano(): boolean {
     const d = this.diagnosticoEspanol.toLowerCase();
     return d.includes('sano') || d.includes('saludable');
   }
 
+  // Calcula el desfase (dashoffset) para rellenar el anillo de salud según el porcentaje
   get offsetAnilloSalud(): number {
     return this.circunferenciaAnillo - (this.circunferenciaAnillo * this.datos.indice_salud.valor) / 100;
   }
 
+  // Genera el arreglo de las barras de salud con sus respectivos porcentajes y colores
   get barrasSalud(): BarraSalud[] {
     return this.datos.indice_salud.componentes.map((c, i) => ({
       etiqueta: c.etiqueta,
@@ -295,10 +345,12 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     }));
   }
 
+  // Construye dinámicamente las tarjetas de todos los sensores (Temperatura, Humedad, etc)
   get tarjetasSensores(): TarjetaSensor[] {
     const s = this.datos.sensores_tiempo_real;
     const c = this.datos.sensores_complementarios;
 
+    // Evaluaciones lógicas para definir si el sensor está en un rango óptimo
     const tempOk = this.enRango(s.temperatura_aire_c, s.temperatura_optima_min, s.temperatura_optima_max);
     const humOk = this.enRango(s.humedad_aire_pct, s.humedad_aire_optima_min, s.humedad_aire_optima_max);
     const sueloOk = s.humedad_suelo_pct >= s.riego_minimo;
@@ -306,6 +358,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     const hojaBaja = c.humedad_hoja_pct < c.humedad_hoja_optima_min;
 
     return [
+      // Tarjeta de Temperatura
       {
         id: 'temp',
         nombre: 'Temperatura del aire',
@@ -320,6 +373,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
         dispositivo: `Rango sensor: ${s.temperatura_sensor_min}–${s.temperatura_sensor_max} °C`,
         estimado: false,
       },
+      // Tarjeta de Humedad del aire
       {
         id: 'hum-aire',
         nombre: 'Humedad del aire',
@@ -334,6 +388,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
         dispositivo: 'Rango sensor: 15–100 %',
         estimado: false,
       },
+      // Tarjeta de Humedad de suelo
       {
         id: 'suelo',
         nombre: 'Humedad del suelo',
@@ -348,6 +403,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
         dispositivo: 'Rango sensor: 10–100 %',
         estimado: false,
       },
+      // Tarjeta de Intensidad de luz
       {
         id: 'luz',
         nombre: 'Intensidad de luz',
@@ -362,6 +418,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
         dispositivo: 'Rango sensor: 0–150 000 lux',
         estimado: false,
       },
+      // Tarjeta de Humedad de la hoja (Sensor calculado)
       {
         id: 'hoja',
         nombre: 'Humedad de la hoja',
@@ -380,6 +437,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
         estimado: true,
         notaEstimado: 'Sin sensor físico · calculado por IA',
       },
+      // Tarjeta de Flujo de aire (Sensor calculado)
       {
         id: 'aire',
         nombre: 'Flujo de aire',
@@ -398,6 +456,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     ];
   }
 
+  // Retorna las predicciones de la red neuronal ordenadas de mayor a menor probabilidad
   get predicciones(): PrediccionFila[] {
     const preds = this.datos.diagnostico_final.predicciones as Record<string, number>;
     return Object.entries(preds)
@@ -409,6 +468,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
       .sort((a, b) => b.porcentaje - a.porcentaje);
   }
 
+  // Retorna los datos que rellenarán las tarjetas de "Métricas de Lesión" (Área, colores, manchas)
   get metricasLesion(): MetricaLesionCard[] {
     const m = this.datos.metricas_lesion;
     return [
@@ -435,6 +495,7 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     ];
   }
 
+  // Función de fábrica (Factory) privada que ayuda a generar los objetos para `metricasLesion`
   private metricaCard(
     id: string,
     icono: string,
@@ -444,10 +505,13 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     escalaLabels: number[],
     umbrales: { max: number; estado: MetricaEstado; pill: string }[]
   ): MetricaLesionCard {
+    // Busca en qué umbral cae el valor (Normal, Alerta o Crítico)
     const umbral = umbrales.find((u) => valor <= u.max) ?? umbrales[umbrales.length - 1];
     const maxEscala = escalaLabels[escalaLabels.length - 1];
+    // Calcula la posición del "punto" en la barra de colores semáforo
     const dotLeft = Math.min(100, (valor / maxEscala) * 100);
 
+    // Leyendas explicativas para cada tarjeta según su ID
     const leyendasPorId: Record<string, { color: string; texto: string }[]> = {
       area: [
         { color: '#55a820', texto: 'Normal 0–10 %' },
@@ -485,10 +549,12 @@ export class PanelAgricultor implements OnInit, OnDestroy {
     };
   }
 
+  // Verifica matemáticamente si un valor se encuentra dentro de un rango inclusivo
   private enRango(valor: number, min: number, max: number): boolean {
     return valor >= min && valor <= max;
   }
 
+  // Transforma un valor escalar en un porcentaje de 0 a 100 con respecto a un rango (min y max)
   private pct(valor: number, min: number, max: number): number {
     return Math.min(100, Math.max(0, ((valor - min) / (max - min)) * 100));
   }

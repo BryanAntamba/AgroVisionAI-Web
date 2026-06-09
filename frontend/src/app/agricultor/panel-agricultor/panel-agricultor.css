@@ -1,15 +1,18 @@
+/* Bloque base del componente */
 :host {
   display: block;
   color: #073d2b;
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ── Estructura principal del panel ── */
 .panel-agricultor-main {
   min-height: calc(100vh - 72px);
   background: #f5faf3;
   padding: 32px;
 }
 
+/* Pantalla de espera o botón de conexión cuando no hay enlace con IoT */
 .pantalla-conexion {
   width: 100%;
   min-height: calc(100vh - 180px);
@@ -19,18 +22,21 @@
 }
 
 /* ── Dashboard layout ── */
+/* Contenedor central del dashboard */
 .dash {
   width: min(1220px, 100%);
   margin: 0 auto;
   padding: 0;
-  animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.5s ease-out; /* Animación de entrada suave */
 }
 
+/* Animación para que el dashboard aparezca de abajo hacia arriba */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Encabezado del dashboard con título y botones de acción */
 .dash-top {
   display: flex;
   align-items: center;
@@ -40,6 +46,7 @@
   flex-wrap: wrap;
 }
 
+/* Contenedor de botones a la derecha del encabezado */
 .dash-top-actions {
   display: flex;
   align-items: center;
@@ -47,6 +54,7 @@
   flex-wrap: wrap;
 }
 
+/* Botón principal para "Guardar reporte" */
 .btn-guardar-reporte {
   display: inline-flex;
   align-items: center;
@@ -63,54 +71,63 @@
   box-shadow: 0 8px 20px rgba(7, 61, 43, 0.15);
 }
 
+/* Efecto visual al pasar el mouse por encima del botón de guardar */
 .btn-guardar-reporte:hover:not(:disabled) {
   filter: brightness(1.05);
 }
 
+/* Estado visual desactivado del botón de guardar */
 .btn-guardar-reporte:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
+/* Panel que contiene las alertas activas */
 .alertas-panel {
   margin-bottom: 12px;
 }
 
+/* Contenedor del título y el indicador de en vivo */
 .dash-brand {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
+/* Punto indicador de conexión "En vivo" */
 .dash-live-dot {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   background: #55a820;
   flex-shrink: 0;
-  animation: blink 1.2s infinite;
+  animation: blink 1.2s infinite; /* Parpadeo constante */
 }
 
+/* Color naranja para indicar desconexión o interrupción */
 .dash-live-dot.off {
   background: #b56c07;
 }
 
+/* Animación de parpadeo para el indicador de conexión */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.45; }
 }
 
+/* Título principal del Dashboard */
 .dash-title {
   font-size: 17px;
   font-weight: 800;
   color: #073d2b;
 }
 
+/* Altura de línea específica para el título junto al indicador */
 .dash-brand .dash-title {
   line-height: 1.2;
 }
 
-/* ── Secciones ── */
+/* ── Secciones (Tarjetas blancas de contenido) ── */
 .sec {
   background: #ffffff;
   border: 1px solid #d7e4dc;
@@ -120,6 +137,7 @@
   box-shadow: 0 10px 24px rgba(7, 61, 43, 0.05);
 }
 
+/* Encabezado de cada sección interna */
 .sec-head {
   display: flex;
   align-items: center;
@@ -131,6 +149,7 @@
   flex-wrap: wrap;
 }
 
+/* Título dentro de las secciones */
 .sec-head h2 {
   margin: 0;
   font-size: 15px;
@@ -141,11 +160,13 @@
   gap: 7px;
 }
 
+/* Ícono decorativo junto al título de sección */
 .sec-head h2 i {
   font-size: 16px;
   color: #55a820;
 }
 
+/* Texto pequeño explicativo al pie de las secciones */
 .sec-nota {
   font-size: 10px;
   color: #8fa69c;
@@ -153,27 +174,30 @@
   text-align: center;
 }
 
+/* Espaciado del ícono en la nota explicativa */
 .sec-nota i {
   margin-right: 4px;
 }
 
-/* ── Badges ── */
+/* ── Badges (Etiquetas de estado visuales) ── */
 .badge {
   font-size: 10px;
   font-weight: 800;
   padding: 2px 9px;
-  border-radius: 99px;
+  border-radius: 99px; /* Bordes totalmente redondeados */
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
+/* Etiqueta para estado "En vivo" o conectado */
 .badge-live {
   background: #eaf7e5;
   color: #23730f;
 }
 
+/* Círculo interno verde para badge-live */
 .badge-live span {
   width: 6px;
   height: 6px;
@@ -181,11 +205,13 @@
   background: #55a820;
 }
 
+/* Etiqueta para estado de advertencia o desconectado */
 .badge-warn {
   background: #fdf5e7;
   color: #b56c07;
 }
 
+/* Círculo interno naranja para badge-warn */
 .badge-warn span {
   width: 6px;
   height: 6px;
@@ -193,12 +219,13 @@
   background: #b56c07;
 }
 
+/* Etiqueta para indicadores relacionados con IA */
 .badge-ia {
   background: #edf5e9;
   color: #073d2b;
 }
 
-/* ── Captura ── */
+/* ── Sección: Captura de Imagen ── */
 .captura-row {
   display: flex;
   gap: 10px;
@@ -206,6 +233,7 @@
   flex-wrap: wrap;
 }
 
+/* Contenedor de la foto real de la planta */
 .img-box {
   flex: 1;
   min-width: 200px;
@@ -215,6 +243,7 @@
   background: #fbfdf9;
 }
 
+/* Ajuste de imagen para no distorsionarse */
 .img-box img {
   width: 100%;
   max-height: 200px;
@@ -222,6 +251,7 @@
   display: block;
 }
 
+/* Recuadro de espera cuando aún no se toma la foto */
 .img-placeholder {
   flex: 1;
   min-width: 200px;
@@ -236,11 +266,13 @@
   background: #fbfdf9;
 }
 
+/* Ícono de cámara grande en estado de espera */
 .img-placeholder i {
   font-size: 28px;
   color: #8fa69c;
 }
 
+/* Texto indicativo en espera */
 .img-placeholder p {
   font-size: 12px;
   color: #8fa69c;
@@ -249,12 +281,14 @@
   max-width: 220px;
 }
 
+/* Mantiene el espacio del placeholder */
 .camara-pendiente {
   flex: 1;
   min-width: 200px;
   min-height: 140px;
 }
 
+/* Texto de "Esperando próxima captura..." */
 .camara-estado {
   font-size: 11px;
   color: #55a820;
@@ -262,12 +296,14 @@
   margin-top: 4px;
 }
 
+/* Contador principal numérico grande */
 .meta-contador {
   font-size: 22px;
   font-weight: 800;
   color: #55a820;
 }
 
+/* Contenedor de metadatos (Planta, Fecha última captura) */
 .captura-meta {
   flex: 1;
   min-width: 160px;
@@ -276,24 +312,27 @@
   gap: 10px;
 }
 
+/* Bloque individual de metadato */
 .meta-block {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
+/* Nombre de la propiedad del metadato */
 .meta-label {
   font-size: 11px;
   color: #597268;
 }
 
+/* Valor de la propiedad del metadato */
 .meta-value {
   font-size: 13px;
   font-weight: 700;
   color: #073d2b;
 }
 
-/* ── Salud general ── */
+/* ── Sección: Índice de Salud general ── */
 .health-wrap {
   display: flex;
   align-items: center;
@@ -301,6 +340,7 @@
   flex-wrap: wrap;
 }
 
+/* Contenedor del gráfico circular SVG */
 .ring-wrap {
   position: relative;
   width: 86px;
@@ -308,12 +348,14 @@
   flex-shrink: 0;
 }
 
+/* Rota el SVG para que la línea empiece desde arriba */
 .ring-wrap svg {
   width: 86px;
   height: 86px;
   transform: rotate(-90deg);
 }
 
+/* Contenedor para el texto del centro del anillo SVG */
 .ring-center {
   position: absolute;
   inset: 0;
@@ -323,6 +365,7 @@
   justify-content: center;
 }
 
+/* Porcentaje central del anillo (Ej: 85%) */
 .rpct {
   font-size: 20px;
   font-weight: 800;
@@ -330,6 +373,7 @@
   line-height: 1;
 }
 
+/* Etiqueta "salud" debajo del porcentaje */
 .rlbl {
   font-size: 10px;
   color: #597268;
@@ -337,11 +381,13 @@
   text-transform: uppercase;
 }
 
+/* Información de texto a un costado del gráfico circular */
 .health-info {
   flex: 1;
   min-width: 140px;
 }
 
+/* Estado de salud (Ej: Sano, Enfermo) */
 .health-info .estado {
   font-size: 13px;
   font-weight: 800;
@@ -352,6 +398,7 @@
   margin-bottom: 5px;
 }
 
+/* Descripción del estado de salud */
 .health-info .desc {
   font-size: 12px;
   color: #597268;
@@ -359,6 +406,7 @@
   margin: 0;
 }
 
+/* Contenedor de sub-barras de estado (Hidratación, Nutrición, etc) */
 .health-bars {
   flex: 1;
   min-width: 160px;
@@ -367,12 +415,14 @@
   gap: 6px;
 }
 
+/* Fila de cada barra de estado */
 .hbrow {
   display: flex;
   align-items: center;
   gap: 7px;
 }
 
+/* Etiqueta de la barra (Ej: "Hidratación") */
 .hblabel {
   font-size: 11px;
   color: #597268;
@@ -380,6 +430,7 @@
   flex-shrink: 0;
 }
 
+/* Fondo gris de la barra de progreso */
 .hbtrack {
   flex: 1;
   height: 5px;
@@ -388,12 +439,14 @@
   overflow: hidden;
 }
 
+/* Relleno verde/color de la barra de progreso animada */
 .hbfill {
   height: 100%;
   border-radius: 99px;
   transition: width 0.4s ease;
 }
 
+/* Valor numérico al lado de la barra */
 .hbval {
   font-size: 11px;
   font-weight: 800;
@@ -402,13 +455,14 @@
   text-align: right;
 }
 
-/* ── Sensores ── */
+/* ── Sección: Lecturas de Sensores ── */
 .sgrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
   gap: 9px;
 }
 
+/* Tarjeta individual de cada sensor */
 .sc {
   background: #fbfdf9;
   border: 1px solid #d7e4dc;
@@ -416,6 +470,7 @@
   padding: 11px 13px;
 }
 
+/* Parte superior de la tarjeta (Ícono y píldoras de estado) */
 .sc-top {
   display: flex;
   justify-content: space-between;
@@ -424,11 +479,13 @@
   gap: 6px;
 }
 
+/* Ícono del sensor (Ej: termómetro, sol) */
 .sc-icon {
   font-size: 17px;
   color: #597268;
 }
 
+/* Contenedor de etiquetas/píldoras de estado en el sensor */
 .sc-pills {
   display: flex;
   flex-wrap: wrap;
@@ -436,6 +493,7 @@
   justify-content: flex-end;
 }
 
+/* Etiqueta visual pequeña dentro del sensor */
 .spill {
   font-size: 9px;
   font-weight: 800;
@@ -443,17 +501,20 @@
   border-radius: 99px;
 }
 
+/* Variaciones de colores para la píldora de estado (OK, Warn, Estimado, Crítico) */
 .sp-ok { background: #eaf7e5; color: #23730f; }
 .sp-warn { background: #fdf5e7; color: #b56c07; }
 .sp-est { background: #e9f2ff; color: #174c7c; }
 .sp-crit { background: #fdecea; color: #c62828; }
 
+/* Nombre del sensor (Ej: Temperatura del aire) */
 .sc-name {
   font-size: 11px;
   color: #597268;
   margin-bottom: 3px;
 }
 
+/* Valor numérico en grande (Ej: 24) */
 .sc-val {
   font-size: 22px;
   font-weight: 800;
@@ -461,12 +522,14 @@
   line-height: 1;
 }
 
+/* Unidad de medida (Ej: °C) */
 .sc-unit {
   font-size: 12px;
   color: #597268;
   font-weight: 400;
 }
 
+/* Contenedor de la barra de rango del sensor */
 .sc-bar {
   height: 4px;
   background: #edf1ee;
@@ -475,12 +538,14 @@
   margin: 7px 0 4px;
 }
 
+/* Relleno de color de la barra del sensor */
 .sc-fill {
   height: 100%;
   border-radius: 99px;
   transition: width 0.4s ease;
 }
 
+/* Etiquetas del rango mínimo y máximo del sensor */
 .sc-ranges {
   display: flex;
   justify-content: space-between;
@@ -491,6 +556,7 @@
   color: #8fa69c;
 }
 
+/* Etiqueta que muestra cuál es el rango "Óptimo" ideal */
 .sc-optimo {
   font-size: 9px;
   color: #854f0b;
@@ -504,6 +570,7 @@
   font-size: 6px;
 }
 
+/* Información técnica o nombre del hardware asociado al sensor */
 .sc-device {
   font-size: 9px;
   color: #8fa69c;
@@ -515,6 +582,7 @@
   gap: 3px;
 }
 
+/* Nota adicional si el valor es calculado/estimado por la IA */
 .sc-estnote {
   font-size: 9px;
   color: #174c7c;
@@ -524,7 +592,7 @@
   gap: 3px;
 }
 
-/* ── Diagnóstico ── */
+/* ── Sección: Diagnóstico de Inteligencia Artificial ── */
 .diag-result {
   display: flex;
   align-items: flex-start;
@@ -532,6 +600,7 @@
   margin-bottom: 14px;
 }
 
+/* Caja de ícono que acompaña al resultado de la IA */
 .diag-iconbox {
   width: 42px;
   height: 42px;
@@ -548,6 +617,7 @@
   color: #55a820;
 }
 
+/* Cambia color si el diagnóstico es de enfermedad (warning) */
 .diag-iconbox.warn {
   background: #fdf5e7;
 }
@@ -556,6 +626,7 @@
   color: #b56c07;
 }
 
+/* Nombre principal de la enfermedad diagnosticada */
 .diag-text h3 {
   font-size: 14px;
   font-weight: 800;
@@ -563,6 +634,7 @@
   margin: 0 0 3px;
 }
 
+/* Descripción detallada de la IA sobre el hallazgo */
 .diag-text p {
   font-size: 12px;
   color: #597268;
@@ -570,6 +642,7 @@
   margin: 0;
 }
 
+/* Fila que muestra la confianza porcentual del modelo IA */
 .conf-row {
   display: flex;
   align-items: center;
@@ -583,6 +656,7 @@
   flex-shrink: 0;
 }
 
+/* Barra de progreso visual para el nivel de confianza de la IA */
 .conf-track {
   flex: 1;
   height: 5px;
@@ -605,6 +679,7 @@
   flex-shrink: 0;
 }
 
+/* Título secundario de la tabla de otras probabilidades ("Probabilidades por condición") */
 .subsec {
   font-size: 10px;
   font-weight: 800;
@@ -614,6 +689,7 @@
   margin: 12px 0 8px;
 }
 
+/* Fila para cada enfermedad alternativa evaluada */
 .dis-row {
   display: flex;
   align-items: center;
@@ -652,6 +728,7 @@
   flex-shrink: 0;
 }
 
+/* Fila inferior para indicar el resto de condiciones no mostradas */
 .dis-rest {
   font-size: 11px;
   color: #8fa69c;
@@ -664,13 +741,14 @@
   margin-right: 4px;
 }
 
-/* ── Métricas lesión ── */
+/* ── Sección: Métricas de lesión (análisis de manchas en la imagen) ── */
 .mgrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 9px;
 }
 
+/* Tarjeta individual de la métrica visual (Ej: Área afectada) */
 .mc {
   background: #fbfdf9;
   border: 1px solid #d7e4dc;
@@ -700,6 +778,7 @@
   color: #55a820;
 }
 
+/* Píldora de estado de la métrica visual */
 .mpill {
   font-size: 9px;
   font-weight: 800;
@@ -726,6 +805,7 @@
   font-weight: 400;
 }
 
+/* Barra tipo "Semáforo" (Normal, Alerta, Grave) donde se grafica la posición de la métrica */
 .sem-track {
   position: relative;
   height: 7px;
@@ -735,10 +815,12 @@
   display: flex;
 }
 
+/* Segmentos de colores en el semáforo */
 .sem-ok { flex: 33.3%; background: #c0dd97; }
 .sem-warn { flex: 33.3%; background: #fac775; }
 .sem-crit { flex: 33.4%; background: #f09595; }
 
+/* Punto blanco flotante que indica la ubicación exacta en el semáforo */
 .sem-dot {
   position: absolute;
   top: 50%;
@@ -750,6 +832,7 @@
   z-index: 2;
 }
 
+/* Textos informativos debajo del semáforo */
 .sem-lbls {
   display: flex;
   justify-content: space-between;
@@ -761,6 +844,7 @@
   color: #8fa69c;
 }
 
+/* Leyenda inferior que explica qué significa cada rango de color */
 .mleg {
   display: flex;
   gap: 8px;
@@ -773,18 +857,21 @@
   gap: 3px;
 }
 
+/* Cuadradito de color de la leyenda */
 .mleg-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
 }
 
+/* Texto de la leyenda */
 .mleg-t {
   font-size: 9px;
   color: #8fa69c;
 }
 
-/* ── Recomendaciones ── */
+/* ── Sección: Recomendaciones ── */
+/* Fila de cada acción sugerida por el panel */
 .rec-item {
   display: flex;
   gap: 10px;
@@ -798,6 +885,7 @@
   margin-bottom: 0;
 }
 
+/* Colores de fondo de las recomendaciones según urgencia */
 .rec-ok {
   background: #eaf7e5;
   border: 1px solid #c0dd97;
@@ -837,11 +925,12 @@
   margin: 0;
 }
 
+/* Colores de texto ajustados según nivel de urgencia */
 .rec-ok .rec-body p { color: #23730f; }
 .rec-warn .rec-body p { color: #633806; }
 .rec-crit .rec-body p { color: #791f1f; }
 
-/* Acción recomendada */
+/* Sub-bloque que destaca la "Acción recomendada" a seguir */
 .rec-accion {
   margin-top: 8px;
   padding-top: 8px;
@@ -874,11 +963,12 @@
 .rec-crit .rec-accion-label { color: #a32626; }
 .rec-crit .rec-accion-texto { color: #791f1f; }
 
-/* ── Conectividad ── */
+/* ── Sección: Conectividad y botones inferiores (Apagar/Reconectar) ── */
 .sec-conectividad .sec-head h2 i {
   color: #55a820;
 }
 
+/* Estado textual del dispositivo en la parte inferior */
 .conectividad-estado {
   display: flex;
   align-items: center;
@@ -894,6 +984,7 @@
   color: #b56c07;
 }
 
+/* Punto visual al lado del texto de estado */
 .conectividad-punto {
   width: 10px;
   height: 10px;
@@ -913,6 +1004,7 @@
   50% { opacity: 0.45; }
 }
 
+/* Botones inferiores (Apagar Equipo / Reconectar) */
 .conectividad-acciones {
   display: flex;
   flex-direction: column;
@@ -935,6 +1027,7 @@
   font-family: inherit;
 }
 
+/* Estilo botón apagar (rojo pálido por defecto) */
 .btn-apagar {
   background: #ffffff;
   border-color: #e0b4b4;
@@ -946,6 +1039,7 @@
   border-color: #f44336;
 }
 
+/* Estilo botón reconectar (naranja) */
 .btn-reconectar {
   background: #ffffff;
   border-color: #ffe0b2;
@@ -963,6 +1057,7 @@
   cursor: not-allowed;
 }
 
+/* Mensaje textual por si falla la reconexión */
 .error-reconexion {
   margin: 0;
   font-size: 13px;
@@ -971,7 +1066,8 @@
   line-height: 1.4;
 }
 
-/* ── Modal Reporte Guardado ── */
+/* ── Modal Reporte Guardado Exitosamente ── */
+/* Capa superpuesta semitransparente detrás del modal */
 .modal-overlay {
   position: fixed !important;
   inset: 0 !important;
@@ -983,15 +1079,13 @@
   animation: fade-in 0.2s ease-out;
 }
 
+/* Aparición difuminada para el fondo */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
+/* Animación de entrada de abajo hacia arriba del cuadro modal */
 @keyframes slide-up {
   from {
     transform: translateY(20px);
@@ -1003,6 +1097,7 @@
   }
 }
 
+/* Ventana blanca del modal */
 .modal-exito {
   position: relative;
   background: #fff;
@@ -1016,6 +1111,7 @@
   animation: slide-up 0.3s ease-out;
 }
 
+/* Ícono gigante de "check" dentro del modal */
 .modal-exito-icono {
   width: 64px;
   height: 64px;
@@ -1028,6 +1124,7 @@
   font-size: 36px;
 }
 
+/* Título de éxito en el modal */
 .modal-exito h3 {
   margin: 0 0 10px;
   color: var(--color-titulos, #073d2b);
@@ -1035,6 +1132,7 @@
   font-weight: 800;
 }
 
+/* Mensaje en el modal */
 .modal-exito p {
   margin: 0 0 24px;
   color: var(--color-textos-descriptivos, #597268);
@@ -1042,6 +1140,7 @@
   line-height: 1.5;
 }
 
+/* Botón inferior de aceptar para cerrar el modal de éxito */
 .btn-modal-aceptar {
   width: 100%;
   padding: 12px 18px;
@@ -1055,31 +1154,39 @@
   font-family: inherit;
 }
 
-/* ── Responsive ── */
+/* ── Diseño Responsivo / Media Queries ── */
+
+/* Ajustes en tablets */
 @media (max-width: 768px) {
   .panel-agricultor-main {
     padding: 16px;
   }
 
+  /* Compactar el tamaño de la predicción de enfermedades */
   .dis-name {
     width: 120px;
   }
 
+  /* Cambiar de distribución horizontal a vertical el área de salud */
   .health-wrap {
     flex-direction: column;
     align-items: flex-start;
   }
 
+  /* Convertir métricas en una sola columna */
   .mgrid {
     grid-template-columns: 1fr;
   }
 }
 
+/* Ajustes en móviles pequeños */
 @media (max-width: 480px) {
+  /* Todo el bloque de sensores pasa a una fila vertical */
   .sgrid {
     grid-template-columns: 1fr;
   }
 
+  /* En móviles, las estadísticas de condición usan más líneas */
   .dis-row {
     flex-wrap: wrap;
   }

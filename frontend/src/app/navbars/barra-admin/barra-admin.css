@@ -1,148 +1,236 @@
+/* Estilos de la barra de navegación del administrador */
 .admin-navbar {
+  /* Altura mínima de la barra de navegación */
   min-height: 72px;
+  /* Espaciado interno vertical y horizontal */
   padding: 10px 28px;
+  /* Fondo con gradiente radial verde en la esquina superior derecha sobre blanco */
   background:
     radial-gradient(circle at top right, rgba(85, 168, 32, 0.2), transparent 34%),
     #ffffff;
+  /* Borde inferior gris verdoso */
   border-bottom: 1px solid #d7e4dc;
+  /* Sombra suave para dar profundidad */
   box-shadow: 0 10px 24px rgba(7, 61, 43, 0.12);
+  /* Fuente sans-serif estándar */
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Estilos del enlace de marca/logo */
 .navbar-brand {
+  /* Color del texto verde oscuro */
   color: #073d2b;
+  /* Tamaño de fuente grande */
   font-size: 22px;
+  /* Peso de fuente extra negrita */
   font-weight: 800;
 }
 
+/* Estilos del enlace de marca en estados hover y focus */
 .navbar-brand:hover,
 .navbar-brand:focus {
+  /* Mantiene el mismo color en hover */
   color: #073d2b;
 }
 
+/* Estilos de la imagen del escudo/logo */
 .brand-shield {
+  /* Mantiene las proporciones de la imagen sin distorsionar */
   object-fit: contain;
 }
 
+/* Contenedor de las acciones del navbar (enlaces y botón) */
 .admin-navbar-actions {
+  /* Alinea elementos verticalmente al centro */
   align-items: center;
+  /* Alinea el contenido al final (derecha) */
   justify-content: flex-end;
 }
 
+/* Estilos de los enlaces de navegación */
 .nav-link {
+  /* Color usando variable CSS con fallback gris verdoso */
   color: var(--color-links-normales, #456657);
+  /* Peso de fuente negrita */
   font-weight: 700;
+  /* Tamaño de fuente mediano */
   font-size: 15px;
+  /* Espaciado interno */
   padding: 8px 12px;
+  /* Sin subrayado en el texto */
   text-decoration: none;
 }
 
+/* Estilos del enlace en estado hover */
 .nav-link:hover {
+  /* Color verde al pasar el mouse usando variable CSS */
   color: var(--color-links-activos, #55a820);
+  /* Mantiene el peso de fuente negrita */
   font-weight: 700;
 }
 
+/* Estilos del botón de cerrar sesión */
 .logout-button {
+  /* Altura mínima del botón */
   min-height: 46px;
+  /* Espaciado interno */
   padding: 10px 18px;
+  /* Sin borde */
   border: 0;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Fondo con gradiente usando variable CSS con fallback */
   background: var(--btn-background, linear-gradient(135deg, #073d2b, #55a820));
+  /* Color del texto usando variable CSS con fallback blanco */
   color: var(--btn-color-texto, #ffffff);
+  /* Tamaño de fuente */
   font-size: 16px;
+  /* Peso de fuente extra negrita */
   font-weight: 800;
+  /* Sombra pronunciada para dar profundidad */
   box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
+  /* Transiciones suaves para fondo y transformación */
   transition: background 0.3s ease, transform 0.2s ease;
+  /* Sin subrayado en el texto */
   text-decoration: none;
+  /* Elemento inline-block para aplicar padding correctamente */
   display: inline-block;
 }
 
+/* Estilos del botón de cerrar sesión en estados hover y focus */
 .logout-button:hover,
 .logout-button:focus {
+  /* Gradiente más oscuro al pasar el mouse */
   background: linear-gradient(135deg, #052f21, #4a941d);
+  /* Mantiene el color del texto */
   color: var(--btn-color-texto, #ffffff);
+  /* Sin subrayado */
   text-decoration: none;
 }
 
+/* Estilos del botón hamburguesa para móviles */
 .navbar-toggler {
+  /* Sin borde */
   border: none;
+  /* Posicionamiento relativo para el ícono interno */
   position: relative;
+  /* Ancho fijo del botón */
   width: 40px;
+  /* Alto fijo del botón */
   height: 40px;
+  /* Sin padding */
   padding: 0;
 }
 
+/* Estilos del botón hamburguesa en estado focus */
 .navbar-toggler:focus {
+  /* Sin borde al enfocar */
   border: none;
+  /* Sin sombra de enfoque */
   box-shadow: none;
+  /* Sin outline */
   outline: none;
 }
 
+/* Estilos del ícono hamburguesa (línea central) */
 .navbar-toggler-icon {
+  /* Elimina la imagen de fondo por defecto de Bootstrap */
   background-image: none;
+  /* Posicionamiento relativo para los pseudo-elementos */
   position: relative;
+  /* Display block para aplicar dimensiones */
   display: block;
+  /* Ancho de la línea */
   width: 24px;
+  /* Alto de la línea */
   height: 2px;
+  /* Color de fondo verde oscuro */
   background-color: #073d2b;
+  /* Transición suave para animaciones */
   transition: all 0.3s ease;
 }
 
+/* Pseudo-elementos para crear las líneas superior e inferior del ícono hamburguesa */
 .navbar-toggler-icon::before,
 .navbar-toggler-icon::after {
+  /* Contenido vacío necesario para mostrar los pseudo-elementos */
   content: '';
+  /* Posicionamiento absoluto relativo al ícono */
   position: absolute;
+  /* Alineado a la izquierda */
   left: 0;
+  /* Ancho de las líneas */
   width: 24px;
+  /* Alto de las líneas */
   height: 2px;
+  /* Color de fondo verde oscuro */
   background-color: #073d2b;
+  /* Transición suave para animaciones */
   transition: all 0.3s ease;
 }
 
+/* Posición de la línea superior del ícono hamburguesa */
 .navbar-toggler-icon::before {
+  /* 8px arriba de la línea central */
   top: -8px;
 }
 
+/* Posición de la línea inferior del ícono hamburguesa */
 .navbar-toggler-icon::after {
+  /* 8px abajo de la línea central */
   bottom: -8px;
 }
 
+/* Estado del ícono cuando el menú está expandido (forma de X) */
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+  /* Hace transparente la línea central */
   background-color: transparent;
 }
 
+/* Línea superior transformada en parte de la X */
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+  /* Mueve al centro */
   top: 0;
+  /* Rota 45 grados para formar la X */
   transform: rotate(45deg);
 }
 
+/* Línea inferior transformada en parte de la X */
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+  /* Mueve al centro */
   bottom: 0;
+  /* Rota -45 grados para formar la X */
   transform: rotate(-45deg);
 }
 
+/* Media query para dispositivos con ancho menor a 992px (tablets y móviles) */
 @media (max-width: 991px) {
+  /* Reduce el padding de la navbar en móviles */
   .admin-navbar {
     padding: 10px 16px;
   }
 
+  /* Botón de cerrar sesión a ancho completo en móviles */
   .logout-button {
     width: 100%;
     margin-top: 8px;
     justify-content: center;
   }
 
+  /* Alinea las acciones verticalmente en móviles */
   .admin-navbar-actions {
     align-items: stretch;
     padding-top: 12px;
   }
 
+  /* Ajusta el padding de los enlaces en móviles */
   .navbar-nav .nav-link {
     padding: 10px 0;
     padding-left: 12px;
     font-weight: 700;
   }
 
+  /* Color hover de enlaces en móviles */
   .navbar-nav .nav-link:hover {
     color: #55a820;
     font-weight: 700;

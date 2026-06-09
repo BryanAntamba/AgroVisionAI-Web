@@ -1,206 +1,234 @@
+/* Estilos del componente host (el componente en sí) */
 :host {
-  display: block;
-  color: #073d2b;
-  font-family: Arial, Helvetica, sans-serif;
+  display: block; /* El componente se muestra como bloque */
+  color: #073d2b; /* Color de texto verde oscuro */
+  font-family: Arial, Helvetica, sans-serif; /* Fuente sans-serif estándar */
 }
 
+/* Fondo oscuro semitransparente que cubre toda la ventana del navegador */
 .modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: 24px 16px;
-  background: rgba(7, 61, 43, 0.45);
+  position: fixed; /* Posición fija para que no se mueva con el scroll */
+  inset: 0; /* Equivale a top:0, right:0, bottom:0, left:0 */
+  z-index: 1000; /* Índice alto para estar sobre otros elementos */
+  display: grid; /* Usa CSS Grid para el layout */
+  place-items: center; /* Centra el contenido horizontal y verticalmente */
+  padding: 24px 16px; /* Espaciado interno */
+  background: rgba(7, 61, 43, 0.45); /* Fondo verde oscuro con 45% de opacidad */
 }
 
+/* Tarjeta contenedora del modal */
 .modal-card {
-  position: relative;
-  width: min(760px, 100%);
-  max-height: min(92vh, 920px);
-  overflow: auto;
-  padding: 28px 28px 24px;
-  border: 1px solid #d7e4dc;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 24px 48px rgba(7, 61, 43, 0.2);
+  position: relative; /* Posición relativa para elementos absolutos internos */
+  width: min(760px, 100%); /* Ancho máximo de 760px o 100% si la pantalla es más pequeña */
+  max-height: min(92vh, 920px); /* Altura máxima de 92% del viewport o 920px */
+  overflow: auto; /* Scroll automático si el contenido excede la altura */
+  padding: 28px 28px 24px; /* Espaciado interno: arriba, lados, abajo */
+  border: 1px solid #d7e4dc; /* Borde verde claro */
+  border-radius: 8px; /* Bordes redondeados de 8px */
+  background: #ffffff; /* Fondo blanco sólido */
+  box-shadow: 0 24px 48px rgba(7, 61, 43, 0.2); /* Sombra para efecto de elevación */
 }
 
+/* Título principal del modal */
 .modal-card h2 {
-  margin: 0 44px 22px 0;
-  font-size: 28px;
-  line-height: 1.15;
-  text-align: left;
+  margin: 0 44px 22px 0; /* Margen: sin arriba, derecha (espacio para botón X), abajo, sin izquierda */
+  font-size: 28px; /* Tamaño de fuente grande */
+  line-height: 1.15; /* Altura de línea ajustada */
+  text-align: left; /* Alineación del texto a la izquierda */
 }
 
+/* Botón de cierre (X) en la esquina superior derecha del modal */
 .modal-close {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 0;
-  border-radius: 8px;
-  background: #f5faf3;
-  color: #073d2b;
-  cursor: pointer;
-  font-size: 18px;
+  position: absolute; /* Posicionamiento absoluto respecto a .modal-card */
+  top: 18px; /* 18px desde arriba */
+  right: 18px; /* 18px desde la derecha */
+  display: grid; /* Grid para centrar el ícono */
+  place-items: center; /* Centra el contenido */
+  width: 40px; /* Ancho del botón */
+  height: 40px; /* Alto del botón */
+  border: 0; /* Sin borde */
+  border-radius: 8px; /* Bordes redondeados */
+  background: #f5faf3; /* Fondo verde muy claro */
+  color: #073d2b; /* Color del ícono verde oscuro */
+  cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+  font-size: 18px; /* Tamaño del ícono */
 }
 
+/* Estados hover (pasar el mouse) y focus (seleccionado por teclado) del botón de cierre */
 .modal-close:hover,
 .modal-close:focus {
-  background: #edf5e9;
-  color: #55a820;
+  background: #edf5e9; /* Fondo verde más oscuro al interactuar */
+  color: #55a820; /* Color del ícono verde brillante */
 }
 
+/* Contenedor principal del formulario */
 .modal-form {
-  display: grid;
-  gap: 18px;
+  display: grid; /* Layout de grid */
+  gap: 18px; /* Espaciado de 18px entre elementos */
 }
 
+/* Contenedor de los campos del formulario en disposición de 2 columnas */
 .modal-fields {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px 16px;
+  display: grid; /* Layout de grid */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columnas de igual tamaño */
+  gap: 14px 16px; /* Espaciado: 14px vertical, 16px horizontal */
 }
 
+/* Cada campo individual del formulario */
 .modal-fields .field {
-  min-height: 103px;
+  min-height: 103px; /* Altura mínima para acomodar label, input y mensaje de error */
 }
 
+/* Campos que ocupan ambas columnas (ancho completo) */
 .modal-fields .field-full {
-  grid-column: 1 / -1;
+  grid-column: 1 / -1; /* Se extiende desde la primera hasta la última columna */
 }
 
+/* Etiquetas de los campos del formulario */
 label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 13px;
-  font-weight: 800;
+  display: block; /* Elemento de bloque */
+  margin-bottom: 8px; /* Espaciado inferior */
+  font-size: 13px; /* Tamaño de fuente pequeño */
+  font-weight: 800; /* Fuente extra negrita */
 }
 
+/* Contenedor del input que incluye el ícono y el campo de texto */
 .input-shell {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  border: 1px solid #c8d8ce;
-  border-radius: 8px;
-  background: #fbfdf9;
+  display: flex; /* Flexbox para alinear ícono e input */
+  align-items: center; /* Alineación vertical centrada */
+  min-height: 44px; /* Altura mínima del contenedor */
+  border: 1px solid #c8d8ce; /* Borde gris verdoso */
+  border-radius: 8px; /* Bordes redondeados */
+  background: #fbfdf9; /* Fondo casi blanco */
 }
 
+/* Versión más alta del contenedor de input para los modales */
 .modal-input-shell {
-  min-height: 54px;
+  min-height: 54px; /* Altura mínima aumentada */
 }
 
+/* Estado cuando el input tiene foco (está seleccionado) */
 .modal-input-shell:focus-within {
-  border-color: #55a820;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13);
+  border-color: #55a820; /* Cambia el borde a verde brillante */
+  background: #ffffff; /* Fondo blanco puro */
+  box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13); /* Sombra/resplandor verde suave */
 }
 
+/* Íconos dentro del contenedor de input */
 .input-shell i {
-  width: 42px;
-  color: #55a820;
-  text-align: center;
+  width: 42px; /* Ancho del área del ícono */
+  color: #55a820; /* Color verde brillante */
+  text-align: center; /* Centrado horizontalmente */
 }
 
+/* Íconos específicos de los modales con mayor ancho */
 .modal-input-shell > i {
-  width: 48px;
+  width: 48px; /* Ancho aumentado */
 }
 
+/* Campos de entrada de texto (input) */
 input {
-  width: 100%;
-  min-width: 0;
-  min-height: 44px;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: #073d2b;
-  font: inherit;
+  width: 100%; /* Ocupa todo el ancho disponible */
+  min-width: 0; /* Permite que se encoja si es necesario */
+  min-height: 44px; /* Altura mínima del input */
+  border: 0; /* Sin borde (el borde está en .input-shell) */
+  outline: 0; /* Sin outline al hacer foco */
+  background: transparent; /* Fondo transparente */
+  color: #073d2b; /* Color de texto verde oscuro */
+  font: inherit; /* Hereda la fuente del padre */
 }
 
+/* Botón para alternar la visibilidad de la contraseña (ojo) */
 .password-toggle {
-  display: grid;
-  place-items: center;
-  flex: 0 0 46px;
-  height: 46px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  color: #073d2b;
-  cursor: pointer;
-  font-size: 16px;
+  display: grid; /* Grid para centrar el ícono */
+  place-items: center; /* Centra el contenido */
+  flex: 0 0 46px; /* No crece, no se encoge, base de 46px */
+  height: 46px; /* Altura del botón */
+  border: 0; /* Sin borde */
+  border-radius: 8px; /* Bordes redondeados */
+  background: transparent; /* Fondo transparente */
+  color: #073d2b; /* Color del ícono verde oscuro */
+  cursor: pointer; /* Cursor de mano */
+  font-size: 16px; /* Tamaño del ícono */
 }
 
+/* Etiqueta para el grupo de opciones de rol */
 .rol-label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 700;
+  display: block; /* Elemento de bloque */
+  margin-bottom: 8px; /* Espaciado inferior */
+  font-size: 14px; /* Tamaño de fuente */
+  font-weight: 700; /* Fuente en negrita */
 }
 
+/* Contenedor de las opciones de rol (radio buttons) */
 .rol-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  display: flex; /* Flexbox para disposición horizontal */
+  flex-wrap: wrap; /* Permite que se ajusten en múltiples líneas */
+  gap: 12px; /* Espaciado entre opciones */
 }
 
+/* Cada opción de rol individual (label que contiene el radio button) */
 .rol-option {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 54px;
-  padding: 0 16px;
-  border: 1px solid #c8d8ce;
-  border-radius: 8px;
-  background: #fbfdf9;
-  cursor: pointer;
-  font-weight: 700;
+  display: inline-flex; /* Flexbox inline para alinear radio e input */
+  align-items: center; /* Alineación vertical centrada */
+  gap: 8px; /* Espaciado entre el radio y el texto */
+  min-height: 54px; /* Altura mínima */
+  padding: 0 16px; /* Espaciado horizontal interno */
+  border: 1px solid #c8d8ce; /* Borde gris verdoso */
+  border-radius: 8px; /* Bordes redondeados */
+  background: #fbfdf9; /* Fondo casi blanco */
+  cursor: pointer; /* Cursor de mano al pasar sobre la opción */
+  font-weight: 700; /* Fuente en negrita */
 }
 
+/* Radio button dentro de la opción de rol */
 .rol-option input {
-  width: auto;
-  min-height: auto;
-  margin: 0;
-  accent-color: #55a820;
+  width: auto; /* Ancho automático (no ocupa todo el espacio) */
+  min-height: auto; /* Altura automática */
+  margin: 0; /* Sin margen */
+  accent-color: #55a820; /* Color del radio button cuando está seleccionado */
 }
 
+/* Contenedor de los botones de acción del modal */
 .modal-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 10px;
-  padding-top: 4px;
+  display: flex; /* Flexbox para alinear botones */
+  flex-wrap: wrap; /* Permite ajuste en múltiples líneas */
+  justify-content: flex-end; /* Alinea los botones a la derecha */
+  gap: 10px; /* Espaciado entre botones */
+  padding-top: 4px; /* Espaciado superior */
 }
 
+/* Estilos base para los botones de cancelar y guardar */
 .modal-cancel,
 .modal-submit {
-  min-height: 54px;
-  border: 0;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 800;
+  min-height: 54px; /* Altura mínima de los botones */
+  border: 0; /* Sin borde por defecto */
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de mano */
+  font-size: 16px; /* Tamaño de fuente */
+  font-weight: 800; /* Fuente extra negrita */
 }
 
+/* Botón de cancelar */
 .modal-cancel {
-  padding: 0 18px;
-  border: 1px solid #d7e4dc;
-  background: #fbfdf9;
-  color: #073d2b;
+  padding: 0 18px; /* Espaciado horizontal interno */
+  border: 1px solid #d7e4dc; /* Borde verde claro */
+  background: #fbfdf9; /* Fondo casi blanco */
+  color: #073d2b; /* Texto verde oscuro */
 }
 
+/* Botón de guardar/submit */
 .modal-submit {
-  padding: 0 22px;
-  background: linear-gradient(135deg, #073d2b, #55a820);
-  color: #ffffff;
-  box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
+  padding: 0 22px; /* Espaciado horizontal interno */
+  background: linear-gradient(135deg, #073d2b, #55a820); /* Gradiente de verde oscuro a brillante */
+  color: #ffffff; /* Texto blanco */
+  box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24); /* Sombra para efecto de elevación */
 }
 
+/* Media query para pantallas pequeñas (menores a 700px) */
 @media (max-width: 700px) {
+  /* Cambia el grid de campos a una sola columna */
   .modal-fields {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Una columna en lugar de dos */
   }
 }

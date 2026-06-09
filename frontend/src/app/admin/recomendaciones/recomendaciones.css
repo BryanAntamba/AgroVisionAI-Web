@@ -1,281 +1,462 @@
+/* Bloque base del componente, define el tipo de display y los estilos de texto por defecto */
 :host {
+  /* Establece el componente como un elemento de bloque */
   display: block;
+  /* Color de texto principal verde oscuro */
   color: #073d2b;
+  /* Fuente sans-serif estándar */
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Contenedor principal de la página que ocupa el alto de la pantalla menos la barra de navegación */
 .dashboard-page {
+  /* Altura mínima calculada restando el alto de la barra superior (72px) */
   min-height: calc(100vh - 72px);
+  /* Espaciado interno de 32px en todos los lados */
   padding: 32px;
+  /* Color de fondo verde muy claro */
   background: #f5faf3;
 }
 
+/* Encabezado del dashboard con título y botón de acción */
 .dashboard-header {
+  /* Disposición flexible de elementos */
   display: flex;
+  /* Alinea elementos al inicio verticalmente */
   align-items: flex-start;
+  /* Distribuye espacio entre elementos */
   justify-content: space-between;
+  /* Espacio de 20px entre elementos */
   gap: 20px;
+  /* Ancho máximo de 1220px centrado */
   width: min(1220px, 100%);
+  /* Centrado horizontal con margen inferior de 18px */
   margin: 0 auto 18px;
+  /* Permite que los elementos se envuelvan en múltiples líneas si es necesario */
   flex-wrap: wrap;
 }
 
+/* Contenedor de texto dentro del encabezado con tamaño flexible */
 .dashboard-header > div {
+  /* Crece y se encoge flexiblemente con base mínima de 500px */
   flex: 1 1 500px;
+  /* Ancho mínimo de 280px antes de envolver */
   min-width: 280px;
 }
 
+/* Texto pequeño superior que indica la sección actual */
 .eyebrow {
+  /* Margen solo en la parte inferior */
   margin: 0 0 8px;
+  /* Color verde de la marca */
   color: #55a820;
+  /* Tamaño de fuente pequeño */
   font-size: 13px;
+  /* Peso de fuente extra negrita */
   font-weight: 800;
+  /* Convierte el texto a mayúsculas */
   text-transform: uppercase;
 }
 
+/* Título principal de la página */
 h1 {
+  /* Margen solo en la parte inferior */
   margin: 0 0 10px;
+  /* Tamaño de fuente grande para el título */
   font-size: 34px;
 }
 
+/* Párrafo descriptivo dentro del encabezado */
 .dashboard-header p {
+  /* Sin margen */
   margin: 0;
+  /* Color de texto gris verdoso */
   color: #456657;
 }
 
+/* Botón principal para crear/registrar nueva recomendación */
 .create-button {
+  /* Disposición flex inline para mantener tamaño ajustado */
   display: inline-flex;
+  /* Centra elementos verticalmente */
   align-items: center;
+  /* Espacio de 8px entre ícono y texto */
   gap: 8px;
+  /* Altura mínima del botón */
   min-height: 42px;
+  /* Espaciado interno horizontal */
   padding: 0 18px;
+  /* Sin borde */
   border: 0;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Gradiente de fondo de verde oscuro a verde claro */
   background: linear-gradient(135deg, #073d2b, #55a820);
+  /* Texto blanco */
   color: #fff;
+  /* Peso de fuente negrita */
   font-weight: 800;
+  /* Cursor de puntero al pasar el mouse */
   cursor: pointer;
+  /* Evita que el texto se divida en varias líneas */
   white-space: nowrap;
+  /* No se encoge cuando el espacio es limitado */
   flex-shrink: 0;
 }
 
+/* Barra de filtros con campos de búsqueda y filtro de prioridad */
 .filters-bar {
+  /* Grid con dos columnas de tamaños diferentes */
   display: grid;
+  /* Primera columna más ancha (1.4fr), segunda más estrecha (0.8fr) */
   grid-template-columns: minmax(260px, 1.4fr) minmax(180px, 0.8fr);
+  /* Espacio de 14px entre columnas */
   gap: 14px;
+  /* Ancho máximo centrado */
   width: min(1220px, 100%);
+  /* Centrado horizontal con margen inferior */
   margin: 0 auto 18px;
+  /* Espaciado interno */
   padding: 18px;
+  /* Borde gris verdoso claro */
   border: 1px solid #d7e4dc;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Fondo blanco */
   background: #fff;
 }
 
 
+/* Etiquetas de los campos de formulario */
 label {
+  /* Elemento de bloque para ocupar toda la línea */
   display: block;
+  /* Margen inferior para separar de los inputs */
   margin-bottom: 8px;
+  /* Tamaño de fuente pequeño */
   font-size: 13px;
+  /* Peso de fuente extra negrita */
   font-weight: 800;
 }
 
+/* Contenedor estilizado que simula un input con ícono integrado */
 .input-shell {
+  /* Disposición flex para alinear ícono e input */
   display: flex;
+  /* Centra elementos verticalmente */
   align-items: center;
+  /* Espacio de 10px entre ícono e input */
   gap: 10px;
+  /* Altura mínima del contenedor */
   min-height: 48px;
+  /* Espaciado interno horizontal */
   padding: 0 14px;
+  /* Borde gris verdoso */
   border: 1px solid #c8d8ce;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Fondo verde muy claro */
   background: #fbfdf9;
 }
 
+/* Input de texto dentro del contenedor y select de filtros */
 .input-shell input,
 .filter-field select {
+  /* Ancho completo del contenedor */
   width: 100%;
+  /* Sin borde (el contenedor .input-shell lo proporciona) */
   border: 0;
+  /* Fondo transparente */
   background: transparent;
+  /* Sin outline al enfocar */
   outline: none;
+  /* Tamaño de fuente del texto */
   font-size: 14px;
+  /* Color del texto */
   color: #073d2b;
 }
 
+/* Select de filtro de prioridad con estilos propios */
 .filter-field select {
+  /* Altura mínima del select */
   min-height: 48px;
+  /* Espaciado interno */
   padding: 0 14px;
+  /* Borde gris verdoso */
   border: 1px solid #c8d8ce;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Fondo verde muy claro */
   background: #fbfdf9;
+  /* Sin outline por defecto */
   outline: none;
+  /* Transición suave de borde y sombra */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/* Estado de focus del select mostrando borde verde y sombra */
 .filter-field select:focus {
+  /* Borde verde al enfocar */
   border-color: #55a820;
+  /* Fondo blanco al enfocar */
   background: #ffffff;
+  /* Sombra verde suave alrededor del select */
   box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13);
 }
 
+/* Secciones de vista previa y lista de recomendaciones con fondo blanco */
 .vista-previa-seccion,
 .lista-recomendaciones {
+  /* Ancho máximo centrado */
   width: min(1220px, 100%);
+  /* Centrado horizontal con margen inferior */
   margin: 0 auto 18px;
+  /* Espaciado interno */
   padding: 18px;
+  /* Borde gris verdoso claro */
   border: 1px solid #d7e4dc;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Fondo blanco */
   background: #fff;
 }
 
+/* Subtítulos dentro de las secciones de vista previa y lista */
 .vista-previa-seccion h2,
 .lista-recomendaciones h2 {
+  /* Margen solo en la parte inferior */
   margin: 0 0 14px;
+  /* Tamaño de fuente mediano */
   font-size: 18px;
 }
 
+/* Item de recomendación en la vista previa (versión simple) */
 .rec-item {
+  /* Disposición flex con espacio entre elementos */
   display: flex;
   gap: 10px;
+  /* Espaciado interno */
   padding: 10px 12px;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Margen inferior entre items */
   margin-bottom: 8px;
 }
 
+/* Variante de color verde para recomendaciones OK/normales */
 .rec-ok { background: #eaf7e5; border: 1px solid #c0dd97; }
+/* Variante de color amarillo para recomendaciones de advertencia */
 .rec-warn { background: #fdf5e7; border: 1px solid #fac775; }
+/* Variante de color rojo para recomendaciones críticas */
 .rec-crit { background: #fdecea; border: 1px solid #f7c1c1; }
 
+/* Título en negrita dentro del cuerpo de la recomendación */
 .rec-body strong { display: block; margin-bottom: 4px; }
+/* Párrafo dentro del cuerpo de la recomendación */
 .rec-body p { margin: 0; font-size: 13px; }
 
+/* Tarjeta de recomendación completa con contenido y acciones */
 .rec-card {
+  /* Disposición flex con espacio entre contenido y botones */
   display: flex;
   justify-content: space-between;
+  /* Espacio entre contenido y botones */
   gap: 16px;
+  /* Espaciado interno */
   padding: 14px;
+  /* Borde gris verdoso */
   border: 1px solid #d7e4dc;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Margen inferior entre tarjetas */
   margin-bottom: 10px;
+  /* Fondo verde muy claro */
   background: #fbfdf9;
+  /* Transición suave de fondo y borde */
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 /* Colores de fondo según el color de la recomendación */
+/* Tarjeta con color verde (recomendaciones normales/OK) */
 .rec-card.rec-color-verde {
   background: #eaf7e5;
   border-color: #c0dd97;
 }
 
+/* Tarjeta con color amarillo (recomendaciones de atención media) */
 .rec-card.rec-color-amarillo {
   background: #fdf5e7;
   border-color: #fac775;
 }
 
+/* Tarjeta con color naranja (recomendaciones importantes) */
 .rec-card.rec-color-naranja {
   background: #fff3e0;
   border-color: #ffcc80;
 }
 
+/* Tarjeta con color rojo (recomendaciones críticas) */
 .rec-card.rec-color-rojo {
   background: #fdecea;
   border-color: #f7c1c1;
 }
 
+/* Título dentro de la tarjeta de recomendación */
 .rec-card h3 {
+  /* Margen pequeño arriba y abajo */
   margin: 6px 0;
+  /* Tamaño de fuente mediano */
   font-size: 16px;
 }
 
+/* Párrafo dentro de la tarjeta de recomendación */
 .rec-card p {
+  /* Sin margen */
   margin: 0;
+  /* Tamaño de fuente pequeño */
   font-size: 13px;
+  /* Color de texto gris verdoso */
   color: #597268;
 }
 
+/* Sección de acción recomendada dentro de la tarjeta */
 .rec-accion {
+  /* Margen superior para separar del contenido previo */
   margin-top: 10px;
+  /* Espaciado interno superior */
   padding-top: 10px;
+  /* Borde superior sutil para separar visualmente */
   border-top: 1px solid rgba(7, 61, 43, 0.1);
+  /* Tamaño de fuente pequeño */
   font-size: 13px;
 }
 
+/* Etiqueta "Acción recomendada:" en negrita y mayúsculas */
 .rec-accion strong {
+  /* Elemento de bloque para ocupar toda la línea */
   display: block;
+  /* Margen inferior */
   margin-bottom: 4px;
+  /* Tamaño de fuente muy pequeño */
   font-size: 12px;
+  /* Peso de fuente extra negrita */
   font-weight: 800;
+  /* Color de texto verde oscuro */
   color: #073d2b;
+  /* Convierte a mayúsculas */
   text-transform: uppercase;
+  /* Espaciado entre letras */
   letter-spacing: 0.3px;
 }
 
+/* Texto de la acción recomendada */
 .rec-accion span {
+  /* Elemento de bloque */
   display: block;
+  /* Color de texto gris verdoso */
   color: #597268;
+  /* Altura de línea aumentada para mejor legibilidad */
   line-height: 1.5;
 }
 
+/* Badge de prioridad de la recomendación */
 .rec-prioridad {
+  /* Tamaño de fuente muy pequeño */
   font-size: 10px;
+  /* Peso de fuente extra negrita */
   font-weight: 800;
+  /* Espaciado interno */
   padding: 2px 8px;
+  /* Bordes completamente redondeados (píldora) */
   border-radius: 99px;
+  /* Convierte texto a mayúsculas */
   text-transform: uppercase;
 }
 
+/* Badge de prioridad baja con fondo verde */
 .pri-baja { background: #eaf7e5; color: #23730f; }
+/* Badge de prioridad media con fondo amarillo */
 .pri-media { background: #fdf5e7; color: #b56c07; }
+/* Badge de prioridad alta con fondo naranja */
 .pri-alta { background: #fff3e0; color: #e65100; }
+/* Badge de prioridad crítica con fondo rojo */
 .pri-critica { background: #fdecea; color: #c62828; }
 
+/* Contenedor de botones de acción de la tarjeta */
 .rec-card-actions {
+  /* Disposición flex horizontal */
   display: flex;
+  /* Espacio de 8px entre botones */
   gap: 8px;
+  /* Alinea botones al inicio verticalmente */
   align-items: flex-start;
 }
 
+/* Botón de ícono con tamaño fijo */
 .btn-icon {
+  /* Ancho fijo del botón */
   width: 36px;
+  /* Alto fijo del botón */
   height: 36px;
+  /* Borde gris verdoso */
   border: 1px solid #d7e4dc;
+  /* Bordes redondeados */
   border-radius: 8px;
+  /* Fondo blanco */
   background: #fff;
+  /* Color de ícono verde oscuro */
   color: #073d2b;
+  /* Cursor de puntero al pasar el mouse */
   cursor: pointer;
 }
 
+/* Variante de botón de ícono para acción peligrosa (eliminar) */
 .btn-icon-danger {
+  /* Color de ícono rojo */
   color: #c62828;
+  /* Borde rojo claro */
   border-color: #f7c1c1;
 }
 
+/* Mensaje mostrado cuando la lista está vacía */
 .lista-vacia {
+  /* Color de texto gris verdoso */
   color: #597268;
+  /* Tamaño de fuente pequeño */
   font-size: 14px;
 }
 
+/* Media query para pantallas pequeñas (móviles) */
 @media (max-width: 700px) {
+  /* Reduce el espaciado en móviles */
   .dashboard-page {
     padding: 16px;
   }
+  /* Cambia el header a columna vertical en móviles */
   .dashboard-header {
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
   }
+  /* Elimina restricciones de tamaño en el contenedor de texto */
   .dashboard-header > div {
     flex: none;
     min-width: 0;
   }
+  /* Reduce el tamaño del título en móviles */
   h1 {
     font-size: 26px;
   }
+  /* Botón de crear a ancho completo y centrado en móviles */
   .create-button {
     justify-content: center;
     width: 100%;
   }
+  /* Barra de filtros a una sola columna en móviles */
   .filters-bar {
     grid-template-columns: 1fr;
   }
+  /* Tarjetas de recomendación en columna en móviles */
   .rec-card {
     flex-direction: column;
   }

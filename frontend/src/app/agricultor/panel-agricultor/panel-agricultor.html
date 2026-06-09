@@ -1,28 +1,35 @@
+<!-- Componente de navegación superior (Barra Agricultor) -->
 <app-barra-agricultor></app-barra-agricultor>
 
+<!-- Contenedor principal del Panel -->
 <main class="panel-agricultor-main">
+  <!-- Pantalla mostrada cuando el dispositivo NO está conectado -->
   <div class="pantalla-conexion" *ngIf="!dispositivoConectado">
     <app-boton-iot (conectado)="onConectadoDispositivo($event)"></app-boton-iot>
   </div>
 
+  <!-- Contenedor principal del Dashboard (se muestra solo si está conectado) -->
   <div class="dash" *ngIf="dispositivoConectado">
-    <!-- Encabezado -->
+    <!-- Encabezado con título e indicadores de estado -->
     <header class="dash-top">
       <div class="dash-brand">
+        <!-- Punto verde animado que indica que está "en vivo". Cambia de color si se desconecta -->
         <span class="dash-live-dot" [class.off]="dispositivoDesconectado"></span>
         <div class="dash-title">{{ datos.meta.titulo }}</div>
       </div>
       <div class="dash-top-actions">
+        <!-- Botón para guardar reporte del estado actual -->
         <button type="button" class="btn-guardar-reporte" (click)="guardarReporte()" [disabled]="dispositivoDesconectado">
           <i class="fa-solid fa-file-circle-check" aria-hidden="true"></i>
           Guardar reporte
         </button>
+        <!-- Badges visuales de estado -->
         <span class="badge badge-live" *ngIf="!dispositivoDesconectado"><span></span>Dispositivo conectado</span>
         <span class="badge badge-warn" *ngIf="dispositivoDesconectado"><span></span>Dispositivo desconectado</span>
       </div>
     </header>
 
-    <!-- Alertas de sensores / cámara -->
+    <!-- Contenedor de modales de alertas que se renderizan dinámicamente si existen en la lista -->
     <div class="alertas-panel" *ngIf="alertasVisibles.length">
       <app-alerta-dht22
         *ngIf="alertasVisibles.includes('dht22')"
@@ -51,20 +58,23 @@
       ></app-alerta-sensor-ldr>
     </div>
 
-    <!-- Captura de imagen -->
+    <!-- Sección: Captura de imagen (Cámara) -->
     <section class="sec">
       <div class="sec-head">
         <h2><i class="fa-solid fa-camera" aria-hidden="true"></i>Captura de imagen</h2>
       </div>
       <div class="captura-row">
+        <!-- Renderiza la imagen si está disponible -->
         <div class="img-box" *ngIf="datos.imagenes.tiene_captura">
           <img [src]="datos.imagenes.original" alt="Hoja capturada por la cámara" />
         </div>
+        <!-- Renderiza un placeholder si no hay imagen capturada -->
         <div class="img-placeholder camara-pendiente" *ngIf="!datos.imagenes.tiene_captura">
           <i class="fa-solid fa-camera" aria-hidden="true"></i>
           <p>La imagen se capturará automáticamente con la cámara del dispositivo</p>
           <span class="camara-estado">Esperando próxima captura…</span>
         </div>
+        <!-- Metadatos de la captura actual -->
         <div class="captura-meta">
           <div class="meta-block">
             <span class="meta-label">Planta monitoreada</span>
@@ -78,12 +88,13 @@
       </div>
     </section>
 
-    <!-- Índice de salud -->
+    <!-- Sección: Índice general de salud (Gráfico de anillo) -->
     <section class="sec">
       <div class="sec-head">
         <h2><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>Índice de salud de la planta</h2>
       </div>
       <div class="health-wrap">
+        <!-- Gráfico SVG circular. El atributo stroke-dashoffset simula el relleno -->
         <div class="ring-wrap">
           <svg viewBox="0 0 86 86" aria-hidden="true">
             <circle cx="43" cy="43" r="34" fill="none" stroke="#d7e4dc" stroke-width="7" />
@@ -105,10 +116,12 @@
           </div>
           <p class="desc">{{ datos.indice_salud.descripcion }}</p>
         </div>
+        <!-- Barras de desglose de salud -->
         <div class="health-bars">
           <div class="hbrow" *ngFor="let barra of barrasSalud">
             <span class="hblabel">{{ barra.etiqueta }}</span>
             <div class="hbtrack">
+              <!-- El porcentaje se asigna dinámicamente al width del div -->
               <div class="hbfill" [style.width.%]="barra.valor" [style.background]="barra.color"></div>
             </div>
             <span class="hbval">{{ barra.valor }}%</span>
@@ -117,28 +130,32 @@
       </div>
     </section>
 
-    <!-- Sensores -->
+    <!-- Sección: Lecturas de Sensores en Tarjetas -->
     <section class="sec">
       <div class="sec-head">
         <h2><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i>Lecturas de sensores</h2>
       </div>
       <div class="sgrid">
+        <!-- Itera el arreglo de tarjetasSensores y crea un bloque por cada uno -->
         <article class="sc" *ngFor="let sensor of tarjetasSensores">
           <div class="sc-top">
             <i class="fa-solid sc-icon" [ngClass]="sensor.icono" aria-hidden="true"></i>
             <div class="sc-pills">
+              <!-- Píldoras de estado (ej: "Óptimo", "Alerta") -->
               <span class="spill" *ngFor="let pill of sensor.pills" [ngClass]="'sp-' + pill.tipo">{{ pill.texto }}</span>
             </div>
           </div>
           <div class="sc-name">{{ sensor.nombre }}</div>
           <div class="sc-val">{{ sensor.valorNum }}<span class="sc-unit">{{ sensor.unidad }}</span></div>
           <div class="sc-bar">
+            <!-- Barra de progreso lineal para visualizar el valor del sensor dentro del rango -->
             <div class="sc-fill" [style.width.%]="sensor.barPct" [style.background]="sensor.barColor"></div>
           </div>
           <div class="sc-ranges">
             <span *ngFor="let r of sensor.rangos">{{ r }}</span>
           </div>
           <div class="sc-optimo"><i class="fa-solid fa-circle" aria-hidden="true"></i>{{ sensor.optimo }}</div>
+          <!-- Nota adicional si es un valor calculado (estimado) -->
           <p class="sc-estnote" *ngIf="sensor.notaEstimado">
             <i class="fa-solid fa-circle-info" aria-hidden="true"></i>{{ sensor.notaEstimado }}
           </p>
@@ -147,12 +164,13 @@
       </div>
     </section>
 
-    <!-- Diagnóstico IA -->
+    <!-- Sección: Resultados del Diagnóstico por Inteligencia Artificial -->
     <section class="sec">
       <div class="sec-head">
         <h2><i class="fa-solid fa-brain" aria-hidden="true"></i>Diagnóstico de la IA</h2>
       </div>
       <div class="diag-result">
+        <!-- Ícono dinámico según si está sano o enfermo -->
         <div class="diag-iconbox" [class.warn]="!diagnosticoEsSano">
           <i class="fa-solid" [ngClass]="diagnosticoEsSano ? 'fa-shield-heart' : 'fa-triangle-exclamation'" aria-hidden="true"></i>
         </div>
@@ -162,6 +180,7 @@
           <div class="conf-row">
             <span class="conf-lbl">Resultado inteligente</span>
             <div class="conf-track">
+              <!-- Barra de nivel de confianza del modelo de IA -->
               <div class="conf-fill" [style.width.%]="datos.diagnostico_final.confianza_final"></div>
             </div>
             <span class="conf-pct">{{ datos.diagnostico_final.confianza_final }} %</span>
@@ -169,6 +188,7 @@
         </div>
       </div>
       <div class="subsec">Probabilidades por condición</div>
+      <!-- Lista de otras posibles enfermedades evaluadas por la IA -->
       <div class="dis-row" *ngFor="let pred of predicciones">
         <span class="dis-name">{{ pred.nombre }}</span>
         <div class="dis-track">
@@ -181,27 +201,31 @@
       </p>
     </section>
 
-    <!-- Métricas de lesión -->
+    <!-- Sección: Métricas visuales de la lesión en la hoja -->
     <section class="sec">
       <div class="sec-head">
         <h2><i class="fa-solid fa-microscope" aria-hidden="true"></i>Métricas de lesión foliar</h2>
       </div>
       <div class="mgrid">
+        <!-- Renderiza tarjetas para áreas amarillas, marrones, etc. -->
         <article class="mc" *ngFor="let m of metricasLesion">
           <div class="mc-top">
             <span class="mc-name"><i class="fa-solid" [ngClass]="m.icono" aria-hidden="true"></i>{{ m.nombre }}</span>
             <span class="mpill" [ngClass]="'mp-' + m.pillTipo">{{ m.pill }}</span>
           </div>
           <div class="mc-val">{{ m.valorNum }}<span class="mc-unit">{{ m.unidad }}</span></div>
+          <!-- Representación de tipo "semáforo" (Normal, Alerta, Crítico) -->
           <div class="sem-track">
             <div class="sem-ok"></div>
             <div class="sem-warn"></div>
             <div class="sem-crit"></div>
+            <!-- Punto indicador (dot) flotante -->
             <div class="sem-dot" [style.left.%]="m.dotLeft" [style.background]="m.pillTipo === 'ok' ? '#55a820' : m.pillTipo === 'warn' ? '#b56c07' : '#c62828'"></div>
           </div>
           <div class="sem-lbls">
             <span *ngFor="let lbl of m.escalaLabels">{{ lbl }}</span>
           </div>
+          <!-- Leyenda de colores -->
           <div class="mleg">
             <div class="mleg-i" *ngFor="let leg of m.leyenda">
               <div class="mleg-dot" [style.background]="leg.color"></div>
@@ -216,11 +240,12 @@
       </p>
     </section>
 
-    <!-- Recomendaciones -->
+    <!-- Sección: Recomendaciones automáticas -->
     <section class="sec">
       <div class="sec-head">
         <h2><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>Recomendaciones de acción</h2>
       </div>
+      <!-- Bucle a través del arreglo de recomendaciones (informativas o urgentes) -->
       <article class="rec-item" *ngFor="let rec of recomendaciones" [ngClass]="'rec-' + rec.tipo">
         <i class="fa-solid" [ngClass]="rec.icono" aria-hidden="true"></i>
         <div class="rec-body">
@@ -234,7 +259,7 @@
       </article>
     </section>
 
-    <!-- Conectividad -->
+    <!-- Sección final: Conectividad y acciones de dispositivo -->
     <section class="sec sec-conectividad">
       <div class="sec-head">
         <h2><i class="fa-solid fa-plug" aria-hidden="true"></i>Conectividad del dispositivo</h2>
@@ -244,6 +269,7 @@
         <span>{{ estadoConexionTexto }}</span>
       </div>
       <div class="conectividad-acciones">
+        <!-- Botón para apagar -->
         <button
           *ngIf="!dispositivoDesconectado"
           type="button"
@@ -253,6 +279,7 @@
           <i class="fa-solid fa-power-off" aria-hidden="true"></i>
           {{ isDisconnecting ? 'Apagando...' : 'Apagar dispositivo' }}
         </button>
+        <!-- Botón para reconectar -->
         <button
           *ngIf="dispositivoDesconectado"
           type="button"
@@ -268,6 +295,7 @@
   </div>
 </main>
 
+<!-- Modal: Confirmación de que el reporte fue guardado exitosamente -->
 <div class="modal-overlay" *ngIf="mostrarModalReporteGuardado" (click)="cerrarModalReporteGuardado()">
   <div class="modal-exito" (click)="$event.stopPropagation()" role="dialog" aria-labelledby="modalReporteTitulo" aria-modal="true">
     <div class="modal-exito-icono" aria-hidden="true">
@@ -279,6 +307,7 @@
   </div>
 </div>
 
+<!-- Modal componente externo: Apagar Equipo IoT -->
 <app-apagar-equipo-iot 
   *ngIf="mostrarModalApagado"
   (cerrar)="cerrarModalApagado()"

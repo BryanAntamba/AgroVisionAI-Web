@@ -1,20 +1,35 @@
+// Interfaz que define la estructura de datos para un usuario administrador en el sistema
 export interface UsuarioAdmin {
+  // Identificador único del usuario
   id: number;
+  // Primer nombre del usuario
   nombre: string;
+  // Segundo nombre del usuario
   segundoNombre: string;
+  // Primer apellido del usuario
   apellido: string;
+  // Segundo apellido del usuario
   segundoApellido: string;
+  // Correo corporativo asignado por la empresa
   correoCorporativo: string;
+  // Correo electrónico personal del usuario
   correoElectronico: string;
+  // Número de teléfono del usuario
   telefono: string;
+  // Rol que desempeña el usuario en el sistema
   rol: 'Admin' | 'Agricultor';
+  // Estado de la cuenta del usuario
   cuenta: 'Activo' | 'Inactivo';
+  // Estado actual de la sesión del usuario
   sesion: 'En linea' | 'Sin sesion';
+  // Fecha en que se registró el usuario en el sistema
   fechaRegistro: string;
 }
 
+// Array con datos simulados de usuarios para pruebas en el panel administrador
 export const datosSimuladosAdmin: UsuarioAdmin[] = [
   {
+    // Usuario agricultor: Carlos Andres Mendoza Ruiz
     id: 1,
     nombre: 'Carlos',
     segundoNombre: 'Andres',
@@ -29,6 +44,7 @@ export const datosSimuladosAdmin: UsuarioAdmin[] = [
     fechaRegistro: '2026-05-18',
   },
   {
+    // Usuario agricultor: Mariana Isabel Lopez Vera
     id: 2,
     nombre: 'Mariana',
     segundoNombre: 'Isabel',
@@ -43,6 +59,7 @@ export const datosSimuladosAdmin: UsuarioAdmin[] = [
     fechaRegistro: '2026-04-28',
   },
   {
+    // Usuario admin: Jose Miguel Cabrera Solis
     id: 3,
     nombre: 'Jose',
     segundoNombre: 'Miguel',
@@ -57,6 +74,7 @@ export const datosSimuladosAdmin: UsuarioAdmin[] = [
     fechaRegistro: '2026-03-12',
   },
   {
+    // Usuario agricultor: Daniela Sofia Paredes Mora
     id: 4,
     nombre: 'Daniela',
     segundoNombre: 'Sofia',
@@ -71,6 +89,7 @@ export const datosSimuladosAdmin: UsuarioAdmin[] = [
     fechaRegistro: '2026-02-07',
   },
   {
+    // Usuario admin: Luis Fernando Aguirre Torres
     id: 5,
     nombre: 'Luis',
     segundoNombre: 'Fernando',
@@ -85,6 +104,7 @@ export const datosSimuladosAdmin: UsuarioAdmin[] = [
     fechaRegistro: '2025-12-21',
   },
   {
+    // Usuario agricultor: Valeria Emilia Sanchez Castro
     id: 6,
     nombre: 'Valeria',
     segundoNombre: 'Emilia',

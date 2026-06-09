@@ -1,12 +1,19 @@
+<!-- Contenedor principal de la alerta, con rol 'alert' para accesibilidad -->
 <article class="alerta-banner" role="alert">
+  <!-- Contenedor del ícono decorativo, oculto para lectores de pantalla -->
   <div class="alerta-icono" aria-hidden="true">
     <i class="fa-solid fa-sun"></i>
   </div>
+  <!-- Contenedor de la información textual de la alerta -->
   <div class="alerta-contenido">
+    <!-- Muestra el título principal de la alerta -->
     <h3 class="alerta-titulo">{{ alerta.titulo }}</h3>
+    <!-- Muestra la descripción corta del problema -->
     <p class="alerta-descripcion">{{ alerta.descripcionCorta }}</p>
+    <!-- Muestra la fecha y hora en la que ocurrió el evento -->
     <p class="alerta-fecha">{{ alerta.fechaHora }}</p>
   </div>
+  <!-- Botón con ícono 'X' que emite el evento para cerrar u ocultar esta alerta -->
   <button type="button" class="alerta-cerrar" aria-label="Cerrar alerta" (click)="cerrar.emit()">
     <i class="fa-solid fa-xmark"></i>
   </button>

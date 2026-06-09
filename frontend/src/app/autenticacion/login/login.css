@@ -1,3 +1,4 @@
+/* Bloque principal del componente para que ocupe todo el alto disponible */
 :host {
   display: block;
   min-height: 100vh;
@@ -5,10 +6,12 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Reinicio general del modelo de caja */
 * {
   box-sizing: border-box;
 }
 
+/* Estructura en Grid (2 columnas) para escritorio */
 .login-page {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(390px, 32vw, 500px);
@@ -19,12 +22,14 @@
   background: #f7fbf5;
 }
 
+/* Panel izquierdo: Contenedor del carrusel fotográfico */
 .carousel-panel {
   height: 100dvh;
   overflow: hidden;
   background: #073d2b;
 }
 
+/* Ajustes base para asegurar que el carrusel y sus imágenes ocupen el 100% */
 .carousel {
   height: 100%;
 }
@@ -35,6 +40,7 @@
   height: 100%;
 }
 
+/* Estilo para que la imagen cubra todo el espacio sin distorsionarse */
 .carousel-item img {
   width: 100%;
   height: 100%;
@@ -42,11 +48,13 @@
   object-position: center center;
 }
 
+/* Controles de avance/retroceso del carrusel */
 .carousel-control-prev,
 .carousel-control-next {
   width: 56px;
 }
 
+/* Panel derecho: Contiene el formulario de inicio de sesión con un degradado sutil */
 .login-panel {
   display: flex;
   align-items: center;
@@ -60,17 +68,20 @@
   box-shadow: -22px 0 42px rgba(7, 61, 43, 0.12);
 }
 
+/* Tarjeta contenedora específica del formulario */
 .login-card {
   width: 100%;
   max-width: 430px;
 }
 
+/* Logo de la empresa */
 .brand-logo {
   display: block;
   width: 150px;
   margin: 0 auto 26px;
 }
 
+/* Título principal "Iniciar Sesión" */
 h1 {
   margin: 0 0 28px;
   font-size: 31px;
@@ -78,15 +89,18 @@ h1 {
   text-align: center;
 }
 
+/* Estilos básicos de la etiqueta de formulario para crear espacios */
 form {
   display: grid;
   gap: 18px;
 }
 
+/* Contenedor individual para cada campo de entrada */
 .field {
   min-height: 103px;
 }
 
+/* Etiquetas textuales de cada campo */
 label {
   display: block;
   margin-bottom: 8px;
@@ -94,6 +108,7 @@ label {
   font-weight: 700;
 }
 
+/* Envoltorio decorativo que simula ser el borde del input para albergar iconos */
 .input-shell {
   display: flex;
   align-items: center;
@@ -103,18 +118,21 @@ label {
   background: #fbfdf9;
 }
 
+/* Efecto visual de resalte cuando el usuario hace focus dentro del envoltorio */
 .input-shell:focus-within {
   border-color: #55a820;
   background: #ffffff;
   box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13);
 }
 
+/* Iconos de FontAwesome dentro del input (ej. correo, candado) */
 .input-shell > i {
   width: 48px;
   color: #55a820;
   text-align: center;
 }
 
+/* Input real transparente que ocupa el resto del espacio disponible */
 input {
   width: 100%;
   min-width: 0;
@@ -125,10 +143,12 @@ input {
   font: inherit;
 }
 
+/* Color del texto de ayuda de los inputs */
 input::placeholder {
   color: #7d9186;
 }
 
+/* Estilos de mensaje de error por credenciales incorrectas */
 .login-error {
   margin: -4px 0 0;
   color: #c92b2b;
@@ -137,6 +157,7 @@ input::placeholder {
   text-align: center;
 }
 
+/* Botón flotante para revelar u ocultar la contraseña */
 .password-toggle {
   display: grid;
   place-items: center;
@@ -150,6 +171,7 @@ input::placeholder {
   font-size: 16px;
 }
 
+/* Botón principal verde para iniciar sesión */
 .submit-button {
   width: 100%;
   min-height: 54px;
@@ -163,6 +185,7 @@ input::placeholder {
   box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
 }
 
+/* Enlace inferior de "¿Olvidaste tu contraseña?" */
 .forgot-link {
   display: block;
   width: 100%;
@@ -176,16 +199,19 @@ input::placeholder {
   text-decoration: none;
 }
 
+/* Efecto hover sobre el enlace */
 .forgot-link:hover {
   color: #55a820;
 }
 
+/* Animación inicial común: aparece de abajo hacia arriba con fade */
 .fade-up {
   opacity: 0;
   transform: translateY(34px);
   animation: fadeUp 720ms ease forwards;
 }
 
+/* Retrasos secuenciales para dar efecto en cascada a los elementos al cargar la página */
 .delay-1 { animation-delay: 90ms; }
 .delay-2 { animation-delay: 190ms; }
 .delay-3 { animation-delay: 290ms; }
@@ -193,6 +219,7 @@ input::placeholder {
 .delay-5 { animation-delay: 490ms; }
 .delay-6 { animation-delay: 590ms; }
 
+/* Definición de la animación de entrada */
 @keyframes fadeUp {
   to {
     opacity: 1;
@@ -200,7 +227,9 @@ input::placeholder {
   }
 }
 
+/* Diseño Responsivo: Pantallas pequeñas / Dispositivos móviles */
 @media (max-width: 900px) {
+  /* Convierte la cuadrícula en 1 sola columna y oculta el carrusel de imágenes */
   .login-page {
     grid-template-columns: 1fr;
   }
@@ -209,6 +238,7 @@ input::placeholder {
     display: none;
   }
 
+  /* Centra el panel en dispositivos pequeños */
   .login-panel {
     justify-content: center;
     padding: 32px 20px;
@@ -220,6 +250,7 @@ input::placeholder {
   }
 }
 
+/* Diseño Responsivo: Pantallas muy grandes (Escritorio ancho) */
 @media (min-width: 1440px) {
   .login-page {
     grid-template-columns: minmax(0, 1fr) clamp(440px, 30vw, 540px);
@@ -230,6 +261,7 @@ input::placeholder {
   }
 }
 
+/* Ajustes finos para posicionamiento de imágenes en monitores extra anchos */
 @media (min-width: 1800px) {
   .carousel-item img {
     object-position: center center;

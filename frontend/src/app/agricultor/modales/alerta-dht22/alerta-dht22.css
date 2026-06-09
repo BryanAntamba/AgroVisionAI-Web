@@ -1,3 +1,4 @@
+/* Contenedor principal estilo 'banner' horizontal */
 .alerta-banner {
   display: flex;
   align-items: flex-start;
@@ -5,12 +6,15 @@
   padding: 14px 16px;
   margin-bottom: 10px;
   border: 1px solid #f7c1c1;
+  /* Borde izquierdo más grueso y rojo para destacar el tipo de alerta (error) */
   border-left: 4px solid #c62828;
   border-radius: 8px;
+  /* Fondo rojo claro de alerta */
   background: #fdecea;
   box-shadow: 0 8px 20px rgba(198, 40, 40, 0.08);
 }
 
+/* Recuadro blanco donde va el ícono del sensor o error */
 .alerta-icono {
   flex-shrink: 0;
   width: 36px;
@@ -23,11 +27,13 @@
   font-size: 18px;
 }
 
+/* Área que envuelve los textos, ocupando el espacio disponible */
 .alerta-contenido {
   flex: 1;
   min-width: 0;
 }
 
+/* Estilo del título principal de la alerta */
 .alerta-titulo {
   margin: 0 0 4px;
   font-size: 14px;
@@ -35,6 +41,7 @@
   color: #791f1f;
 }
 
+/* Estilo del párrafo descriptivo de la alerta */
 .alerta-descripcion {
   margin: 0 0 6px;
   font-size: 12px;
@@ -42,6 +49,7 @@
   color: #633806;
 }
 
+/* Estilo para la hora de la alerta (texto grisáceo) */
 .alerta-fecha {
   margin: 0;
   font-size: 11px;
@@ -49,6 +57,7 @@
   font-weight: 700;
 }
 
+/* Botón flotante derecho para cerrar la alerta */
 .alerta-cerrar {
   flex-shrink: 0;
   width: 32px;
@@ -63,6 +72,7 @@
   place-items: center;
 }
 
+/* Efecto hover al pasar el ratón sobre el botón cerrar */
 .alerta-cerrar:hover {
   background: rgba(198, 40, 40, 0.1);
   color: #c62828;

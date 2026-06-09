@@ -8,6 +8,8 @@ import { AlertaSensorData } from '../../../../environments/datos-alertas-simulad
   styleUrls: ['./alerta-dht22.css'],
 })
 export class AlertaDht22 {
+  // Recibe los datos de la alerta (título, descripción, fecha) desde el componente padre
   @Input({ required: true }) alerta!: AlertaSensorData;
+  // Evento que se emite cuando el usuario hace clic en el botón de cerrar la alerta
   @Output() cerrar = new EventEmitter<void>();
 }

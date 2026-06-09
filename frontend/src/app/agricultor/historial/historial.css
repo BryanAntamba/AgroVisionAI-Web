@@ -1,15 +1,18 @@
+/* Bloque base del componente */
 :host {
   display: block;
   color: #073d2b;
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Contenedor principal de la página, ocupando el alto de la pantalla menos la barra de navegación */
 .dashboard-page {
   min-height: calc(100vh - 72px);
   padding: 32px;
   background: #f5faf3;
 }
 
+/* Encabezado del dashboard con disposición flexible */
 .dashboard-header {
   display: flex;
   align-items: flex-start;
@@ -19,6 +22,7 @@
   margin: 0 auto 18px;
 }
 
+/* Estilo para el texto superior (Ej: "Monitoreo y Control") */
 .eyebrow {
   margin: 0 0 8px;
   color: #55a820;
@@ -27,17 +31,20 @@
   text-transform: uppercase;
 }
 
+/* Título principal */
 h1 {
   margin: 0 0 10px;
   font-size: 34px;
   line-height: 1.15;
 }
 
+/* Párrafo descriptivo del encabezado */
 .dashboard-header p {
   margin: 0;
   color: #456657;
 }
 
+/* Estilo base para botones de acción dentro de las tarjetas */
 .create-button,
 .card-actions button {
   display: inline-flex;
@@ -51,6 +58,7 @@ h1 {
   font-weight: 800;
 }
 
+/* Limita el ancho máximo de las secciones principales para que no se estiren infinitamente en monitores anchos */
 .filters-bar,
 .summary-strip,
 .users-grid {
@@ -59,6 +67,7 @@ h1 {
   margin-left: auto;
 }
 
+/* Barra de filtros (búsqueda, estado, fechas). Usa CSS Grid para disponer los 3 campos en columnas */
 .filters-bar {
   display: grid;
   grid-template-columns: minmax(260px, 1.5fr) minmax(160px, 0.8fr) minmax(320px, 1.3fr);
@@ -69,6 +78,7 @@ h1 {
   background: #ffffff;
 }
 
+/* Etiquetas de los filtros */
 label {
   display: block;
   margin-bottom: 8px;
@@ -76,6 +86,7 @@ label {
   font-weight: 800;
 }
 
+/* Contenedor que simula ser el input para poder incluir un ícono al lado izquierdo */
 .input-shell {
   display: flex;
   align-items: center;
@@ -85,12 +96,14 @@ label {
   background: #fbfdf9;
 }
 
+/* Ícono dentro del input falso */
 .input-shell i {
   width: 42px;
   color: #55a820;
   text-align: center;
 }
 
+/* Inputs de texto, fecha y menú desplegable (select) */
 input,
 select {
   width: 100%;
@@ -103,16 +116,19 @@ select {
   font: inherit;
 }
 
+/* Elimina bordes del input nativo porque el contenedor padre (.input-shell) ya los tiene */
 input {
   min-width: 0;
   border: 0;
   background: transparent;
 }
 
+/* Espaciado interno para el texto del menú desplegable */
 select {
   padding: 0 12px;
 }
 
+/* Efecto de foco (focus) para resaltar el input activo con borde verde */
 .input-shell:focus-within,
 select:focus {
   border-color: #55a820;
@@ -120,17 +136,20 @@ select:focus {
   box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13);
 }
 
+/* Cuadrícula para disponer las dos fechas (inicio y fin) lado a lado */
 .date-range {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
 }
 
+/* Ajuste específico para los inputs tipo fecha */
 .date-filter input[type='date'] {
   min-width: 0;
   padding: 0 10px;
 }
 
+/* Cinta de resumen de estadísticas superiores (Total, Sanos, Alerta, Críticos) */
 .summary-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -139,6 +158,7 @@ select:focus {
   margin-bottom: 18px;
 }
 
+/* Estilo individual para cada tarjeta de estadística en la cinta de resumen */
 .summary-strip article {
   padding: 18px;
   border: 1px solid #d7e4dc;
@@ -146,6 +166,7 @@ select:focus {
   background: #ffffff;
 }
 
+/* Número grande dentro de la tarjeta de resumen */
 .summary-strip span {
   display: block;
   margin-bottom: 5px;
@@ -154,17 +175,20 @@ select:focus {
   font-weight: 800;
 }
 
+/* Texto descriptivo debajo del número en la tarjeta de resumen */
 .summary-strip p {
   margin: 0;
   font-weight: 700;
 }
 
+/* Malla (Grid) responsiva para disponer las tarjetas de registros del historial */
 .users-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   gap: 16px;
 }
 
+/* Estilo para cada tarjeta individual del historial de reportes */
 .user-card {
   padding: 20px;
   border: 1px solid #d7e4dc;
@@ -172,12 +196,14 @@ select:focus {
   background: #ffffff;
 }
 
+/* Encabezado de la tarjeta (Ícono + Título + Etiqueta de estado) */
 .user-card-header {
   display: flex;
   gap: 14px;
   align-items: center;
 }
 
+/* Ícono de hoja verde o similar */
 .avatar {
   display: grid;
   place-items: center;
@@ -190,15 +216,18 @@ select:focus {
   font-weight: 800;
 }
 
+/* Tamaño del ícono dentro del recuadro oscuro */
 .avatar i {
   font-size: 20px;
 }
 
+/* Nombre de la enfermedad detectada (título de la tarjeta) */
 h2 {
   margin: 0 0 5px;
   font-size: 18px;
 }
 
+/* Espacio debajo del título (donde va la etiqueta de estado) */
 .user-card-header p {
   margin: 0;
   color: #597268;
@@ -206,6 +235,7 @@ h2 {
   word-break: break-word;
 }
 
+/* Contenedor de etiquetas (badges) */
 .badges {
   display: flex;
   flex-wrap: wrap;
@@ -213,6 +243,7 @@ h2 {
   margin: 16px 0;
 }
 
+/* Estilo base para la etiqueta (badge) indicando el estado de salud */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -225,23 +256,27 @@ h2 {
   font-weight: 800;
 }
 
+/* Color para estado "Alerta" (Amarillento / Azulado) */
 .role {
   background: #e9f2ff;
   color: #174c7c;
 }
 
+/* Color para estado "Sano" (Verde) */
 .active,
 .online {
   background: #eaf7e5;
   color: #23730f;
 }
 
+/* Color para estado "Crítico" (Rojo) */
 .inactive,
 .offline {
   background: #f5eeee;
   color: #9a2424;
 }
 
+/* Cuadrícula interna de la tarjeta para mostrar datos numéricos y fecha */
 .user-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -249,12 +284,14 @@ h2 {
   margin: 0 0 18px;
 }
 
+/* Títulos de las estadísticas internas (Ej: "Fecha y hora") */
 dt {
   color: #6b8177;
   font-size: 12px;
   font-weight: 800;
 }
 
+/* Valores de las estadísticas internas (Ej: "15 oct 2023") */
 dd {
   margin: 4px 0 0;
   color: #073d2b;
@@ -262,11 +299,13 @@ dd {
   font-weight: 700;
 }
 
+/* Contenedor del botón de acción inferior ("Ver reporte completo") */
 .card-actions {
   display: grid;
   gap: 8px;
 }
 
+/* Botón transparente con bordes sutiles */
 .card-actions button {
   padding: 0 10px;
   border: 1px solid #d7e4dc;
@@ -276,11 +315,13 @@ dd {
   width: 100%;
 }
 
+/* Efecto hover al pasar el ratón: borde verde */
 .card-actions button:hover,
 .card-actions button:focus {
   border-color: #55a820;
 }
 
+/* Estilo para el recuadro que indica que no hay reportes (Estado vacío) */
 .empty-state {
   grid-column: 1 / -1;
   margin: 0;
@@ -289,21 +330,26 @@ dd {
   border-radius: 8px;
 }
 
+/* Responsividad: Pantallas medianas (tablets) */
 @media (max-width: 1120px) {
+  /* Modifica la distribución de la barra de filtros */
   .filters-bar {
     grid-template-columns: minmax(240px, 1.2fr) minmax(150px, 1fr);
   }
 
+  /* Hace que el filtro de fechas ocupe ambas columnas */
   .date-filter {
     grid-column: span 2;
   }
 }
 
+/* Responsividad: Pantallas pequeñas (móviles) */
 @media (max-width: 700px) {
   .dashboard-page {
     padding: 24px 16px;
   }
 
+  /* Todo el contenido pasa a formato de 1 columna para evitar scrolls horizontales */
   .filters-bar,
   .summary-strip,
   .users-grid,

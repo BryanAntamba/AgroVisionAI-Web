@@ -1,8 +1,10 @@
+<!-- Fondo oscuro semitransparente que cubre toda la pantalla -->
 <div
   class="modal-backdrop"
   (click)="cerrarModal()"
   role="presentation"
 >
+  <!-- Tarjeta del modal centrada en pantalla -->
   <div
     class="modal-card"
     role="dialog"
@@ -10,23 +12,33 @@
     aria-labelledby="modal-titulo-editar"
     (click)="$event.stopPropagation()"
   >
+    <!-- Botón de cierre (X) en la esquina superior derecha -->
     <button class="modal-close" type="button" aria-label="Cerrar" (click)="cerrarModal()">
+      <!-- Ícono de X para cerrar -->
       <i class="fa-solid fa-xmark"></i>
     </button>
 
+    <!-- Título principal del modal -->
     <h2 id="modal-titulo-editar">Editar usuario</h2>
 
+    <!-- Formulario reactivo vinculado al FormGroup y con manejador de submit -->
     <form
       class="modal-form"
       [formGroup]="usuarioForm"
       (ngSubmit)="guardarUsuario()"
       novalidate
     >
+      <!-- Contenedor en grid de 2 columnas para los campos del formulario -->
       <div class="modal-fields">
+        <!-- Campo: Nombre -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="nombre">Nombre</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de usuario -->
             <i class="fa-solid fa-user"></i>
+            <!-- Input vinculado al control del formulario -->
             <input
               id="nombre"
               type="text"
@@ -34,15 +46,21 @@
               formControlName="nombre"
             />
           </div>
+          <!-- Mensaje de error si el patrón no es válido -->
           <small *ngIf="f['nombre'].touched && f['nombre'].errors?.['pattern']">
             Solo se permiten letras
           </small>
         </div>
 
+        <!-- Campo: Segundo nombre -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="segundoNombre">Segundo nombre</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de usuario -->
             <i class="fa-solid fa-user"></i>
+            <!-- Input vinculado al control del formulario -->
             <input
               id="segundoNombre"
               type="text"
@@ -50,15 +68,21 @@
               formControlName="segundoNombre"
             />
           </div>
+          <!-- Mensaje de error si el patrón no es válido -->
           <small *ngIf="f['segundoNombre'].touched && f['segundoNombre'].errors?.['pattern']">
             Solo se permiten letras
           </small>
         </div>
 
+        <!-- Campo: Apellido -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="apellido">Apellido</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de usuario -->
             <i class="fa-solid fa-user"></i>
+            <!-- Input vinculado al control del formulario -->
             <input
               id="apellido"
               type="text"
@@ -66,15 +90,21 @@
               formControlName="apellido"
             />
           </div>
+          <!-- Mensaje de error si el patrón no es válido -->
           <small *ngIf="f['apellido'].touched && f['apellido'].errors?.['pattern']">
             Solo se permiten letras
           </small>
         </div>
 
+        <!-- Campo: Segundo apellido -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="segundoApellido">Segundo apellido</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de usuario -->
             <i class="fa-solid fa-user"></i>
+            <!-- Input vinculado al control del formulario -->
             <input
               id="segundoApellido"
               type="text"
@@ -82,15 +112,21 @@
               formControlName="segundoApellido"
             />
           </div>
+          <!-- Mensaje de error si el patrón no es válido -->
           <small *ngIf="f['segundoApellido'].touched && f['segundoApellido'].errors?.['pattern']">
             Solo se permiten letras
           </small>
         </div>
 
+        <!-- Campo: Correo corporativo (ocupa ambas columnas) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="correoCorporativo">Correo corporativo</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de sobre/email -->
             <i class="fa-solid fa-envelope"></i>
+            <!-- Input de tipo email vinculado al control -->
             <input
               id="correoCorporativo"
               type="email"
@@ -99,18 +135,25 @@
               autocomplete="email"
             />
           </div>
+          <!-- Mensaje de error si el campo está vacío -->
           <small *ngIf="f['correoCorporativo'].touched && f['correoCorporativo'].errors?.['required']">
             El correo corporativo es obligatorio
           </small>
+          <!-- Mensaje de error si no termina en @agrovision.com -->
           <small *ngIf="f['correoCorporativo'].touched && f['correoCorporativo'].errors?.['pattern']">
             Debe terminar en @agrovision.com
           </small>
         </div>
 
+        <!-- Campo: Correo electrónico personal (ocupa ambas columnas) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="correoElectronico">Correo electronico</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de sobre/email -->
             <i class="fa-solid fa-envelope"></i>
+            <!-- Input de tipo email vinculado al control -->
             <input
               id="correoElectronico"
               type="email"
@@ -119,18 +162,25 @@
               autocomplete="email"
             />
           </div>
+          <!-- Mensaje de error si el campo está vacío -->
           <small *ngIf="f['correoElectronico'].touched && f['correoElectronico'].errors?.['required']">
             El correo electronico es obligatorio
           </small>
+          <!-- Mensaje de error si no termina en @gmail.com -->
           <small *ngIf="f['correoElectronico'].touched && f['correoElectronico'].errors?.['pattern']">
             Debe terminar en @gmail.com
           </small>
         </div>
 
+        <!-- Campo: Teléfono (ocupa ambas columnas) -->
         <div class="field field-full">
+          <!-- Etiqueta del campo -->
           <label for="telefono">Numero de telefono</label>
+          <!-- Contenedor del input con ícono -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de teléfono -->
             <i class="fa-solid fa-phone"></i>
+            <!-- Input de tipo tel con teclado numérico y límite de 10 caracteres -->
             <input
               id="telefono"
               type="tel"
@@ -140,18 +190,25 @@
               maxlength="10"
             />
           </div>
+          <!-- Mensaje de error si el campo está vacío -->
           <small *ngIf="f['telefono'].touched && f['telefono'].errors?.['required']">
             El telefono es obligatorio
           </small>
+          <!-- Mensaje de error si no tiene exactamente 10 dígitos -->
           <small *ngIf="f['telefono'].touched && f['telefono'].errors?.['pattern']">
             Ingrese exactamente 10 digitos numericos
           </small>
         </div>
 
+        <!-- Campo: Contraseña -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="password">Contrasena</label>
+          <!-- Contenedor del input con ícono y botón de visibilidad -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de candado -->
             <i class="fa-solid fa-lock"></i>
+            <!-- Input con tipo dinámico (text o password) según el estado de showPassword -->
             <input
               id="password"
               [type]="showPassword ? 'text' : 'password'"
@@ -159,24 +216,32 @@
               formControlName="password"
               autocomplete="new-password"
             />
+            <!-- Botón para alternar la visibilidad de la contraseña -->
             <button
               class="password-toggle"
               type="button"
               (click)="togglePassword()"
               [attr.aria-label]="showPassword ? 'Ocultar contrasena' : 'Mostrar contrasena'"
             >
+              <!-- Ícono dinámico: ojo tachado si está visible, ojo normal si está oculta -->
               <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
             </button>
           </div>
+          <!-- Mensaje de error si el campo está vacío -->
           <small *ngIf="f['password'].touched && f['password'].errors?.['required']">
             La contrasena es obligatoria
           </small>
         </div>
 
+        <!-- Campo: Confirmar contraseña -->
         <div class="field">
+          <!-- Etiqueta del campo -->
           <label for="confirmarPassword">Confirmar contrasena</label>
+          <!-- Contenedor del input con ícono y botón de visibilidad -->
           <div class="input-shell modal-input-shell">
+            <!-- Ícono de candado -->
             <i class="fa-solid fa-lock"></i>
+            <!-- Input con tipo dinámico según el estado de showConfirmPassword -->
             <input
               id="confirmarPassword"
               [type]="showConfirmPassword ? 'text' : 'password'"
@@ -184,18 +249,22 @@
               formControlName="confirmarPassword"
               autocomplete="new-password"
             />
+            <!-- Botón para alternar la visibilidad de la confirmación de contraseña -->
             <button
               class="password-toggle"
               type="button"
               (click)="toggleConfirmPassword()"
               [attr.aria-label]="showConfirmPassword ? 'Ocultar contrasena' : 'Mostrar contrasena'"
             >
+              <!-- Ícono dinámico: ojo tachado si está visible, ojo normal si está oculta -->
               <i class="fa-solid" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
             </button>
           </div>
+          <!-- Mensaje de error si el campo está vacío -->
           <small *ngIf="f['confirmarPassword'].touched && f['confirmarPassword'].errors?.['required']">
             Debe confirmar la contrasena
           </small>
+          <!-- Mensaje de error si las contraseñas no coinciden (validador a nivel de formulario) -->
           <small
             *ngIf="
               (f['confirmarPassword'].touched || f['password'].touched) &&
@@ -206,26 +275,39 @@
           </small>
         </div>
 
+        <!-- Campo: Rol (ocupa ambas columnas) -->
         <div class="field field-full">
+          <!-- Etiqueta del grupo de opciones -->
           <span class="rol-label">Rol</span>
+          <!-- Contenedor de los radio buttons -->
           <div class="rol-options">
+            <!-- Opción: Admin -->
             <label class="rol-option">
+              <!-- Radio button vinculado al control 'rol' -->
               <input type="radio" formControlName="rol" value="Admin" />
+              <!-- Texto de la opción -->
               <span>Admin</span>
             </label>
+            <!-- Opción: Agricultor -->
             <label class="rol-option">
+              <!-- Radio button vinculado al control 'rol' -->
               <input type="radio" formControlName="rol" value="Agricultor" />
+              <!-- Texto de la opción -->
               <span>Agricultor</span>
             </label>
           </div>
+          <!-- Mensaje de error si no se seleccionó ningún rol -->
           <small *ngIf="f['rol'].touched && f['rol'].errors?.['required']">
             Debe seleccionar un rol
           </small>
         </div>
       </div>
 
+      <!-- Contenedor de botones de acción -->
       <div class="modal-actions">
+        <!-- Botón de cancelar que cierra el modal sin guardar -->
         <button class="modal-cancel" type="button" (click)="cerrarModal()">Cancelar</button>
+        <!-- Botón de submit que guarda los cambios del usuario -->
         <button class="modal-submit" type="submit">Guardar cambios</button>
       </div>
     </form>

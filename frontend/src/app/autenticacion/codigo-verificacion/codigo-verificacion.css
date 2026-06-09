@@ -1,17 +1,21 @@
+/* Bloque base del host del componente */
 :host {
   display: block;
 }
 
+/* Contenedor principal de todo el contenido del paso de verificación */
 .verification-card-content {
   width: 100%;
 }
 
+/* Logotipo */
 .verification-logo {
   display: block;
   width: 156px;
   margin: 0 auto 26px;
 }
 
+/* Título */
 h1 {
   margin: 0 0 14px;
   color: #073d2b;
@@ -20,6 +24,7 @@ h1 {
   text-align: center;
 }
 
+/* Descripción del código enviado al correo */
 .verification-description {
   margin: 0 0 24px;
   color: #0b5a3d;
@@ -29,15 +34,18 @@ h1 {
   text-align: center;
 }
 
+/* Formulario con espaciado en grilla */
 form {
   display: grid;
   gap: 18px;
 }
 
+/* Altura mínima del campo para evitar brincos con el texto de error */
 .field {
   min-height: 103px;
 }
 
+/* Label del campo de código */
 label {
   display: block;
   margin-bottom: 8px;
@@ -46,6 +54,7 @@ label {
   font-weight: 700;
 }
 
+/* Marco exterior visual del input */
 .input-shell {
   display: flex;
   align-items: center;
@@ -55,12 +64,14 @@ label {
   background: #fbfdf9;
 }
 
+/* Efecto de borde al seleccionar el input */
 .input-shell:focus-within {
   border-color: #55a820;
   background: #ffffff;
   box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13);
 }
 
+/* Ícono decorativo a la izquierda */
 .input-shell > i {
   width: 48px;
   color: #55a820;
@@ -68,6 +79,7 @@ label {
   flex-shrink: 0;
 }
 
+/* Input genérico (transparente sin borde) */
 input {
   width: 100%;
   min-width: 0;
@@ -78,22 +90,26 @@ input {
   font: inherit;
 }
 
+/* Clase extra para el envoltorio del input del código, lo centra visualmente */
 .code-shell {
   justify-content: center;
 }
 
+/* Modificaciones visuales en la fuente del input para que el código parezca más destacado */
 .code-shell input {
   font-size: 24px;
   font-weight: 800;
-  letter-spacing: 8px;
+  letter-spacing: 8px; /* Espacia las letras entre sí */
   text-align: center;
   padding: 0 16px;
 }
 
+/* Placeholder */
 input::placeholder {
   color: #7d9186;
 }
 
+/* Botón de envío */
 .submit-button {
   width: 100%;
   min-height: 54px;
@@ -107,11 +123,13 @@ input::placeholder {
   box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
 }
 
+/* Sección de enlaces inferiores para reenvío de correo */
 .resend-section {
   text-align: center;
   margin-top: 16px;
 }
 
+/* Pregunta al usuario sobre si no ha recibido el código */
 .resend-text {
   margin: 0 0 8px;
   color: #0b5a3d;
@@ -119,6 +137,7 @@ input::placeholder {
   font-weight: 500;
 }
 
+/* Enlace clickeable para reenviar (estilizado como un texto subrayado) */
 .resend-link {
   border: 0;
   background: transparent;
@@ -131,16 +150,19 @@ input::placeholder {
   transition: color 200ms ease;
 }
 
+/* Efecto hover en enlace no deshabilitado */
 .resend-link:hover:not(:disabled) {
   color: #073d2b;
 }
 
+/* Estilo cuando el botón llega al máximo de reintentos */
 .resend-link:disabled {
   color: #aac0b3;
   cursor: not-allowed;
   opacity: 0.6;
 }
 
+/* Mensajes textuales del temporizador o la cantidad de intentos de reenvío */
 .resend-feedback {
   margin: 10px 0 0;
   color: #0b5a3d;
@@ -150,15 +172,18 @@ input::placeholder {
   line-height: 1.6;
 }
 
+/* Si se produce un error (ej: cuenta regresiva de bloqueo), se cambia a rojo */
 .resend-feedback.is-error {
   color: #c92b2b;
 }
 
+/* Resalta partes del texto de feedback en rojo intenso, como el temporizador */
 .resend-feedback strong {
   color: #c92b2b;
   font-size: 15px;
 }
 
+/* Animaciones secuenciales y de aparición suave comunes */
 .fade-up {
   opacity: 0;
   transform: translateY(34px);

@@ -1,15 +1,18 @@
+/* Bloque base del componente. Establece el color de fuente principal y tipo de letra */
 :host {
   display: block;
   color: #073d2b;
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Contenedor principal de la página, ocupando el alto de la pantalla menos la barra de navegación superior */
 .dashboard-page {
   min-height: calc(100vh - 72px);
   padding: 32px;
   background: #f5faf3;
 }
 
+/* Encabezado del dashboard con disposición flexible */
 .dashboard-header {
   display: flex;
   align-items: flex-start;
@@ -19,6 +22,7 @@
   margin: 0 auto 18px;
 }
 
+/* Estilo para el texto superior o subtítulo (Ej: "Gestión de Usuarios") */
 .eyebrow {
   margin: 0 0 8px;
   color: #55a820;
@@ -27,17 +31,20 @@
   text-transform: uppercase;
 }
 
+/* Título principal */
 h1 {
   margin: 0 0 10px;
   font-size: 34px;
   line-height: 1.15;
 }
 
+/* Párrafo descriptivo del encabezado */
 .dashboard-header p {
   margin: 0;
   color: #456657;
 }
 
+/* Estilo base compartido para botones principales y botones de acción en tarjetas */
 .create-button,
 .card-actions button {
   display: inline-flex;
@@ -51,6 +58,7 @@ h1 {
   font-weight: 800;
 }
 
+/* Estilos específicos para el botón de "Crear" principal */
 .create-button {
   flex: 0 0 auto;
   padding: 0 18px;
@@ -58,6 +66,7 @@ h1 {
   color: #ffffff;
 }
 
+/* Limita el ancho máximo de las secciones principales para que no se estiren en monitores anchos */
 .filters-bar,
 .summary-strip,
 .users-grid {
@@ -66,6 +75,7 @@ h1 {
   margin-left: auto;
 }
 
+/* Barra de filtros (búsqueda, estado, fechas). Usa CSS Grid para disponer los campos en columnas */
 .filters-bar {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -77,10 +87,12 @@ h1 {
   align-items: end;
 }
 
+/* Clase de utilidad para que un buscador ocupe toda la fila si es necesario */
 .search-full-width {
   grid-column: 1 / -1;
 }
 
+/* Etiquetas de los filtros */
 label {
   display: block;
   margin-bottom: 8px;
@@ -88,6 +100,7 @@ label {
   font-weight: 800;
 }
 
+/* Contenedor falso que simula ser el input para incluir el ícono verde al lado izquierdo */
 .input-shell {
   display: flex;
   align-items: center;
@@ -97,12 +110,14 @@ label {
   background: #fbfdf9;
 }
 
+/* Ícono dentro del input falso */
 .input-shell i {
   width: 42px;
   color: #55a820;
   text-align: center;
 }
 
+/* Estilos de controles de formulario (texto, menú desplegable, fecha) */
 input,
 select {
   width: 100%;
@@ -115,16 +130,19 @@ select {
   font: inherit;
 }
 
+/* Limpia el estilo del input nativo porque el .input-shell ya actúa como borde */
 input {
   min-width: 0;
   border: 0;
   background: transparent;
 }
 
+/* Espaciado interno para menú desplegable */
 select {
   padding: 0 12px;
 }
 
+/* Resalta el input con borde verde al recibir foco */
 .input-shell:focus-within,
 select:focus {
   border-color: #55a820;
@@ -132,17 +150,20 @@ select:focus {
   box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13);
 }
 
+/* Cuadrícula para alinear inicio/fin de fechas */
 .date-range {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
 }
 
+/* Ajuste específico para el padding de inputs tipo fecha */
 .date-filter input[type='date'] {
   min-width: 0;
   padding: 0 10px;
 }
 
+/* Cinta de resumen de estadísticas (4 columnas por defecto) */
 .summary-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -151,6 +172,7 @@ select:focus {
   margin-bottom: 18px;
 }
 
+/* Tarjetas individuales de estadística en la cinta de resumen */
 .summary-strip article {
   padding: 18px;
   border: 1px solid #d7e4dc;
@@ -158,6 +180,7 @@ select:focus {
   background: #ffffff;
 }
 
+/* Número grande dentro de la tarjeta de estadística */
 .summary-strip span {
   display: block;
   margin-bottom: 5px;
@@ -166,17 +189,20 @@ select:focus {
   font-weight: 800;
 }
 
+/* Texto debajo del número estadístico */
 .summary-strip p {
   margin: 0;
   font-weight: 700;
 }
 
+/* Malla (Grid) para disponer a los agricultores/usuarios en tarjetas adaptables */
 .users-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   gap: 16px;
 }
 
+/* Diseño de cada tarjeta de usuario */
 .user-card {
   padding: 20px;
   border: 1px solid #d7e4dc;
@@ -184,12 +210,14 @@ select:focus {
   background: #ffffff;
 }
 
+/* Encabezado con imagen circular y texto al lado */
 .user-card-header {
   display: flex;
   gap: 14px;
   align-items: center;
 }
 
+/* Contenedor del ícono/avatar del agricultor */
 .avatar {
   display: grid;
   place-items: center;
@@ -202,11 +230,13 @@ select:focus {
   font-weight: 800;
 }
 
+/* Nombre del usuario (título de tarjeta) */
 h2 {
   margin: 0 0 5px;
   font-size: 18px;
 }
 
+/* Correo electrónico o identificador con salto de línea si es largo */
 .user-card-header p {
   margin: 0;
   color: #597268;
@@ -214,6 +244,7 @@ h2 {
   word-break: break-word;
 }
 
+/* Contenedor para etiquetas visuales de estado y vinculación de cuenta */
 .badges {
   display: flex;
   flex-wrap: wrap;
@@ -221,6 +252,7 @@ h2 {
   margin: 16px 0;
 }
 
+/* Etiqueta base */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -233,33 +265,14 @@ h2 {
   font-weight: 800;
 }
 
-.role {
-  background: #e9f2ff;
-  color: #174c7c;
-}
+/* Variación de colores para roles y estados */
+.role { background: #e9f2ff; color: #174c7c; }
+.active, .online { background: #eaf7e5; color: #23730f; }
+.inactive, .offline { background: #f5eeee; color: #9a2424; }
+.device-linked { background: #e0f2f7; color: #0277bd; }
+.device-unlinked { background: #fff3e0; color: #e65100; }
 
-.active,
-.online {
-  background: #eaf7e5;
-  color: #23730f;
-}
-
-.inactive,
-.offline {
-  background: #f5eeee;
-  color: #9a2424;
-}
-
-.device-linked {
-  background: #e0f2f7;
-  color: #0277bd;
-}
-
-.device-unlinked {
-  background: #fff3e0;
-  color: #e65100;
-}
-
+/* Tabla de características interna en cada tarjeta (Teléfono, Finca, etc.) */
 .user-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -267,12 +280,14 @@ h2 {
   margin: 0 0 18px;
 }
 
+/* Títulos de las columnas de detalles */
 dt {
   color: #6b8177;
   font-size: 12px;
   font-weight: 800;
 }
 
+/* Valores de las columnas de detalles */
 dd {
   margin: 4px 0 0;
   color: #073d2b;
@@ -280,12 +295,14 @@ dd {
   font-weight: 700;
 }
 
+/* Contenedor de botones inferiores en la tarjeta */
 .card-actions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 }
 
+/* Botones secundarios (Editar, Eliminar) */
 .card-actions button {
   padding: 0 10px;
   border: 1px solid #d7e4dc;
@@ -294,29 +311,34 @@ dd {
   font-size: 13px;
 }
 
+/* Resalta el borde al enfocar o pasar el cursor */
 .card-actions button:hover,
 .card-actions button:focus {
   border-color: #55a820;
 }
 
+/* Variante para botón de eliminar o deshabilitar */
 .card-actions .danger {
   border-color: #f0c8c8;
   color: #a32626;
 }
 
+/* Variante principal para iniciar sesión en cuenta del usuario o ver panel */
 .card-actions .access-panel {
-  grid-column: span 2;
+  grid-column: span 2; /* Ocupa las dos columnas */
   background: linear-gradient(135deg, #073d2b, #55a820);
   color: #ffffff;
   border-color: #55a820;
 }
 
+/* Hover variante principal */
 .card-actions .access-panel:hover,
 .card-actions .access-panel:focus {
   background: linear-gradient(135deg, #052f21, #4a941d);
   border-color: #4a941d;
 }
 
+/* Estilo para el estado vacío (cuando no hay agricultores que coincidan) */
 .empty-state {
   grid-column: 1 / -1;
   margin: 0;
@@ -325,20 +347,19 @@ dd {
   border-radius: 8px;
 }
 
+/* Media query para pantallas tipo tablet o de escritorio menores a 1120px */
 @media (max-width: 1120px) {
   .filters-bar {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* Pasa de 5 columnas a 2 */
   }
 
-  .search-full-width {
-    grid-column: span 2;
-  }
-
+  .search-full-width,
   .date-filter {
-    grid-column: span 2;
+    grid-column: span 2; /* Extiende a dos columnas en tablets */
   }
 }
 
+/* Media query para móviles o pantallas pequeñas < 700px */
 @media (max-width: 700px) {
   .dashboard-page {
     padding: 24px 16px;
@@ -349,9 +370,10 @@ dd {
   }
 
   .create-button {
-    width: 100%;
+    width: 100%; /* Botón de crear de ancho completo en móviles */
   }
 
+  /* Todas las cuadrículas cambian a 1 sola columna */
   .filters-bar,
   .summary-strip,
   .users-grid,

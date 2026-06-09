@@ -1,19 +1,34 @@
+// Interfaz que define la estructura de datos para cada registro en el historial de diagnósticos
 export interface RegistroHistorial {
+  // Identificador único del registro en el historial
   id: number;
+  // Fecha del diagnóstico en formato YYYY-MM-DD
   fecha: string;
+  // Hora del diagnóstico en formato HH:MM
   hora: string;
+  // Identificación de la planta que se monitoreó
   planta: string;
+  // Diagnóstico final resultante del análisis (nombre de enfermedad o estado)
   diagnostico: string;
+  // Confianza del modelo en el diagnóstico (0-100%)
   confianza: number;
+  // Índice de salud general de la planta (0-100%)
   salud: number;
+  // Temperatura del aire al momento del diagnóstico en grados Celsius
   temperatura: number;
+  // Humedad relativa del aire en porcentaje
   humedadAire: number;
+  // Humedad del suelo en porcentaje
   humedadSuelo: number;
+  // Intensidad de luz en lux
   luz: number;
 }
 
+// Array con registros simulados del historial de diagnósticos de plantas
+// Estos registros representan capturas y diagnósticos históricos para pruebas
 export const historialSimulado: RegistroHistorial[] = [
   {
+    // Primer registro: Diagnóstico reciente positivo
     id: 1,
     fecha: '2026-05-31',
     hora: '10:24',
@@ -27,6 +42,7 @@ export const historialSimulado: RegistroHistorial[] = [
     luz: 52000,
   },
   {
+    // Segundo registro: Diagnóstico de tizón temprano hace un día
     id: 2,
     fecha: '2026-05-30',
     hora: '15:45',
@@ -40,6 +56,7 @@ export const historialSimulado: RegistroHistorial[] = [
     luz: 48000,
   },
   {
+    // Tercer registro: Planta sana hace dos días
     id: 3,
     fecha: '2026-05-29',
     hora: '09:15',
@@ -53,6 +70,7 @@ export const historialSimulado: RegistroHistorial[] = [
     luz: 35000,
   },
   {
+    // Cuarto registro: Diagnóstico de tizón tardío hace tres días
     id: 4,
     fecha: '2026-05-28',
     hora: '14:30',
@@ -66,6 +84,7 @@ export const historialSimulado: RegistroHistorial[] = [
     luz: 41000,
   },
   {
+    // Quinto registro: Diagnóstico de moho foliar hace cuatro días
     id: 5,
     fecha: '2026-05-27',
     hora: '11:00',
@@ -79,6 +98,7 @@ export const historialSimulado: RegistroHistorial[] = [
     luz: 38000,
   },
   {
+    // Sexto registro: Planta con buena salud hace cinco días
     id: 6,
     fecha: '2026-05-26',
     hora: '08:45',
@@ -92,6 +112,7 @@ export const historialSimulado: RegistroHistorial[] = [
     luz: 45000,
   },
   {
+    // Séptimo registro: Diagnóstico de mancha séptica hace seis días
     id: 7,
     fecha: '2026-05-25',
     hora: '16:20',
@@ -105,6 +126,7 @@ export const historialSimulado: RegistroHistorial[] = [
     luz: 47000,
   },
   {
+    // Octavo registro: Planta saludable hace siete días
     id: 8,
     fecha: '2026-05-24',
     hora: '13:10',

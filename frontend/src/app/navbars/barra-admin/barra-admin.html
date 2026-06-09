@@ -1,27 +1,40 @@
+<!-- Barra de navegación principal del administrador con clases de Bootstrap -->
 <nav class="navbar navbar-expand-lg admin-navbar">
+  <!-- Contenedor fluido que ocupa todo el ancho disponible -->
   <div class="container-fluid">
+    <!-- Enlace de marca/logo que redirige al panel principal del admin -->
     <a class="navbar-brand d-flex align-items-center" routerLink="/panel-admin">
+      <!-- Logo/escudo de la plataforma con tamaño fijo -->
       <img src="assets/logotipos/escudo.png" alt="AgroVision AI" width="42" height="42" class="brand-shield me-2" />
+      <!-- Texto que identifica el rol del usuario (Administrador) -->
       <span>Administrador</span>
     </a>
 
+    <!-- Botón hamburguesa para colapsar/expandir el menú en dispositivos móviles -->
     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"
       aria-controls="adminNavbar" aria-expanded="false" aria-label="Abrir navegación">
+      <!-- Ícono de hamburguesa (3 líneas horizontales) -->
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Contenedor colapsable que contiene los enlaces de navegación y el botón de cerrar sesión -->
     <div class="collapse navbar-collapse admin-navbar-actions" id="adminNavbar">
+      <!-- Lista de enlaces de navegación alineados a la derecha -->
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-3">
+        <!-- Enlace a la página de gestión de usuarios -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/panel-admin">Usuarios</a>
         </li>
+        <!-- Enlace a la página de gestión de recomendaciones -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/panel-admin/recomendaciones">Recomendaciones</a>
         </li>
+        <!-- Enlace a la página de edición de configuración de la plataforma -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/panel-admin/editar-plataforma">Editar plataforma</a>
         </li>
       </ul>
+      <!-- Botón para cerrar sesión que redirige a la página de login -->
       <a class="btn logout-button" routerLink="/login">Cerrar Sesión</a>
     </div>
   </div>

@@ -1,24 +1,36 @@
+<!-- Barra de navegación principal del agricultor con clases de Bootstrap -->
 <nav class="navbar navbar-expand-lg admin-navbar">
+  <!-- Contenedor fluido que ocupa todo el ancho disponible -->
   <div class="container-fluid">
+    <!-- Enlace de marca/logo que redirige al panel principal del agricultor -->
     <a class="navbar-brand d-flex align-items-center" routerLink="/panel-agricultor">
+      <!-- Logo/escudo de la plataforma con tamaño fijo -->
       <img src="assets/logotipos/escudo.png" alt="AgroVision AI" width="42" height="42" class="brand-shield me-2" />
+      <!-- Texto que identifica el rol del usuario (Agricultor) -->
       <span>Agricultor</span>
     </a>
 
+    <!-- Botón hamburguesa para colapsar/expandir el menú en dispositivos móviles -->
     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#agricultorNavbar"
       aria-controls="agricultorNavbar" aria-expanded="false" aria-label="Abrir navegación">
+      <!-- Ícono de hamburguesa (3 líneas horizontales) -->
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Contenedor colapsable que contiene los enlaces de navegación y el botón de cerrar sesión -->
     <div class="collapse navbar-collapse admin-navbar-actions" id="agricultorNavbar">
+      <!-- Lista de enlaces de navegación alineados a la derecha -->
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-3">
+        <!-- Enlace al historial, mostrado solo si está habilitado mediante la configuración -->
         <li class="nav-item" *ngIf="historialHabilitado">
           <a class="nav-link" routerLink="/historial">Historial</a>
         </li>
+        <!-- Enlace a la página de reporte/panel principal del agricultor -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/panel-agricultor">Reporte</a>
         </li>
       </ul>
+      <!-- Botón para cerrar sesión que ejecuta el método cerrarSesion() -->
       <button class="btn logout-button" type="button" (click)="cerrarSesion()">Cerrar Sesión</button>
     </div>
   </div>
