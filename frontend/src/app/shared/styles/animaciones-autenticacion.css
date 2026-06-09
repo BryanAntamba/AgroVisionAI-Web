@@ -1,0 +1,56 @@
+/* ============================================================
+   Estilos compartidos de animaciones para la autenticación
+   Usado por: login, restablecer-password, cambiar-password,
+              codigo-verificacion, password-confirmacion
+   ============================================================ */
+
+/* Animación de entrada: desliza de abajo hacia arriba con fade */
+.fade-up {
+  opacity: 0;
+  transform: translateY(34px);
+  animation: fadeUp 720ms ease forwards;
+}
+
+/* Retrasos escalonados para efecto en cascada */
+.delay-1 { animation-delay: 90ms; }
+.delay-2 { animation-delay: 190ms; }
+.delay-3 { animation-delay: 290ms; }
+.delay-4 { animation-delay: 390ms; }
+.delay-5 { animation-delay: 490ms; }
+.delay-6 { animation-delay: 590ms; }
+
+/* Transición suave al cambiar entre vistas/pasos */
+.fade-view {
+  display: block;
+  animation: swapView 520ms ease both;
+}
+
+/* Efecto hover de rebote suave en los enlaces de autenticación */
+.auth-link-motion {
+  transition: color 220ms ease, transform 220ms ease;
+}
+
+.auth-link-motion:hover {
+  transform: translateY(-2px);
+}
+
+/* Keyframes: Fade Up */
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Keyframes: transición entre vistas */
+@keyframes swapView {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
