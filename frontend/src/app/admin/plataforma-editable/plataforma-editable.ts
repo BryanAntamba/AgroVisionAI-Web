@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule, F
 // Importa el componente de barra de navegación del administrador
 import { BarraAdmin } from '../../navbars/barra-admin/barra-admin';
 // Importa las validaciones personalizadas para el formulario de edición de plataforma
-import { EdicionPlataformaValidaciones } from '../../shared/validators/panel-admin/valdiacion-edicionPlataforma/edicionPlataforma-validaciones';
+import { EdicionPlataformaValidaciones } from '../../shared/validators/panel-admin/validacion-edicionPlataforma/edicionPlataforma-validaciones';
 // Importa el servicio de tema y sus interfaces de configuración (navbar, colores, botones, modales)
 import { TemaService, NavbarConfig, ColoresConfig, BotonesConfig, ModalesConfig } from '../../shared/services/tema.service';
 
