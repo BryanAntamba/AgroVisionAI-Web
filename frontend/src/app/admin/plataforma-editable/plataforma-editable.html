@@ -442,8 +442,7 @@
         <h2>Colores de Botones</h2>
       </div>
       <p class="section-description">
-        Configura el estilo de los botones principales: Cerrar Sesión, Guardar Cambios, Registrar Usuario, 
-        Acceder al Panel, y botones de modales
+        Configura el estilo de todos los botones principales de la plataforma (incluyendo botones de autenticación, guardar cambios, accesos, etc.)
       </p>
 
       <div class="config-grid">
@@ -465,7 +464,7 @@
         <!-- Color Sólido o Inicial -->
         <div class="config-item">
           <label class="config-label">
-            {{ botones.tipo === 'solido' ? 'Color del Botón' : 'Color Inicial (Gradiente)' }}
+            {{ botones.tipo === 'gradiente' ? 'Color Inicial (Gradiente)' : 'Color de Fondo del Botón' }}
           </label>
           <div class="color-picker-group">
             <input type="color" [(ngModel)]="botones.colorInicial" />
@@ -633,22 +632,22 @@
       </div>
     </section>
 
-    <!-- SECCIÓN 7: MODALESS EDITABLES (Desconectar y Guardar Reporte) -->
+    <!-- SECCIÓN 7: MODALES EDITABLES -->
     <section class="config-section">
       <div class="section-header">
         <i class="fa-solid fa-square-check"></i>
         <h2>Modales de Acción</h2>
       </div>
       <p class="section-description">
-        Personaliza los colores de los botones y elementos en los modales de desconexión y guardado de reportes
+        Personaliza los colores de los botones y elementos en todos los modales de la plataforma
       </p>
 
       <div class="config-grid">
-        <!-- Color botón destructivo (Desconectar) -->
+        <!-- Color botón destructivo -->
         <div class="config-item">
-          <label class="config-label">Color Botón Destructivo (Desconectar)</label>
+          <label class="config-label">Color Botón Destructivo</label>
           <p class="config-help-small">
-            Color del botón "Desconectar dispositivo" en el modal
+            Color base de los botones de acción crítica o eliminación en los modales
           </p>
           <div class="color-picker-group">
             <input type="color" [(ngModel)]="modales.botonesFondoDestructivo" formControlName="botonesFondoDestructivo" />
@@ -660,7 +659,7 @@
         <div class="config-item">
           <label class="config-label">Color Hover Botón Destructivo</label>
           <p class="config-help-small">
-            Color al pasar el mouse sobre "Desconectar"
+            Color al pasar el mouse sobre botones destructivos
           </p>
           <div class="color-picker-group">
             <input type="color" [(ngModel)]="modales.botonesHoverDestructivo" formControlName="botonesHoverDestructivo" />
@@ -670,9 +669,9 @@
 
         <!-- Color ícono éxito -->
         <div class="config-item">
-          <label class="config-label">Color Ícono Éxito (Reporte)</label>
+          <label class="config-label">Color Ícono Éxito</label>
           <p class="config-help-small">
-            Color del ícono de check en "Reporte guardado"
+            Color del ícono de check en los modales de confirmación
           </p>
           <div class="color-picker-group">
             <input type="color" [(ngModel)]="modales.iconoExitoColor" formControlName="iconoExitoColor" />

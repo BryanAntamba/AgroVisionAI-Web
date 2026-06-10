@@ -66,15 +66,15 @@ label {
 
 /* Efecto de borde al seleccionar el input */
 .input-shell:focus-within {
-  border-color: #55a820;
+  border-color: var(--color-iconos, #55a820);
   background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(85, 168, 32, 0.13);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Ícono decorativo a la izquierda */
 .input-shell > i {
   width: 48px;
-  color: #55a820;
+  color: var(--color-iconos, #55a820);
   text-align: center;
   flex-shrink: 0;
 }
@@ -115,12 +115,12 @@ input::placeholder {
   min-height: 54px;
   border: 0;
   border-radius: 8px;
-  background: linear-gradient(135deg, #073d2b, #55a820);
-  color: #ffffff;
+  background: var(--btn-background, linear-gradient(135deg, #073d2b, #55a820));
+  color: var(--btn-color-texto, #ffffff);
   cursor: pointer;
   font-size: 16px;
   font-weight: 800;
-  box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 /* Sección de enlaces inferiores para reenvío de correo */
@@ -141,7 +141,7 @@ input::placeholder {
 .resend-link {
   border: 0;
   background: transparent;
-  color: #55a820;
+  color: var(--color-links-activos, #55a820);
   cursor: pointer;
   font-size: 14px;
   font-weight: 700;
@@ -152,7 +152,7 @@ input::placeholder {
 
 /* Efecto hover en enlace no deshabilitado */
 .resend-link:hover:not(:disabled) {
-  color: #073d2b;
+  color: var(--color-links-normales, #073d2b);
 }
 
 /* Estilo cuando el botón llega al máximo de reintentos */
