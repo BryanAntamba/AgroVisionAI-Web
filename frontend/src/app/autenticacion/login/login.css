@@ -62,9 +62,7 @@
   height: 100dvh;
   overflow-y: auto;
   padding: clamp(32px, 4vw, 64px) clamp(32px, 4vw, 72px);
-  background:
-    radial-gradient(circle at top right, rgba(85, 168, 32, 0.18), transparent 34%),
-    #ffffff;
+  background: #ffffff;
   box-shadow: -22px 0 42px rgba(7, 61, 43, 0.12);
 }
 
