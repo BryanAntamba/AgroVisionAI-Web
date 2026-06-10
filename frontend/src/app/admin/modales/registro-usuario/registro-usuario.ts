@@ -27,7 +27,7 @@ export interface DatosUsuario {
   templateUrl: './registro-usuario.html', // Ruta al archivo de template HTML
   styleUrls: [ // Array de hojas de estilo
     './registro-usuario.css', // Estilos específicos del componente
-    '../../../shared/styles/validacion-errores.css' // Estilos compartidos para mensajes de error de validación
+    '../../../shared/validators/styles/validacion-errores.css' // Estilos compartidos para mensajes de error de validación
   ],
 })
 // Clase del componente para el registro de nuevos usuarios

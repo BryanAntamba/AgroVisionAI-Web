@@ -16,7 +16,7 @@ import { UsuarioEditar } from '../editar-usuario/editar-usuario';
   templateUrl: './perfil-usuario.html', // Ruta del archivo de template HTML
   styleUrls: [ // Array de rutas de hojas de estilo
     './perfil-usuario.css', // Estilos específicos del componente
-    '../../../shared/styles/validacion-errores.css' // Estilos compartidos para errores de validación
+    '../../../shared/validators/styles/validacion-errores.css' // Estilos compartidos para errores de validación
   ],
 })
 // Clase del componente que implementa la interfaz OnInit para inicialización

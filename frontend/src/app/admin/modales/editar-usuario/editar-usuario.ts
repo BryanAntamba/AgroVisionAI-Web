@@ -29,7 +29,7 @@ export interface UsuarioEditar {
   templateUrl: './editar-usuario.html', // Ruta al archivo de template HTML
   styleUrls: [ // Array de hojas de estilo
     './editar-usuario.css', // Estilos específicos del componente
-    '../../../shared/styles/validacion-errores.css' // Estilos compartidos para mensajes de error
+    '../../../shared/validators/styles/validacion-errores.css' // Estilos compartidos para mensajes de error
   ],
 })
 // Clase del componente que implementa OnInit para lógica de inicialización

@@ -20,8 +20,8 @@ import { PasswordConfirmacion } from '../confirmacion/password-confirmacion/pass
   templateUrl: './restablecer-password.html',
   styleUrls: [
     './restablecer-password.css',
-    '../../shared/styles/validacion-errores.css',
-    '../../shared/styles/animaciones-autenticacion.css'
+    '../../shared/validators/styles/validacion-errores.css',
+    '../../shared/validators/styles/animaciones-autenticacion.css'
   ],
 })
 export class RestablecerPassword {

@@ -30,7 +30,7 @@ export interface DatosRecomendacionForm {
   templateUrl: './registrar-recomendacion.html', // Ruta al archivo de template HTML
   styleUrls: [ // Array de hojas de estilo
     './registrar-recomendacion.css', // Estilos específicos del componente
-    '../../../shared/styles/validacion-errores.css', // Estilos compartidos para errores de validación
+    '../../../shared/validators/styles/validacion-errores.css', // Estilos compartidos para errores de validación
   ],
 })
 // Clase del componente para registrar nuevas recomendaciones

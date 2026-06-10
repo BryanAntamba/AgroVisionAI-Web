@@ -15,8 +15,8 @@ import { AutenticacionValidaciones } from '../../shared/validators/autenticacion
   templateUrl: './codigo-verificacion.html', // Plantilla HTML
   styleUrls: [ // Estilos CSS aplicables
     './codigo-verificacion.css',
-    '../../shared/styles/validacion-errores.css',
-    '../../shared/styles/animaciones-autenticacion.css'
+    '../../shared/validators/styles/validacion-errores.css',
+    '../../shared/validators/styles/animaciones-autenticacion.css'
   ],
 })
 export class CodigoVerificacion implements OnDestroy {
