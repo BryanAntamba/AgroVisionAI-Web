@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecomendacionesStore } from '../../../../../environments/modales-recomendacion';
-import { RegistroHistorial } from '../../../../../environments/historial';
+import { RecomendacionesStore } from '../../../../environments/modales-recomendacion';
+import { RegistroHistorial } from '../../../../environments/historial';
 
 interface PrediccionCondicion {
   nombre: string;

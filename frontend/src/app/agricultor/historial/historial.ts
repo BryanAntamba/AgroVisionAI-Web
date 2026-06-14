@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BarraAgricultor } from '../../navbars/barra-agricultor/barra-agricultor';
 import { traducirDiagnostico } from '../../shared/utils/traductor-enfermedades/clases-enfermedad';
-import { ModalReporte } from './modal/modal-reporte/modal-reporte';
+import { ModalReporte } from '../modales/modal-reporte/modal-reporte';
 import { RegistroHistorial, historialSimulado } from '../../../environments/historial';
 
 // Definición de los posibles estados para filtrar el historial de reportes

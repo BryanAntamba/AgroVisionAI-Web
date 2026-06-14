@@ -9,11 +9,11 @@ import { alertasActivasAlInicio, catalogoAlertasSensores, TipoAlertaSensor } fro
 import { RecomendacionesStore } from '../../../environments/modales-recomendacion';
 import { traducirDiagnostico } from '../../shared/utils/traductor-enfermedades/clases-enfermedad';
 // Modales de alertas de los diferentes sensores
-import { AlertaDht22 } from '../modales/alerta-dht22/alerta-dht22';
-import { AlertaCam } from '../modales/alerta-cam/alerta-cam';
-import { AlertaCapaciteV2 } from '../modales/alerta-capacite-v2/alerta-capacite-v2';
-import { AlertaAntenaWifi } from '../modales/alerta-antena-wifi/alerta-antena-wifi';
-import { AlertaSensorLDR } from '../modales/alerta-sensor-ldr/alerta-sensor-ldr';
+import { AlertaDht22 } from '../alertas/alerta-dht22/alerta-dht22';
+import { AlertaCam } from '../alertas/alerta-cam/alerta-cam';
+import { AlertaCapaciteV2 } from '../alertas/alerta-capacite-v2/alerta-capacite-v2';
+import { AlertaAntenaWifi } from '../alertas/alerta-antena-wifi/alerta-antena-wifi';
+import { AlertaSensorLDR } from '../alertas/alerta-sensor-ldr/alerta-sensor-ldr';
 // Modales separados en componentes independientes
 import { DesconectarDispositivo } from '../modales/desconectar-dispositivo/desconectar-dispositivo';
 import { GuardarReporte } from '../modales/guardar-reporte/guardar-reporte';
