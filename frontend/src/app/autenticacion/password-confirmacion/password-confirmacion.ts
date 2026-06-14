@@ -8,7 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   templateUrl: './password-confirmacion.html', // Ruta al archivo HTML
   styleUrls: [ // Rutas a los archivos de estilos CSS
     './password-confirmacion.css',
-    '../../../shared/validators/styles/animaciones-autenticacion.css'
+    '../../shared/validators/styles/animaciones-autenticacion.css'
   ],
 })
 export class PasswordConfirmacion {

@@ -10,7 +10,7 @@ import { AutenticacionValidaciones } from '../../shared/validators/autenticacion
 // Importación de los componentes de cada paso del proceso
 import { CambiarPassword } from '../cambiar-password/cambiar-password';
 import { CodigoVerificacion } from '../codigo-verificacion/codigo-verificacion';
-import { PasswordConfirmacion } from '../confirmacion/password-confirmacion/password-confirmacion';
+import { PasswordConfirmacion } from '../password-confirmacion/password-confirmacion';
 
 // Decorador con la configuración del componente
 @Component({
