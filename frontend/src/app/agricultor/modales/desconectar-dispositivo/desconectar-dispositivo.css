@@ -124,7 +124,6 @@
   cursor: pointer;
   font-size: 16px;
   font-weight: 800;
-  box-shadow: 0 12px 24px var(--modal-btn-destructivo-shadow, rgba(163, 38, 38, 0.24));
 }
 
 /* Efecto hover sobre "Desconectar" (rojo más oscuro) */

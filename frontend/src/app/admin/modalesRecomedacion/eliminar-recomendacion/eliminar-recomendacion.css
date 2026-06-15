@@ -131,7 +131,6 @@
   cursor: pointer; /* Cursor de mano */
   font-size: 16px; /* Tamaño de fuente */
   font-weight: 800; /* Fuente extra negrita */
-  box-shadow: 0 12px 24px var(--btn-destructivo-shadow, rgba(163, 38, 38, 0.24)); /* Sombra roja */
 }
 
 /* Estados hover y focus del botón de eliminar */

@@ -87,8 +87,6 @@
   font-size: 16px;
   /* Peso de fuente extra negrita */
   font-weight: 800;
-  /* Sombra pronunciada para dar profundidad */
-  box-shadow: 0 16px 28px rgba(7, 61, 43, 0.24);
   /* Transiciones suaves para fondo y transformación */
   transition: background 0.3s ease, transform 0.2s ease;
   /* Sin subrayado en el texto */
