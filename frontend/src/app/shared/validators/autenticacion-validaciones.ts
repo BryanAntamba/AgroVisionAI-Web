@@ -10,7 +10,7 @@ export class AutenticacionValidaciones {
    */
   static readonly LOGIN_ERRORS = {
     emailRequired: 'El correo es obligatorio',
-    emailPattern: 'Ingrese un correo válido',
+    emailPattern: 'Ingrese un correo corporativo @agrovision.com',
     passwordRequired: 'La contraseña es obligatoria',
   };
 
@@ -40,7 +40,7 @@ export class AutenticacionValidaciones {
    */
   static readonly RESTABLECER_PASSWORD_ERRORS = {
     emailRequired: 'El correo es obligatorio',
-    emailPattern: 'Ingrese un correo Gmail válido',
+    emailPattern: 'Ingrese un correo válido',
   };
 
   /**

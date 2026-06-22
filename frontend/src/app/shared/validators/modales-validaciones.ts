@@ -57,8 +57,8 @@ export class ModalesValidaciones {
    * @returns ValidationErrors | null
    */
   static passwordsNoCoinciden(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
+    const password = control.get('password')?.value?.toString().trim();
+    const confirmPassword = control.get('confirmPassword')?.value?.toString().trim();
 
     if (!password || !confirmPassword) {
       return null;

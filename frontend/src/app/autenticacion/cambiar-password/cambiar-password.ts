@@ -1,88 +1,124 @@
 // Importa los módulos básicos de Angular
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 // Importa herramientas para manejar formularios reactivos
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+// Importa operadores RxJS para el control de finalización de peticiones
+import { finalize } from 'rxjs/operators';
 // Importa las validaciones personalizadas del proyecto
 import { AutenticacionValidaciones } from '../../shared/validators/autenticacion-validaciones';
+// Importa servicio de autenticación para actualizar la contraseña
+import { AuthService } from '../../shared/services/auth.service';
 
 // Decorador que define los metadatos del componente
 @Component({
-  selector: 'app-cambiar-password', // Etiqueta para insertar el componente
-  imports: [CommonModule, ReactiveFormsModule], // Módulos requeridos en la vista
-  templateUrl: './cambiar-password.html', // Archivo HTML de la vista
-  styleUrls: [ // Archivos de estilos CSS
+  selector: 'app-cambiar-password',
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './cambiar-password.html',
+  styleUrls: [
     './cambiar-password.css',
     '../../shared/validators/styles/validacion-errores.css',
     '../../shared/validators/styles/animaciones-autenticacion.css'
   ],
 })
 export class CambiarPassword {
-  // Evento que notifica al componente padre cuando la contraseña se ha cambiado con éxito
+  @Input() correo = '';
   @Output() passwordCambiado = new EventEmitter<void>();
-  // Evento para notificar al padre que el usuario desea volver a la pantalla de login
   @Output() volverLogin = new EventEmitter<void>();
 
-  // Grupo de controles del formulario
   passwordForm: FormGroup;
-  // Bandera para alternar la visibilidad de la nueva contraseña
   showPassword = false;
-  // Bandera para alternar la visibilidad de la confirmación de la contraseña
   showConfirmPassword = false;
-  // Expone las validaciones a la vista (HTML)
   validators = AutenticacionValidaciones;
+  changeError = '';
+  isLoading = false;
 
-  // Constructor donde se inyecta el FormBuilder para crear el formulario
-  constructor(private fb: FormBuilder) {
-    // Inicializa el formulario con sus campos y validadores
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.passwordForm = this.fb.group(
       {
-        // Campo password, es obligatorio
         password: ['', [Validators.required]],
-        // Campo confirmPassword, es obligatorio
         confirmPassword: ['', [Validators.required]],
       },
-      // Aplica un validador personalizado a todo el grupo para verificar que las contraseñas coincidan
       { validators: AutenticacionValidaciones.passwordsNoCoinciden }
     );
   }
 
-  // Getter para obtener fácilmente el control 'password' desde el HTML
   get passwordControl() {
     return this.passwordForm.get('password');
   }
 
-  // Getter para obtener fácilmente el control 'confirmPassword' desde el HTML
   get confirmPasswordControl() {
     return this.passwordForm.get('confirmPassword');
   }
 
-  // Invierte el estado de visibilidad de la contraseña
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
-  // Invierte el estado de visibilidad de la confirmación de contraseña
   toggleConfirmPassword(): void {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  // Método llamado al enviar el formulario para confirmar la nueva contraseña
   confirmarPassword(): void {
-    // Si el formulario no cumple las validaciones
+    this.changeError = '';
+
     if (this.passwordForm.invalid) {
-      // Marca todos los campos como 'tocados' para que se muestren los mensajes de error en la vista
+      console.warn('CambiarPassword formulario inválido:', {
+        errors: this.passwordForm.errors,
+        password: this.passwordForm.get('password')?.value,
+        confirmPassword: this.passwordForm.get('confirmPassword')?.value,
+        passwordErrors: this.passwordForm.get('password')?.errors,
+        confirmPasswordErrors: this.passwordForm.get('confirmPassword')?.errors,
+      });
       this.passwordForm.markAllAsTouched();
-      return; // Detiene la ejecución
+      return;
     }
 
-    // Si todo es válido, emite el evento de éxito
-    this.passwordCambiado.emit();
+    if (!this.correo) {
+      this.changeError = 'Correo no disponible para actualizar la contraseña.';
+      return;
+    }
+
+    const { password, confirmPassword } = this.passwordForm.value;
+
+    console.log('CambiarPassword data:', {
+      correo: this.correo,
+      password,
+      confirmPassword,
+      formErrors: this.passwordForm.errors,
+      passwordErrors: this.passwordForm.get('password')?.errors,
+      confirmPasswordErrors: this.passwordForm.get('confirmPassword')?.errors,
+    });
+
+    this.isLoading = true;
+    this.changeError = '';
+
+    this.authService.changePassword(this.correo, password, confirmPassword)
+      .pipe(
+        finalize(() => {
+          console.log('Change password finalized');
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Change password response:', response);
+          this.changeError = '';
+          this.isLoading = false;
+          this.passwordCambiado.emit();
+        },
+        error: (err) => {
+          console.error('Change password error:', err);
+          const backendMessage = err?.mensaje || err?.message || err?.error?.mensaje || err?.error?.message;
+          this.changeError = typeof backendMessage === 'string'
+            ? backendMessage
+            : 'No se pudo cambiar la contraseña. Intenta nuevamente.';
+          this.isLoading = false;
+        },
+      });
   }
 
-  // Método para regresar a la pantalla de inicio de sesión
   regresarALogin(): void {
-    // Emite el evento correspondiente
     this.volverLogin.emit();
   }
 }

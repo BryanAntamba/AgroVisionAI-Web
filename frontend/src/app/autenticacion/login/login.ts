@@ -4,6 +4,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+// Importación de servicio de autenticación
+import { AuthService } from '../../shared/services/auth.service';
+
 // Importación de validaciones compartidas
 import { ModalesValidaciones } from '../../shared/validators/modales-validaciones';
 import { AutenticacionValidaciones } from '../../shared/validators/autenticacion-validaciones';
@@ -39,11 +42,12 @@ export class Login {
   // Constructor donde se inyectan el FormBuilder (formularios) y Router (navegación)
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     // Inicialización del formulario reactivo
     this.loginForm = this.fb.group({
-      // Campo de correo electrónico con validación requerida y formato corporativo
+      // Campo de correo electrónico con validación requerida y formato corporativo @agrovision.com
       email: [
         '',
         [
@@ -99,19 +103,28 @@ export class Login {
     // Extrae los valores ingresados
     const { email, password } = this.loginForm.value;
 
-    // Validación simulada: si es administrador, redirige al panel correspondiente
-    if (email === 'admin@agrovision.com' && password === 'admin123') {
-      this.router.navigate(['/panel-admin']);
-      return;
-    }
+    // Llamada real al backend
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        if (response?.success) {
+          const role = response.usuario?.rol;
 
-    // Validación simulada: si es agricultor, redirige a su panel
-    if (email === 'agricultor@agrovision.com' && password === 'agricultor123') {
-      this.router.navigate(['/panel-agricultor']);
-      return;
-    }
-
-    // Si ninguna credencial coincide, muestra un error genérico
-    this.loginError = 'Credenciales incorrectas. Verifique el correo y la contraseña.';
+          if (role === 'Admin') {
+            this.router.navigate(['/panel-admin']);
+          } else if (role === 'Agricultor') {
+            this.router.navigate(['/panel-agricultor']);
+          } else {
+            this.router.navigate(['/']);
+          }
+        } else {
+          console.error('Login response failure:', response);
+          this.loginError = response?.mensaje || 'Error en el inicio de sesión.';
+        }
+      },
+      error: (err) => {
+        console.error('Login request error:', err);
+        this.loginError = err?.mensaje || 'Credenciales incorrectas. Verifique el correo y la contraseña.';
+      }
+    });
   }
 }

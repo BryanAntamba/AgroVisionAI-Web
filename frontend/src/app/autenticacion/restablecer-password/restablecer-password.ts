@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 // Importación de validadores globales
 import { ModalesValidaciones } from '../../shared/validators/modales-validaciones';
 import { AutenticacionValidaciones } from '../../shared/validators/autenticacion-validaciones';
+import { AuthService } from '../../shared/services/auth.service';
 
 // Importación de los componentes de cada paso del proceso
 import { CambiarPassword } from '../cambiar-password/cambiar-password';
@@ -14,8 +15,7 @@ import { PasswordConfirmacion } from '../password-confirmacion/password-confirma
 
 // Decorador con la configuración del componente
 @Component({
-  selector: 'app-restablecer-password', // Identificador HTML
-  // Importa todos los subcomponentes necesarios para los diferentes pasos
+  selector: 'app-restablecer-password',
   imports: [CommonModule, ReactiveFormsModule, CodigoVerificacion, CambiarPassword, PasswordConfirmacion],
   templateUrl: './restablecer-password.html',
   styleUrls: [
@@ -25,87 +25,89 @@ import { PasswordConfirmacion } from '../password-confirmacion/password-confirma
   ],
 })
 export class RestablecerPassword {
-  // Evento para notificar al componente Login que se debe cerrar este flujo
   @Output() volverLogin = new EventEmitter<void>();
 
-  // Formulario reactivo para solicitar el correo electrónico
   resetForm: FormGroup;
-  // Mensaje de error local para cuando el correo no existe o es inválido
   resetError = '';
-  // Guarda el correo temporalmente tras validarlo en el primer paso
   correoVerificado = '';
-  // Variable de control de estado: define qué pantalla del flujo se está mostrando
+  reenvioError = '';
   paso: 'correo' | 'codigo' | 'password' | 'finalizado' = 'correo';
+  isLoading = false;
 
-  // Correo hardcodeado ("quemado") que simula existir en base de datos para pruebas
-  readonly correoSimulado = 'usuario@gmail.com';
-  // Exposición de validadores para la plantilla
   validators = AutenticacionValidaciones;
 
-  // Inyección de dependencias
-  constructor(private fb: FormBuilder) {
-    // Configuración inicial del formulario
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.resetForm = this.fb.group({
       email: [
-        '', // Valor inicial vacío
-        // Validaciones: obligatorio y solo correos @gmail.com
-        [Validators.required, Validators.pattern(ModalesValidaciones.CORREO_GMAIL_PATTERN)],
+        '',
+        [Validators.required, Validators.email],
       ],
     });
   }
 
-  // Getter auxiliar para el control de email
   get emailControl() {
     return this.resetForm.get('email');
   }
 
-  // Función ejecutada en el Paso 1: Valida el correo y avanza al envío de código
   enviarCodigo(): void {
-    this.resetError = ''; // Limpia errores
+    this.resetError = '';
+    this.isLoading = true;
 
-    // Si el formato del correo no es válido, marca los campos para mostrar el error
     if (this.resetForm.invalid) {
       this.resetForm.markAllAsTouched();
+      this.isLoading = false;
       return;
     }
 
-    // Validación simulada: compara si el correo ingresado coincide con el de prueba
-    if (this.resetForm.value.email !== this.correoSimulado) {
-      this.resetError = 'El correo no coincide con el usuario simulado.';
-      return;
-    }
+    const email = this.resetForm.value.email;
 
-    // Si es correcto, guarda el correo y avanza al Paso 2 (código de verificación)
-    this.correoVerificado = this.resetForm.value.email;
-    this.paso = 'codigo';
+    this.authService.requestPasswordReset(email).subscribe({
+      next: () => {
+        this.correoVerificado = email;
+        this.paso = 'codigo';
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Request password reset error:', err);
+        this.resetError = err?.mensaje || 'No se pudo enviar el código. Intenta nuevamente.';
+        this.isLoading = false;
+      },
+    });
   }
 
-  // Función ejecutada desde el hijo (codigo-verificacion) para avanzar al Paso 3
   mostrarCambioPassword(): void {
     this.paso = 'password';
   }
 
-  // Función ejecutada desde el hijo (cambiar-password) para avanzar al último paso
   finalizarCambio(): void {
     this.paso = 'finalizado';
   }
 
-  // Función para regresar desde el paso de código al paso inicial de correo
   volverACorreo(): void {
-    this.paso = 'correo'; // Regresa al primer estado
-    this.correoVerificado = ''; // Limpia la variable guardada
-    this.resetError = ''; // Limpia el mensaje de error
-    this.resetForm.reset(); // Vuelve el formulario a blanco
+    this.paso = 'correo';
+    this.correoVerificado = '';
+    this.resetError = '';
+    this.resetForm.reset();
   }
 
-  // Función para cancelar el proceso en cualquier momento y regresar al Login
   regresarALogin(): void {
-    this.volverLogin.emit(); // Emite el evento que escucha el componente padre (Login)
+    this.volverLogin.emit();
   }
 
-  // Función dummy que se invoca cuando el hijo pide reenviar el código de verificación
   reenviarCodigoVerificacion(): void {
-    console.log('Reenviando código de verificación a:', this.correoVerificado);
-    // Aquí iría la lógica HTTP real para enviar un correo mediante el backend
+    if (!this.correoVerificado) {
+      this.reenvioError = 'Correo no válido para reenviar código.';
+      return;
+    }
+
+    this.reenvioError = '';
+    this.authService.resendCode(this.correoVerificado).subscribe({
+      next: () => {
+        this.reenvioError = 'Código reenviado. Revisa tu correo.';
+      },
+      error: (err) => {
+        this.reenvioError = err?.mensaje || 'No se pudo reenviar el código. Intenta más tarde.';
+      },
+    });
   }
 }
