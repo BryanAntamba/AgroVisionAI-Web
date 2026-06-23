@@ -69,11 +69,15 @@ function logControllerError(context, error, req = {}) {
 async function login(req, res) {
   try {
     const { email, password } = req.body;
+    console.log('[DEBUG login] Petición recibida. Email:', email, '| Password length:', password?.length);
+
     if (!email || !password) {
+      console.log('[DEBUG login] Rechazado: falta email o password.');
       return res.status(400).json({ success: false, mensaje: 'Email y contraseña son obligatorios.' });
     }
 
     if (!CORPORATE_EMAIL_PATTERN.test(email.toLowerCase())) {
+      console.log('[DEBUG login] Rechazado: el correo no pasa el patrón @agrovision.com. Email recibido:', email.toLowerCase());
       return res.status(400).json({ success: false, mensaje: 'Solo se permite iniciar sesión con correo empresarial @agrovision.com.' });
     }
 
@@ -84,17 +88,39 @@ async function login(req, res) {
       WHERE u.correo_empresarial = $1
       LIMIT 1
     `;
-    const result = await pool.query(query, [email.toLowerCase()]);
+    const emailNormalizado = email.toLowerCase();
+    console.log('[DEBUG login] Email tal cual llegó (JSON):', JSON.stringify(email));
+    console.log('[DEBUG login] Email normalizado a buscar (JSON):', JSON.stringify(emailNormalizado), '| longitud:', emailNormalizado.length);
+
+    const result = await pool.query(query, [emailNormalizado]);
+    console.log('[DEBUG login] Usuarios encontrados con ese correo_empresarial:', result.rows.length);
+
+    // Si no encontró nada, mostramos TODOS los correos empresariales que sí existen
+    // en la tabla, en formato JSON, para comparar carácter por carácter.
+    if (result.rows.length === 0) {
+      const todos = await pool.query('SELECT correo_empresarial FROM public.usuarios');
+      console.log('[DEBUG login] Correos empresariales que SÍ existen en la tabla:',
+        todos.rows.map(r => JSON.stringify(r.correo_empresarial))
+      );
+    }
 
     if (result.rows.length === 0) {
+      console.log('[DEBUG login] Rechazado: no existe ningún usuario con correo_empresarial =', email.toLowerCase());
       return res.status(401).json({ success: false, mensaje: 'Credenciales incorrectas.' });
     }
 
     const usuario = result.rows[0];
+    console.log('[DEBUG login] Usuario encontrado:', usuario.id, '| Hash guardado (primeros 15 chars):', usuario.password_hash?.substring(0, 15));
+
     const passwordMatch = await bcrypt.compare(password, usuario.password_hash);
+    console.log('[DEBUG login] ¿La contraseña coincide con el hash guardado?', passwordMatch);
+
     if (!passwordMatch) {
+      console.log('[DEBUG login] Rechazado: bcrypt.compare devolvió false. La contraseña enviada NO coincide con el hash en la base.');
       return res.status(401).json({ success: false, mensaje: 'Credenciales incorrectas.' });
     }
+
+    console.log('[DEBUG login] Login exitoso para usuario:', usuario.id);
 
     const token = jwt.sign(
       { id: usuario.id, email: email.toLowerCase(), rol: usuario.rol },
