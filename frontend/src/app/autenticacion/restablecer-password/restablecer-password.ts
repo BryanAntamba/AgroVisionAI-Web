@@ -1,6 +1,6 @@
 // Importación de módulos básicos
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Importación de validadores globales
@@ -36,7 +36,7 @@ export class RestablecerPassword {
 
   validators = AutenticacionValidaciones;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private cdr: ChangeDetectorRef) {
     this.resetForm = this.fb.group({
       email: [
         '',
@@ -66,11 +66,13 @@ export class RestablecerPassword {
         this.correoVerificado = email;
         this.paso = 'codigo';
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Request password reset error:', err);
-        this.resetError = err?.mensaje || 'No se pudo enviar el código. Intenta nuevamente.';
+        this.resetError = err?.message || 'No se pudo enviar el código. Intenta nuevamente.';
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
     });
   }
@@ -104,9 +106,11 @@ export class RestablecerPassword {
     this.authService.resendCode(this.correoVerificado).subscribe({
       next: () => {
         this.reenvioError = 'Código reenviado. Revisa tu correo.';
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        this.reenvioError = err?.mensaje || 'No se pudo reenviar el código. Intenta más tarde.';
+        this.reenvioError = err?.message || 'No se pudo reenviar el código. Intenta más tarde.';
+        this.cdr.detectChanges();
       },
     });
   }

@@ -110,6 +110,13 @@ export class AuthService {
       body: error?.error,
       original: error,
     });
-    return throwError(() => ({ mensaje, status: error?.status ?? null }));
+
+    // Lanzamos un Error real (no un objeto plano {mensaje, status}).
+    // Con provideBrowserGlobalErrorListeners() activo, un objeto plano
+    // viajando por el observable rompe la detección de cambios de Angular,
+    // dejando la pantalla "congelada" aunque el error sí llegó.
+    const errorReal = new Error(mensaje);
+    (errorReal as any).status = error?.status ?? null;
+    return throwError(() => errorReal);
   }
 }

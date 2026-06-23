@@ -127,7 +127,7 @@
           </div>
 
           <!-- Botón de envío del formulario -->
-          <button class="submit-button fade-up delay-5" type="submit">Iniciar Sesión</button>
+          <button class="submit-button fade-up delay-5" type="submit" [disabled]="isLoading">{{ isLoading ? 'Ingresando...' : 'Iniciar Sesión' }}</button>
 
           <!-- Muestra un mensaje de error global si las credenciales son incorrectas -->
           <p class="login-error fade-up delay-5" *ngIf="loginError">{{ loginError }}</p>

@@ -34,6 +34,7 @@ export class CodigoVerificacion implements OnDestroy {
   codigoError = '';
   tiempoRestante = 0;
   intervaloCountdown: ReturnType<typeof setInterval> | null = null;
+  isLoading = false;
   private readonly COOLDOWN_SECONDS = 60;
 
   constructor(
@@ -75,6 +76,10 @@ export class CodigoVerificacion implements OnDestroy {
   }
 
   verificarCodigo(): void {
+    if (this.isLoading) {
+      return;
+    }
+
     this.normalizarCodigo();
 
     if (this.codigoForm.invalid) {
@@ -88,13 +93,19 @@ export class CodigoVerificacion implements OnDestroy {
       return;
     }
 
+    this.isLoading = true;
+
     this.authService.verifyCode(this.correo, codigo).subscribe({
       next: () => {
         this.codigoError = '';
+        this.isLoading = false;
+        this.cdr.detectChanges();
         this.codigoVerificado.emit();
       },
       error: (err) => {
-        this.codigoError = err?.mensaje || 'El código no es válido o ha expirado.';
+        this.codigoError = err?.message || 'El código no es válido o ha expirado.';
+        this.isLoading = false;
+        this.cdr.detectChanges();
       },
     });
   }

@@ -42,7 +42,7 @@
     </div>
 
     <!-- Botón para confirmar y proceder a verificar el código -->
-    <button class="submit-button fade-up delay-5" type="submit">Verificar codigo</button>
+    <button class="submit-button fade-up delay-5" type="submit" [disabled]="isLoading">{{ isLoading ? 'Verificando...' : 'Verificar codigo' }}</button>
     <p class="error-message fade-up" *ngIf="codigoError">{{ codigoError }}</p>
 
     <!-- Sección de reenvío de código -->

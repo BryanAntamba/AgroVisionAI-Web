@@ -1,6 +1,6 @@
 // Importaciones de módulos y utilidades de Angular
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -31,6 +31,8 @@ export class Login {
   showPassword = false;
   // Mensaje de error a mostrar cuando fallan las credenciales
   loginError = '';
+  // Indica si hay una petición de login en curso (evita doble envío)
+  isLoading = false;
   // Variable para alternar entre la vista de Login y la vista de Restablecer contraseña
   showResetPassword = false;
 
@@ -43,7 +45,8 @@ export class Login {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {
     // Inicialización del formulario reactivo
     this.loginForm = this.fb.group({
@@ -92,6 +95,10 @@ export class Login {
 
   // Función principal ejecutada al intentar iniciar sesión
   onSubmit(): void {
+    if (this.isLoading) {
+      return;
+    }
+
     this.loginError = ''; // Limpia el error previo
 
     // Verifica si el formulario falla en alguna regla de validación
@@ -103,9 +110,13 @@ export class Login {
     // Extrae los valores ingresados
     const { email, password } = this.loginForm.value;
 
+    this.isLoading = true;
+
     // Llamada real al backend
     this.authService.login(email, password).subscribe({
       next: (response) => {
+        this.isLoading = false;
+        this.cdr.detectChanges();
         if (response?.success) {
           const role = response.usuario?.rol;
 
@@ -123,7 +134,9 @@ export class Login {
       },
       error: (err) => {
         console.error('Login request error:', err);
-        this.loginError = err?.mensaje || 'Credenciales incorrectas. Verifique el correo y la contraseña.';
+        this.loginError = err?.message || 'Credenciales incorrectas. Verifique el correo y la contraseña.';
+        this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }

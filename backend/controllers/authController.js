@@ -32,10 +32,15 @@ async function isPasswordPreviouslyUsed(userId, password) {
     }
   }
 
+  // Limitamos a las últimas 5 contraseñas del historial.
+  // Sin este límite, el historial crece para siempre y cada chequeo
+  // se vuelve más lento (un bcrypt.compare por cada fila, uno por uno).
   const queryHistory = `
     SELECT password_hash
     FROM public.password_histories
     WHERE usuario_id = $1
+    ORDER BY creado_en DESC
+    LIMIT 5
   `;
 
   const historyResult = await pool.query(queryHistory, [userId]);
@@ -249,10 +254,15 @@ async function changePassword(req, res) {
     });
 
     if (!email || !newPassword || !confirmPassword) {
+      console.log('[DEBUG changePassword] Rechazado: falta algún campo (email/newPassword/confirmPassword vacíos).');
       return res.status(400).json({ success: false, mensaje: 'Todos los campos son obligatorios.' });
     }
 
     if (newPassword !== confirmPassword) {
+      console.log('[DEBUG changePassword] Rechazado: newPassword y confirmPassword NO coinciden.', {
+        newPassword,
+        confirmPassword,
+      });
       return res.status(400).json({ success: false, mensaje: 'Las contraseñas no coinciden.' });
     }
 
@@ -265,14 +275,18 @@ async function changePassword(req, res) {
     const resultUser = await pool.query(queryUser, [email.toLowerCase()]);
 
     if (resultUser.rows.length === 0) {
+      console.log('[DEBUG changePassword] Rechazado: no se encontró usuario con ese correo:', email.toLowerCase());
       return res.status(400).json({ success: false, mensaje: 'Usuario no encontrado.' });
     }
 
     const usuario = resultUser.rows[0];
     const previouslyUsed = await isPasswordPreviouslyUsed(usuario.id, newPassword);
     if (previouslyUsed) {
+      console.log('[DEBUG changePassword] Rechazado: la contraseña ya fue usada antes (actual o historial).');
       return res.status(400).json({ success: false, mensaje: 'Contraseña ya usada. Por favor ponga otra contraseña.' });
     }
+
+    console.log('[DEBUG changePassword] Todas las validaciones pasaron, procediendo a actualizar...');
 
     const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
     await pool.query(

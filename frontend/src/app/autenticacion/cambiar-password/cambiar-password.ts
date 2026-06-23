@@ -1,6 +1,6 @@
 // Importa los módulos básicos de Angular
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectorRef } from '@angular/core';
 // Importa herramientas para manejar formularios reactivos
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 // Importa operadores RxJS para el control de finalización de peticiones
@@ -33,7 +33,11 @@ export class CambiarPassword {
   changeError = '';
   isLoading = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.passwordForm = this.fb.group(
       {
         password: ['', [Validators.required]],
@@ -60,6 +64,14 @@ export class CambiarPassword {
   }
 
   confirmarPassword(): void {
+    // Guarda explícita contra doble clic: si ya hay una petición en curso,
+    // ignoramos el clic en vez de esperar a que [disabled] se repinte
+    // (entre el clic y el repintado de Angular hay una pequeña ventana
+    // donde un doble clic rápido puede colarse y disparar dos peticiones).
+    if (this.isLoading) {
+      return;
+    }
+
     this.changeError = '';
 
     if (this.passwordForm.invalid) {
@@ -96,24 +108,22 @@ export class CambiarPassword {
     this.authService.changePassword(this.correo, password, confirmPassword)
       .pipe(
         finalize(() => {
-          console.log('Change password finalized');
           this.isLoading = false;
+          this.cdr.detectChanges();
         })
       )
       .subscribe({
         next: (response) => {
           console.log('Change password response:', response);
           this.changeError = '';
-          this.isLoading = false;
           this.passwordCambiado.emit();
         },
         error: (err) => {
           console.error('Change password error:', err);
-          const backendMessage = err?.mensaje || err?.message || err?.error?.mensaje || err?.error?.message;
+          const backendMessage = err?.message || err?.mensaje;
           this.changeError = typeof backendMessage === 'string'
             ? backendMessage
             : 'No se pudo cambiar la contraseña. Intenta nuevamente.';
-          this.isLoading = false;
         },
       });
   }
