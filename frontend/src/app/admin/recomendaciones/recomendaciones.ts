@@ -1,7 +1,7 @@
 // Importa el módulo común de Angular con directivas básicas como *ngIf y *ngFor
 import { CommonModule } from '@angular/common';
 // Importa el decorador Component y la interfaz OnInit para el ciclo de vida del componente
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 // Importa el módulo de formularios para usar [(ngModel)] en los inputs
 import { FormsModule } from '@angular/forms';
 // Importa el componente de barra de navegación del administrador
@@ -12,8 +12,6 @@ import {
   PrioridadRecomendacion,
   // Interfaz que define la estructura de una recomendación registrada
   RecomendacionRegistrada,
-  // Servicio/store que maneja el estado y operaciones CRUD de recomendaciones
-  RecomendacionesStore,
   // Función que convierte el color a tipo de recomendación para el dashboard
   colorATipoDashboard,
   // Función que devuelve el ícono apropiado según el color de la recomendación
@@ -27,6 +25,8 @@ import { EditarRecomendacion } from '../modalesRecomedacion/editar-recomendacion
 import { VisualizarRecomendacion } from '../modalesRecomedacion/visualizar-recomendacion/visualizar-recomendacion';
 // Importa el componente modal para confirmar eliminación de recomendaciones
 import { EliminarRecomendacion } from '../modalesRecomedacion/eliminar-recomendacion/eliminar-recomendacion';
+// Importa el servicio para conectarse al backend
+import { RecomendacionesService } from '../../shared/services/recomendaciones.service';
 
 // Decorador @Component que define los metadatos del componente de recomendaciones
 @Component({
@@ -67,6 +67,8 @@ export class Recomendaciones implements OnInit {
   lista: RecomendacionRegistrada[] = [];
   // Array que almacena las recomendaciones filtradas que se mostrarán en la vista
   vistaPrevia: RecomendacionRegistrada[] = [];
+  // Bandera para controlar estado de carga
+  cargando = false;
 
   // Bandera para controlar la visibilidad del modal de registro
   mostrarRegistrar = false;
@@ -79,18 +81,36 @@ export class Recomendaciones implements OnInit {
   // Propiedad para almacenar la recomendación actualmente seleccionada
   seleccionada: RecomendacionRegistrada | null = null;
 
+  constructor(
+    private recomendacionesService: RecomendacionesService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
   // Método del ciclo de vida que se ejecuta una vez al inicializar el componente
   ngOnInit(): void {
-    // Carga todas las recomendaciones desde el store al inicializar
+    // Carga todas las recomendaciones desde el backend al inicializar
     this.refrescar();
   }
 
-  // Método que recarga todas las recomendaciones desde el store y aplica filtros
+  // Método que recarga todas las recomendaciones desde el backend y aplica filtros
   refrescar(): void {
-    // Obtiene todas las recomendaciones del store y las asigna a la lista completa
-    this.lista = RecomendacionesStore.obtenerTodas();
-    // Aplica los filtros activos para actualizar la vista previa
-    this.aplicarFiltros();
+    this.cargando = true;
+    this.recomendacionesService.listarRecomendaciones().subscribe({
+      next: (recomendaciones) => {
+        // Mapear datos del backend al formato del frontend
+        this.lista = recomendaciones.map(r => this.mapearDesdeBackend(r));
+        this.aplicarFiltros();
+        this.cargando = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al cargar recomendaciones:', err);
+        this.lista = [];
+        this.vistaPrevia = [];
+        this.cargando = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   // Método que filtra las recomendaciones según la búsqueda y prioridad seleccionadas
@@ -137,12 +157,19 @@ export class Recomendaciones implements OnInit {
 
   // Método que guarda una nueva recomendación y actualiza la lista
   guardarRegistro(datos: DatosRecomendacionForm): void {
-    // Agrega la nueva recomendación al store usando los datos del formulario
-    RecomendacionesStore.agregar(datos);
-    // Cierra el modal de registro
-    this.cerrarRegistrar();
-    // Recarga la lista de recomendaciones para reflejar el nuevo registro
-    this.refrescar();
+    const usuario = JSON.parse(localStorage.getItem('auth_user') || '{}');
+    const recomendacion = this.mapearHaciaBackend(datos, usuario.id);
+    
+    this.recomendacionesService.crearRecomendacion(recomendacion).subscribe({
+      next: () => {
+        this.cerrarRegistrar();
+        this.refrescar();
+      },
+      error: (err) => {
+        console.error('Error al crear recomendación:', err);
+        alert('Error al guardar la recomendación: ' + (err.message || 'Error desconocido'));
+      }
+    });
   }
 
   // Método que abre el modal de edición para una recomendación específica
@@ -163,14 +190,22 @@ export class Recomendaciones implements OnInit {
 
   // Método que guarda las modificaciones de una recomendación existente
   guardarEdicion(datos: DatosRecomendacionForm): void {
-    // Verifica si hay una recomendación seleccionada, si no, sale del método
     if (!this.seleccionada) return;
-    // Actualiza la recomendación en el store usando su ID y los nuevos datos
-    RecomendacionesStore.actualizar(this.seleccionada.id, datos);
-    // Cierra el modal de edición
-    this.cerrarEditar();
-    // Recarga la lista para reflejar los cambios
-    this.refrescar();
+    
+    const usuario = JSON.parse(localStorage.getItem('auth_user') || '{}');
+    const recomendacion = this.mapearHaciaBackend(datos, usuario.id);
+    
+    // El ID del backend es UUID string, no número
+    this.recomendacionesService.editarRecomendacion(String(this.seleccionada.id), recomendacion).subscribe({
+      next: () => {
+        this.cerrarEditar();
+        this.refrescar();
+      },
+      error: (err) => {
+        console.error('Error al editar recomendación:', err);
+        alert('Error al editar la recomendación: ' + (err.message || 'Error desconocido'));
+      }
+    });
   }
 
   // Método que abre el modal de visualización para ver los detalles completos de una recomendación
@@ -207,14 +242,76 @@ export class Recomendaciones implements OnInit {
 
   // Método que confirma y ejecuta la eliminación de una recomendación
   confirmarEliminacion(): void {
-    // Verifica si hay una recomendación seleccionada, si no, sale del método
     if (!this.seleccionada) return;
-    // Elimina la recomendación del store usando su ID
-    RecomendacionesStore.eliminar(this.seleccionada.id);
-    // Cierra el modal de confirmación
-    this.cerrarEliminar();
-    // Recarga la lista para reflejar la eliminación
-    this.refrescar();
+    
+    // El ID del backend es UUID string, no número
+    this.recomendacionesService.eliminarRecomendacion(String(this.seleccionada.id)).subscribe({
+      next: () => {
+        this.cerrarEliminar();
+        this.refrescar();
+      },
+      error: (err) => {
+        console.error('Error al eliminar recomendación:', err);
+        alert('Error al eliminar la recomendación: ' + (err.message || 'Error desconocido'));
+      }
+    });
+  }
+
+  // Mapea datos del backend al formato del frontend
+  private mapearDesdeBackend(datos: any): RecomendacionRegistrada {
+    // Mapear códigos hexadecimales a nombres de colores
+    const colorMap: Record<string, any> = {
+      '#28a745': 'Verde',
+      '#ffc107': 'Amarillo',
+      '#fd7e14': 'Naranja',
+      '#dc3545': 'Rojo'
+    };
+    
+    // Mapear prioridades de minúsculas a formato frontend
+    const prioridadMap: Record<string, PrioridadRecomendacion> = {
+      'baja': 'Baja',
+      'media': 'Media',
+      'alta': 'Alta',
+      'critica': 'Critica'
+    };
+    
+    return {
+      id: datos.id, // UUID del backend
+      titulo: datos.titulo || '',
+      descripcion: datos.descripcion || '',
+      accion: datos.accion_recomendada || '',
+      prioridad: prioridadMap[datos.prioridad?.toLowerCase()] || 'Media',
+      color: colorMap[datos.color] || 'Amarillo',
+      fechaRegistro: datos.creado_en || new Date().toISOString()
+    };
+  }
+
+  // Mapea datos del frontend al formato del backend
+  private mapearHaciaBackend(datos: DatosRecomendacionForm, usuario_id: string): any {
+    // Mapear nombres de colores a códigos hexadecimales
+    const colorMap: Record<string, string> = {
+      'Verde': '#28a745',
+      'Amarillo': '#ffc107',
+      'Naranja': '#fd7e14',
+      'Rojo': '#dc3545'
+    };
+    
+    // Mapear prioridades a minúsculas
+    const prioridadMap: Record<PrioridadRecomendacion, string> = {
+      'Baja': 'baja',
+      'Media': 'media',
+      'Alta': 'alta',
+      'Critica': 'critica'
+    };
+    
+    return {
+      usuario_id,
+      titulo: datos.titulo,
+      descripcion: datos.descripcion,
+      accion_recomendada: datos.accion,
+      prioridad: prioridadMap[datos.prioridad],
+      color: colorMap[datos.color]
+    };
   }
 
   // Método privado que normaliza texto para comparaciones sin acentos ni mayúsculas

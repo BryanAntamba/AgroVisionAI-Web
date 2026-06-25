@@ -9,8 +9,8 @@ export type ColorRecomendacion = 'Verde' | 'Amarillo' | 'Naranja' | 'Rojo';
 
 // Interfaz que define la estructura de una recomendación registrada en el sistema
 export interface RecomendacionRegistrada {
-  // Identificador único de la recomendación
-  id: number;
+  // Identificador único de la recomendación (UUID del backend o número local)
+  id: string | number;
   // Título corto de la recomendación
   titulo: string;
   // Descripción detallada de la recomendación
@@ -106,19 +106,20 @@ export class RecomendacionesStore {
 
   // Método público estático que busca una recomendación por su ID
   // Retorna la recomendación si la encuentra, undefined si no existe
-  static obtenerPorId(id: number): RecomendacionRegistrada | undefined {
+  static obtenerPorId(id: string | number): RecomendacionRegistrada | undefined {
     return this.lista.find((r) => r.id === id);
   }
 
   // Método público estático que agrega una nueva recomendación al sistema
   // Retorna la recomendación creada con ID y fecha asignados automáticamente
   static agregar(data: Omit<RecomendacionRegistrada, 'id' | 'fechaRegistro'>): RecomendacionRegistrada {
-    // Calcula el siguiente ID disponible
+    // Calcula el siguiente ID disponible (convierte a número si es necesario)
+    const ids = this.lista.map((r) => typeof r.id === 'number' ? r.id : 0);
     const nuevo: RecomendacionRegistrada = {
       // Copia todos los datos proporcionados
       ...data,
       // Genera un nuevo ID una unidad mayor que el máximo actual
-      id: Math.max(0, ...this.lista.map((r) => r.id)) + 1,
+      id: Math.max(0, ...ids) + 1,
       // Asigna la fecha y hora actual en formato ISO
       fechaRegistro: new Date().toISOString(),
     };
@@ -132,7 +133,7 @@ export class RecomendacionesStore {
 
   // Método público estático que actualiza los datos de una recomendación existente
   // Busca por ID y reemplaza solo los campos proporcionados
-  static actualizar(id: number, data: Omit<RecomendacionRegistrada, 'id' | 'fechaRegistro'>): void {
+  static actualizar(id: string | number, data: Omit<RecomendacionRegistrada, 'id' | 'fechaRegistro'>): void {
     // Busca el índice de la recomendación con el ID dado
     const idx = this.lista.findIndex((r) => r.id === id);
     // Si no encuentra la recomendación, retorna sin hacer nada
@@ -145,7 +146,7 @@ export class RecomendacionesStore {
 
   // Método público estático que elimina una recomendación por su ID
   // Filtra el array para remover la recomendación solicitada
-  static eliminar(id: number): void {
+  static eliminar(id: string | number): void {
     // Filtra el array manteniendo solo las recomendaciones con ID diferente
     this.lista = this.lista.filter((r) => r.id !== id);
     // Persiste los cambios en localStorage

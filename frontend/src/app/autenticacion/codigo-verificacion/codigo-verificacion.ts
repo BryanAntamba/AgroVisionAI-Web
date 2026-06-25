@@ -30,6 +30,7 @@ export class CodigoVerificacion implements OnDestroy {
   mensajeReenvio = '';
   intentosReenvio = 0;
   limiteReenvioAlcanzado = false;
+  codigoReenviadoExitosamente = false;
   validators = AutenticacionValidaciones;
   codigoError = '';
   tiempoRestante = 0;
@@ -111,18 +112,47 @@ export class CodigoVerificacion implements OnDestroy {
   }
 
   solicitarReenvio(): void {
+    // Verificar límite de reintentos antes de continuar
     if (!AutenticacionValidaciones.puedeReenviarCodigo(this.intentosReenvio)) {
-      this.limiteReenvioAlcanzado = true;
-      this.iniciarCountdown();
+      this.mensajeReenvio = AutenticacionValidaciones.getCodigoReenvioMensaje(this.intentosReenvio + 1);
       return;
     }
 
-    this.intentosReenvio++;
-    this.limiteReenvioAlcanzado = true;
-    this.tiempoRestante = this.COOLDOWN_SECONDS;
-    this.iniciarCountdown();
-    this.mensajeReenvio = AutenticacionValidaciones.getCodigoReenvioMensaje(this.intentosReenvio);
+    // Emitir evento al padre para que llame al backend
+    // El countdown se iniciará cuando el backend responda exitosamente
     this.reenviarCodigo.emit();
+  }
+
+  // Método público para que el padre notifique el resultado del reenvío
+  public manejarResultadoReenvio(exitoso: boolean, mensaje?: string): void {
+    if (exitoso) {
+      this.intentosReenvio++;
+      this.limiteReenvioAlcanzado = true;
+      this.codigoReenviadoExitosamente = true;
+      this.tiempoRestante = this.COOLDOWN_SECONDS;
+      this.iniciarCountdown();
+      this.mensajeReenvio = 'Código reenviado correctamente a tu correo';
+    } else {
+      // Si falló, intentar extraer el tiempo de espera del mensaje del backend
+      const mensajeError = mensaje || 'No se pudo reenviar el código';
+      
+      // Buscar patrón "Espera X segundos" en el mensaje
+      const match = mensajeError.match(/Espera (\d+) segundo/i);
+      if (match && match[1]) {
+        const segundos = parseInt(match[1], 10);
+        this.limiteReenvioAlcanzado = true;
+        this.codigoReenviadoExitosamente = false;
+        this.tiempoRestante = segundos;
+        this.iniciarCountdown();
+        this.mensajeReenvio = 'Ya se envió un código recientemente';
+      } else {
+        // Si no hay tiempo de espera en el mensaje, solo mostrarlo
+        this.mensajeReenvio = mensajeError;
+        this.limiteReenvioAlcanzado = false;
+        this.codigoReenviadoExitosamente = false;
+      }
+    }
+    this.cdr.detectChanges();
   }
 
   private iniciarCountdown(): void {

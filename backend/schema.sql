@@ -27,6 +27,7 @@ CREATE TABLE public.usuarios (
     correo_personal character varying(150) UNIQUE,
     telefono character varying(20),
     password_hash character varying(255) NOT NULL,
+    activo boolean DEFAULT true NOT NULL,
     creado_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     actualizado_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT check_email_empresarial CHECK (((correo_empresarial)::text ~~ '%@%'::text)),
@@ -45,7 +46,7 @@ CREATE TABLE public.recomendaciones (
     creado_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     actualizado_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT check_color CHECK (((color IS NULL) OR ((color)::text ~ '^#[0-9A-Fa-f]{6}$'::text))),
-    CONSTRAINT recomendaciones_prioridad_check CHECK (((prioridad)::text = ANY (ARRAY['baja', 'media', 'alta'])))
+    CONSTRAINT recomendaciones_prioridad_check CHECK (((prioridad)::text = ANY (ARRAY['baja', 'media', 'alta', 'critica'])))
 );
 
 -- 6. Crear Tabla: Códigos de Recuperación
@@ -61,13 +62,22 @@ CREATE TABLE public.codigos_recuperacion (
     CONSTRAINT max_intentos CHECK ((intentos <= 5))
 );
 
--- 7. Crear Índices para que las búsquedas sean rápidas
+-- 7. Crear Tabla: Historial de Contraseñas (para evitar reutilización)
+CREATE TABLE public.password_histories (
+    id uuid DEFAULT public.uuid_generate_v4() PRIMARY KEY,
+    usuario_id uuid NOT NULL REFERENCES public.usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    password_hash character varying(255) NOT NULL,
+    creado_en timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 8. Crear Índices para que las búsquedas sean rápidas
 CREATE INDEX idx_usuario_rol ON public.usuarios USING btree (rol_id);
 CREATE INDEX idx_recomendacion_usuario ON public.recomendaciones USING btree (usuario_id);
 CREATE INDEX idx_codigo_usuario ON public.codigos_recuperacion USING btree (usuario_id);
+CREATE INDEX idx_password_history_usuario ON public.password_histories USING btree (usuario_id);
 CREATE UNIQUE INDEX codigo_unico_activo ON public.codigos_recuperacion USING btree (usuario_id, codigo) WHERE (usado = false);
 
--- 8. Crear los Triggers para que las fechas se actualicen solas
+-- 9. Crear los Triggers para que las fechas se actualicen solas
 CREATE TRIGGER update_usuarios_trigger
     BEFORE UPDATE ON public.usuarios
     FOR EACH ROW
@@ -78,5 +88,5 @@ CREATE TRIGGER update_recomendaciones_trigger
     FOR EACH ROW
     EXECUTE FUNCTION public.actualizar_fecha();
 
--- 9. Insertar los Roles Básicos (Para que puedas registrar usuarios sin error)
-INSERT INTO public.roles (nombre) VALUES ('ADMIN'), ('AGRICULTOR') ON CONFLICT DO NOTHING; creame un usuario admin porfa
+-- 10. Insertar los Roles Básicos (Para que puedas registrar usuarios sin error)
+INSERT INTO public.roles (nombre) VALUES ('ADMIN'), ('AGRICULTOR') ON CONFLICT DO NOTHING;

@@ -2,12 +2,16 @@ const nodemailer = require('nodemailer');
 
 const mailUser = process.env.MAIL_USER;
 const mailPass = process.env.MAIL_PASS;
-const mailService = process.env.MAIL_SERVICE || 'gmail';
+const mailHost = process.env.MAIL_HOST || 'smtp.gmail.com';
+const mailPort = Number(process.env.MAIL_PORT) || 587;
+const mailFrom = process.env.MAIL_FROM || `"AgroVisionAI" <${mailUser}>`;
 
 let transporter = null;
 if (mailUser && mailPass) {
   transporter = nodemailer.createTransport({
-    service: mailService,
+    host: mailHost,
+    port: mailPort,
+    secure: mailPort === 465, // true para puerto 465, false para otros
     auth: {
       user: mailUser,
       pass: mailPass,
@@ -38,7 +42,7 @@ async function sendRecoveryCodeEmail(toEmail, code) {
 
   try {
     await transporter.sendMail({
-      from: `"AgroVisionAI" <${mailUser}>`,
+      from: mailFrom,
       to: toEmail,
       subject: 'Código de recuperación de contraseña',
       html,

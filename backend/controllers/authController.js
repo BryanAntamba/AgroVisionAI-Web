@@ -9,8 +9,39 @@ const MAX_RESEND_ATTEMPTS = 5;
 const CORPORATE_EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@agrovision\.com$/;
 const RESEND_COOLDOWN_SECONDS = 60;
 
+// Dominios de correo personal permitidos para recuperación de contraseña
+const ALLOWED_PERSONAL_DOMAINS = [
+  'gmail.com',
+  'hotmail.com',
+  'outlook.com',
+  'outlook.es',
+  'yahoo.com',
+  'yahoo.es',
+  'icloud.com',
+  'live.com',
+  'msn.com',
+  'aol.com',
+  'protonmail.com',
+  'zoho.com',
+  'mail.com',
+  'gmx.com',
+  'yandex.com'
+];
+
 function generarCodigo6Digitos() {
   return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+// Valida que un email sea de un dominio personal permitido
+function isAllowedPersonalEmail(email) {
+  if (!email || typeof email !== 'string') {
+    return false;
+  }
+  
+  const emailLower = email.toLowerCase();
+  const domain = emailLower.split('@')[1];
+  
+  return ALLOWED_PERSONAL_DOMAINS.includes(domain);
 }
 
 async function isPasswordPreviouslyUsed(userId, password) {
@@ -82,7 +113,7 @@ async function login(req, res) {
     }
 
     const query = `
-      SELECT u.id, u.nombres, u.apellidos, u.correo_empresarial, u.correo_personal, u.password_hash, r.nombre AS rol
+      SELECT u.id, u.nombres, u.apellidos, u.correo_empresarial, u.correo_personal, u.password_hash, u.activo, r.nombre AS rol
       FROM public.usuarios u
       JOIN public.roles r ON u.rol_id = r.id
       WHERE u.correo_empresarial = $1
@@ -118,6 +149,15 @@ async function login(req, res) {
     if (!passwordMatch) {
       console.log('[DEBUG login] Rechazado: bcrypt.compare devolvió false. La contraseña enviada NO coincide con el hash en la base.');
       return res.status(401).json({ success: false, mensaje: 'Credenciales incorrectas.' });
+    }
+
+    // Verificar si el usuario está activo
+    if (!usuario.activo) {
+      console.log('[DEBUG login] Rechazado: el usuario existe y la contraseña es correcta, pero la cuenta está INACTIVA.');
+      return res.status(403).json({ 
+        success: false, 
+        mensaje: 'Esta cuenta ha sido desactivada. Contacte al administrador.' 
+      });
     }
 
     console.log('[DEBUG login] Login exitoso para usuario:', usuario.id);
@@ -157,19 +197,30 @@ async function requestPasswordReset(req, res) {
       return res.status(400).json({ success: false, mensaje: 'El correo es obligatorio.' });
     }
 
+    // Validar que sea un correo personal de dominio permitido
+    if (!isAllowedPersonalEmail(email)) {
+      console.warn('requestPasswordReset: Dominio no permitido:', email);
+      return res.status(400).json({ 
+        success: false, 
+        mensaje: 'Use un correo personal (Gmail, Outlook, Yahoo, etc.)' 
+      });
+    }
+
+    // Solo buscar por correo_personal, no empresarial
     const queryUser = `
       SELECT id
       FROM public.usuarios
-      WHERE correo_empresarial = $1 OR correo_personal = $1
+      WHERE correo_personal = $1
       LIMIT 1
     `;
-    console.log('requestPasswordReset: Buscando usuario con email:', email.toLowerCase());
+    console.log('requestPasswordReset: Buscando usuario con correo personal:', email.toLowerCase());
     const resultUser = await pool.query(queryUser, [email.toLowerCase()]);
     console.log('requestPasswordReset: Resultado de búsqueda:', resultUser.rows.length, 'usuario(s) encontrado(s)');
 
     if (resultUser.rows.length === 0) {
       console.warn('requestPasswordReset: Usuario no encontrado con email:', email.toLowerCase());
-      return res.status(200).json({ success: true, mensaje: 'Código enviado si el correo existe.' });
+      // Por seguridad, no revelar si el correo existe o no
+      return res.status(200).json({ success: true, mensaje: 'Si el correo existe, recibirás un código de verificación.' });
     }
 
     const usuario = resultUser.rows[0];
@@ -220,10 +271,11 @@ async function verifyCode(req, res) {
       return res.status(400).json({ success: false, mensaje: 'Correo y código son obligatorios.' });
     }
 
+    // Solo buscar por correo_personal (flujo de recuperación de contraseña)
     const queryUser = `
       SELECT id
       FROM public.usuarios
-      WHERE correo_empresarial = $1 OR correo_personal = $1
+      WHERE correo_personal = $1
       LIMIT 1
     `;
     const resultUser = await pool.query(queryUser, [email.toLowerCase()]);
@@ -292,10 +344,11 @@ async function changePassword(req, res) {
       return res.status(400).json({ success: false, mensaje: 'Las contraseñas no coinciden.' });
     }
 
+    // Solo buscar por correo_personal (flujo de recuperación de contraseña)
     const queryUser = `
       SELECT id, password_hash
       FROM public.usuarios
-      WHERE correo_empresarial = $1 OR correo_personal = $1
+      WHERE correo_personal = $1
       LIMIT 1
     `;
     const resultUser = await pool.query(queryUser, [email.toLowerCase()]);
@@ -335,10 +388,11 @@ async function resendCode(req, res) {
       return res.status(400).json({ success: false, mensaje: 'El correo es obligatorio.' });
     }
 
+    // Solo buscar por correo_personal (flujo de recuperación de contraseña)
     const queryUser = `
       SELECT id
       FROM public.usuarios
-      WHERE correo_empresarial = $1 OR correo_personal = $1
+      WHERE correo_personal = $1
       LIMIT 1
     `;
     const resultUser = await pool.query(queryUser, [email.toLowerCase()]);

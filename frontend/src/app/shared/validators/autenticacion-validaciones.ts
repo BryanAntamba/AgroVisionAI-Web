@@ -40,7 +40,7 @@ export class AutenticacionValidaciones {
    */
   static readonly RESTABLECER_PASSWORD_ERRORS = {
     emailRequired: 'El correo es obligatorio',
-    emailPattern: 'Ingrese un correo válido',
+    emailPattern: 'Use un correo personal (Gmail, Outlook, Yahoo, etc.)',
   };
 
   /**
@@ -146,6 +146,54 @@ export class AutenticacionValidaciones {
   }
 
   /**
+   * Validador personalizado para email con dominio válido
+   * Solo acepta correos personales de dominios públicos reales (Gmail, Outlook, Yahoo, etc.)
+   * NO acepta correos empresariales ficticios
+   */
+  static emailConDominioValido(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) {
+      return null; // El required se encarga de valores vacíos
+    }
+
+    // Lista de dominios de correo público permitidos
+    const dominiosPermitidos = [
+      'gmail.com',
+      'hotmail.com',
+      'outlook.com',
+      'outlook.es',
+      'yahoo.com',
+      'yahoo.es',
+      'icloud.com',
+      'live.com',
+      'msn.com',
+      'aol.com',
+      'protonmail.com',
+      'zoho.com',
+      'mail.com',
+      'gmx.com',
+      'yandex.com'
+    ];
+
+    // Expresión regular básica para validar formato de email
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+    if (!emailPattern.test(control.value)) {
+      return { emailInvalido: true };
+    }
+
+    // Extraer el dominio del email
+    const email = control.value.toLowerCase();
+    const dominio = email.split('@')[1];
+
+    // Validar que el dominio esté en la lista de permitidos
+    if (!dominiosPermitidos.includes(dominio)) {
+      return { emailInvalido: true };
+    }
+
+    return null;
+  }
+
+  /**
    * Obtiene el mensaje de error para el email en restablecer password
    */
   static getRestablecerPasswordEmailError(control: AbstractControl | null): string {
@@ -157,7 +205,7 @@ export class AutenticacionValidaciones {
       return this.RESTABLECER_PASSWORD_ERRORS.emailRequired;
     }
 
-    if (control.errors['pattern']) {
+    if (control.errors['emailInvalido']) {
       return this.RESTABLECER_PASSWORD_ERRORS.emailPattern;
     }
 

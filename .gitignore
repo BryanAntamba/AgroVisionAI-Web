@@ -1,0 +1,27 @@
+# Archivos de entorno con datos sensibles
+.env
+*.env
+
+# Dependencias
+node_modules/
+*/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build
+dist/
+build/
+*.tsbuildinfo

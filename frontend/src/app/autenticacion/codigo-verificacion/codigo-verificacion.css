@@ -165,11 +165,39 @@ input::placeholder {
 /* Mensajes textuales del temporizador o la cantidad de intentos de reenvío */
 .resend-feedback {
   margin: 10px 0 0;
-  color: #0b5a3d;
   font-size: 13px;
   font-weight: 800;
   white-space: pre-line;
   line-height: 1.6;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Mensaje de éxito (código reenviado correctamente) */
+.resend-feedback.success-message {
+  color: #28a745;
+  border-left: 3px solid #28a745;
+}
+
+/* Mensaje de advertencia (esperando cooldown) */
+.resend-feedback.warning-message {
+  color: #ffc107;
+  border-left: 3px solid #ffc107;
+}
+
+/* Mensaje principal */
+.feedback-main {
+  display: block;
+}
+
+/* Countdown secundario */
+.feedback-countdown {
+  display: block;
+  font-size: 12px;
+  margin-top: 6px;
+  opacity: 0.9;
 }
 
 /* Si se produce un error (ej: cuenta regresiva de bloqueo), se cambia a rojo */
@@ -179,8 +207,9 @@ input::placeholder {
 
 /* Resalta partes del texto de feedback en rojo intenso, como el temporizador */
 .resend-feedback strong {
-  color: #c92b2b;
-  font-size: 15px;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 900;
 }
 
 /* Animaciones secuenciales y de aparición suave comunes */
@@ -201,5 +230,14 @@ input::placeholder {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

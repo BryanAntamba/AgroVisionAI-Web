@@ -57,17 +57,18 @@
       >
         Reenviar codigo
       </button>
-      <!-- Mensajes dinámicos de feedback (ej: "Intentos restantes" o la "cuenta regresiva") -->
+      <!-- Mensajes dinámicos de feedback -->
       <p
         class="resend-feedback"
-        [ngClass]="{ 'is-error': limiteReenvioAlcanzado }"
-        *ngIf="mensajeReenvio || limiteReenvioAlcanzado"
+        [class.success-message]="codigoReenviadoExitosamente"
+        [class.warning-message]="!codigoReenviadoExitosamente && limiteReenvioAlcanzado"
+        *ngIf="mensajeReenvio"
       >
-        <span *ngIf="!limiteReenvioAlcanzado">{{ mensajeReenvio }}</span>
-        <!-- Se muestra cuando se supera el límite y empieza a contar el tiempo de espera -->
-        <span *ngIf="limiteReenvioAlcanzado">
-          Has alcanzado el límite de reenvíos.<br>
-          Inténtalo nuevamente en <strong>{{ tiempoFormateado }}</strong>
+        <!-- Mensaje principal -->
+        <span class="feedback-main">{{ mensajeReenvio }}</span>
+        <!-- Countdown si está activo -->
+        <span *ngIf="limiteReenvioAlcanzado && tiempoRestante > 0" class="feedback-countdown">
+          <br>Podrás solicitar otro en <strong>{{ tiempoFormateado }}</strong>
         </span>
       </p>
     </div>

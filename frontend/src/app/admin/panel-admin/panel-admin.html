@@ -171,6 +171,16 @@
 
   <!-- Grid de tarjetas de usuarios que muestra la lista filtrada -->
   <section class="users-grid" aria-label="Listado de usuarios">
+    <!-- Mensaje de carga mientras se obtienen los usuarios del backend -->
+    <div *ngIf="cargando" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+      <p>Cargando usuarios...</p>
+    </div>
+    
+    <!-- Mensaje cuando no hay usuarios que mostrar -->
+    <div *ngIf="!cargando && usuariosFiltrados.length === 0" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+      <p>No se encontraron usuarios con los filtros aplicados.</p>
+    </div>
+    
     <!-- Tarjeta individual para cada usuario, iterada con *ngFor -->
     <article class="user-card" *ngFor="let usuario of usuariosFiltrados">
       <!-- Encabezado de la tarjeta con avatar y datos principales -->

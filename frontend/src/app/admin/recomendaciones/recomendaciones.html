@@ -66,8 +66,10 @@
   <section class="lista-recomendaciones">
     <!-- Título que indica el número de recomendaciones visibles -->
     <h2>Recomendaciones registradas ({{ vistaPrevia.length }})</h2>
+    <!-- Mensaje mostrado cuando está cargando -->
+    <p class="lista-vacia" *ngIf="cargando">Cargando recomendaciones...</p>
     <!-- Mensaje mostrado cuando no hay recomendaciones que coincidan con los filtros -->
-    <p class="lista-vacia" *ngIf="!vistaPrevia.length">No hay recomendaciones con los filtros actuales.</p>
+    <p class="lista-vacia" *ngIf="!cargando && !vistaPrevia.length">No hay recomendaciones con los filtros actuales.</p>
     <!-- Tarjeta individual para cada recomendación, iterada con *ngFor -->
     <article
       class="rec-card"

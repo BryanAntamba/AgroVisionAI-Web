@@ -1,6 +1,6 @@
 // Importación de módulos básicos
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
+import { Component, EventEmitter, Output, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 // Importación de validadores globales
@@ -26,6 +26,7 @@ import { PasswordConfirmacion } from '../password-confirmacion/password-confirma
 })
 export class RestablecerPassword {
   @Output() volverLogin = new EventEmitter<void>();
+  @ViewChild(CodigoVerificacion) codigoVerificacionComponent?: CodigoVerificacion;
 
   resetForm: FormGroup;
   resetError = '';
@@ -40,7 +41,7 @@ export class RestablecerPassword {
     this.resetForm = this.fb.group({
       email: [
         '',
-        [Validators.required, Validators.email],
+        [Validators.required, AutenticacionValidaciones.emailConDominioValido],
       ],
     });
   }
@@ -51,14 +52,15 @@ export class RestablecerPassword {
 
   enviarCodigo(): void {
     this.resetError = '';
-    this.isLoading = true;
 
+    // Validar formulario antes de enviar
     if (this.resetForm.invalid) {
       this.resetForm.markAllAsTouched();
-      this.isLoading = false;
+      this.resetError = 'Por favor, ingrese un correo electrónico válido.';
       return;
     }
 
+    this.isLoading = true;
     const email = this.resetForm.value.email;
 
     this.authService.requestPasswordReset(email).subscribe({
@@ -79,6 +81,7 @@ export class RestablecerPassword {
 
   mostrarCambioPassword(): void {
     this.paso = 'password';
+    this.reenvioError = ''; // Limpiar mensaje de reenvío al cambiar de paso
   }
 
   finalizarCambio(): void {
@@ -104,13 +107,18 @@ export class RestablecerPassword {
 
     this.reenvioError = '';
     this.authService.resendCode(this.correoVerificado).subscribe({
-      next: () => {
-        this.reenvioError = 'Código reenviado. Revisa tu correo.';
-        this.cdr.detectChanges();
+      next: (response) => {
+        console.log('Código reenviado exitosamente:', response);
+        // Notificar al componente hijo que el reenvío fue exitoso
+        this.codigoVerificacionComponent?.manejarResultadoReenvio(true, response?.mensaje);
       },
       error: (err) => {
-        this.reenvioError = err?.message || 'No se pudo reenviar el código. Intenta más tarde.';
-        this.cdr.detectChanges();
+        console.error('Error al reenviar código:', err);
+        // Notificar al componente hijo que el reenvío falló
+        this.codigoVerificacionComponent?.manejarResultadoReenvio(
+          false, 
+          err?.message || 'No se pudo reenviar el código. Intenta más tarde.'
+        );
       },
     });
   }

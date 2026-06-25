@@ -1,7 +1,7 @@
 // Importa módulo común de Angular que proporciona directivas básicas como *ngIf, *ngFor
 import { CommonModule } from '@angular/common';
-// Importa el decorador Component para definir un componente Angular
-import { Component } from '@angular/core';
+// Importa el decorador Component y OnInit para definir un componente Angular con inicialización
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 // Importa el módulo de formularios para usar [(ngModel)] en el template
 import { FormsModule } from '@angular/forms';
 // Importa el componente de barra de navegación específico para administradores
@@ -16,8 +16,10 @@ import { EditarUsuario, UsuarioEditar } from '../modales/editar-usuario/editar-u
 import { PerfilUsuario } from '../modales/perfil-usuario/perfil-usuario';
 // Importa el componente modal para confirmar la eliminación de un usuario
 import { EliminarUsuario } from '../modales/eliminar-usuario/eliminar-usuario';
-// Importa los datos de prueba y la interfaz UsuarioAdmin desde el archivo de simulación
-import { datosSimuladosAdmin, UsuarioAdmin as UsuarioAdminInterface } from '../../../environments/datos-simulados-admin';
+// Importa el servicio para gestionar usuarios con el backend
+import { UsuariosService, UsuarioAdmin as UsuarioAdminService } from '../../shared/services/usuarios.service';
+// DATOS SIMULADOS - Mantener comentado pero disponible para testing
+// import { datosSimuladosAdmin, UsuarioAdmin as UsuarioAdminInterface } from '../../../environments/datos-simulados-admin';
 
 // Define un tipo literal para los roles posibles de un usuario
 type RolUsuario = 'Admin' | 'Agricultor';
@@ -87,7 +89,7 @@ interface UsuarioAdmin {
   styleUrl: './panel-admin.css',
 })
 // Clase que contiene toda la lógica del componente Panel de Administración
-export class PanelAdmin {
+export class PanelAdmin implements OnInit {
   // Propiedad para almacenar el término de búsqueda ingresado por el usuario
   busqueda = '';
   // Propiedad para almacenar el filtro de rol seleccionado (Todos, Admin, Agricultor)
@@ -110,22 +112,49 @@ export class PanelAdmin {
   // Propiedad para almacenar el usuario que se está por eliminar (para confirmación)
   usuarioParaEliminar: UsuarioAdmin | null = null;
 
-  // Array que contiene todos los usuarios del sistema (inicializado con datos simulados)
-  usuarios: UsuarioAdmin[] = datosSimuladosAdmin;
+  // Array que contiene todos los usuarios del sistema (se carga desde el backend)
+  usuarios: UsuarioAdmin[] = [];
+  
+  // Propiedad para controlar el estado de carga
+  cargando = true;
 
   // Constructor del componente que se ejecuta al crear la instancia
-  constructor() {
-    // Mapea todos los usuarios y agrega la propiedad 'dispositivo' solo a los agricultores
-    this.usuarios = this.usuarios.map((usuario, index) => ({
-      // Copia todas las propiedades existentes del usuario usando el operador spread
-      ...usuario,
-      // Agrega la propiedad 'dispositivo' solo si el rol es 'Agricultor'
-      dispositivo: usuario.rol === 'Agricultor' 
-        // El primer agricultor (index 0) tiene dispositivo vinculado, los demás no
-        ? (index === 0 ? 'Dispositivo vinculado' : 'Dispositivo no vinculado')
-        // Si no es agricultor, la propiedad es undefined
-        : undefined
-    }));
+  constructor(
+    private usuariosService: UsuariosService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  // Método que se ejecuta después de que Angular inicializa el componente
+  ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  // Método para cargar usuarios desde el backend
+  cargarUsuarios(): void {
+    this.cargando = true;
+    this.usuariosService.listarUsuarios().subscribe({
+      next: (usuarios) => {
+        // Mapea todos los usuarios y agrega la propiedad 'dispositivo' solo a los agricultores
+        this.usuarios = usuarios.map((usuario, index) => ({
+          // Copia todas las propiedades existentes del usuario usando el operador spread
+          ...usuario,
+          // Agrega la propiedad 'dispositivo' solo si el rol es 'Agricultor'
+          // TODO: En el futuro, esto debería venir del backend según dispositivos IoT reales
+          dispositivo: usuario.rol === 'Agricultor' 
+            ? 'Dispositivo no vinculado' // Por ahora todos sin vincular
+            : undefined
+        }));
+        this.cargando = false;
+        
+        // Fuerza la detección de cambios para que Angular actualice la vista
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar usuarios:', error);
+        this.cargando = false;
+        // TODO: Mostrar mensaje de error al usuario
+      }
+    });
   }
 
   // Getter que devuelve la lista de usuarios filtrados y ordenados según los criterios seleccionados
@@ -134,13 +163,13 @@ export class PanelAdmin {
     const termino = this.normalizar(this.busqueda);
 
     // Filtra y ordena los usuarios según los criterios activos
-    return this.usuarios
+    const filtrados = this.usuarios
       // Aplica todos los filtros a cada usuario
       .filter((usuario) => {
         // Normaliza el nombre completo del usuario para comparación
         const nombreCompleto = this.normalizar(this.nombreCompleto(usuario));
         // Normaliza el correo electrónico para comparación
-        const correo = this.normalizar(usuario.correoElectronico);
+        const correo = this.normalizar(usuario.correoElectronico || '');
         // Verifica si el término de búsqueda está vacío o coincide con nombre o correo
         const coincideBusqueda =
           !termino || nombreCompleto.includes(termino) || correo.includes(termino);
@@ -152,9 +181,10 @@ export class PanelAdmin {
           usuario.cuenta === this.filtroEstado ||
           usuario.sesion === this.filtroEstado;
         // Verifica si el filtro de dispositivo está en 'Todos' o coincide con el estado del dispositivo
+        // Para usuarios sin dispositivo (Admin), si filtro es "Todos" debe pasar
         const coincideDispositivo =
           this.filtroDispositivo === 'Todos' ||
-          usuario.dispositivo === this.filtroDispositivo;
+          (usuario.dispositivo && usuario.dispositivo === this.filtroDispositivo);
         // Verifica si la fecha de registro está dentro del rango seleccionado
         const coincideFecha = this.coincideFecha(usuario.fechaRegistro);
 
@@ -164,14 +194,16 @@ export class PanelAdmin {
       // Ordena los usuarios alfabéticamente por apellidos y nombre
       .sort((a, b) => {
         // Construye el nombre completo con apellidos primero para ordenar correctamente
-        const nombreA = `${a.apellido} ${a.segundoApellido} ${a.nombre}`;
-        const nombreB = `${b.apellido} ${b.segundoApellido} ${b.nombre}`;
+        const nombreA = `${a.apellido || ''} ${a.segundoApellido || ''} ${a.nombre || ''}`.trim();
+        const nombreB = `${b.apellido || ''} ${b.segundoApellido || ''} ${b.nombre || ''}`.trim();
         // Compara los nombres usando localeCompare para manejar caracteres especiales
         const resultado = nombreA.localeCompare(nombreB);
 
         // Si el orden es 'az', retorna el resultado normal; si es 'za', invierte el resultado
         return this.ordenAlfabetico === 'az' ? resultado : resultado * -1;
       });
+    
+    return filtrados;
   }
 
   // Getter que calcula el número total de agricultores registrados en el sistema
@@ -204,8 +236,8 @@ export class PanelAdmin {
   nombreCompleto(usuario: UsuarioAdmin): string {
     // Crea un array con todos los nombres, filtra los valores vacíos y los une con espacios
     return [usuario.nombre, usuario.segundoNombre, usuario.apellido, usuario.segundoApellido]
-      // Filtra valores falsy (undefined, null, '') usando Boolean como callback
-      .filter(Boolean)
+      // Filtra valores falsy (undefined, null, '') usando filter para eliminar strings vacíos
+      .filter(v => v && v.trim())
       // Une todos los elementos del array con un espacio entre ellos
       .join(' ');
   }
@@ -279,46 +311,41 @@ export class PanelAdmin {
 
   // Método que guarda un nuevo usuario registrado y lo agrega a la lista
   guardarRegistro(datos: DatosUsuario): void {
-    // Calcula el siguiente ID disponible buscando el máximo ID existente y sumando 1
-    const nuevoId = Math.max(...this.usuarios.map((u) => u.id), 0) + 1;
     // Formatea el teléfono según las reglas de la cartilla (9 dígitos)
     const telefonoCartilla = this.telefonoParaCartilla(datos.telefono);
+    
+    // Mapea el rol a rol_id: Admin=1, Agricultor=2
+    const rol_id = datos.rol === 'Admin' ? 1 : 2;
+    
+    // Combina nombres y apellidos
+    const nombres = `${datos.nombre} ${datos.segundoNombre}`.trim();
+    const apellidos = `${datos.apellido} ${datos.segundoApellido}`.trim();
 
-    // Crea un nuevo array con todos los usuarios existentes más el nuevo usuario
-    this.usuarios = [
-      // Copia todos los usuarios existentes usando el operador spread
-      ...this.usuarios,
-      // Agrega el nuevo usuario al final del array
-      {
-        // Asigna el ID calculado
-        id: nuevoId,
-        // Asigna el nombre ingresado en el formulario
-        nombre: datos.nombre,
-        // Asigna el segundo nombre ingresado
-        segundoNombre: datos.segundoNombre,
-        // Asigna el apellido ingresado
-        apellido: datos.apellido,
-        // Asigna el segundo apellido ingresado
-        segundoApellido: datos.segundoApellido,
-        // Asigna el correo corporativo ingresado
-        correoCorporativo: datos.correoCorporativo,
-        // Asigna el correo electrónico ingresado
-        correoElectronico: datos.correoElectronico,
-        // Asigna el teléfono formateado
-        telefono: telefonoCartilla,
-        // Asigna el rol seleccionado
-        rol: datos.rol,
-        // Establece la cuenta como 'Activo' por defecto
-        cuenta: 'Activo',
-        // Establece la sesión como 'Sin sesion' por defecto
-        sesion: 'Sin sesion',
-        // Establece la fecha de registro como la fecha actual en formato ISO (YYYY-MM-DD)
-        fechaRegistro: new Date().toISOString().slice(0, 10),
+    // Prepara los datos para el backend
+    const datosBackend = {
+      rol_id,
+      nombres,
+      apellidos,
+      correo_empresarial: datos.correoCorporativo,
+      correo_personal: datos.correoElectronico,
+      telefono: telefonoCartilla,
+      password: datos.password || 'temp123' // TODO: Implementar generación o solicitud de password
+    };
+
+    // Llama al servicio para registrar el usuario en el backend
+    this.usuariosService.registrarUsuario(datosBackend).subscribe({
+      next: (response) => {
+        console.log('Usuario registrado exitosamente:', response);
+        // Recarga la lista de usuarios desde el backend
+        this.cargarUsuarios();
+        // Cierra el modal después de guardar
+        this.cerrarModal();
       },
-    ];
-
-    // Cierra el modal después de guardar
-    this.cerrarModal();
+      error: (error) => {
+        console.error('Error al registrar usuario:', error);
+        alert('Error al registrar usuario: ' + (error.error?.mensaje || 'Error desconocido'));
+      }
+    });
   }
 
   // Método que guarda las modificaciones realizadas a un usuario existente
@@ -331,37 +358,54 @@ export class PanelAdmin {
 
     // Formatea el teléfono según las reglas de la cartilla
     const telefonoCartilla = this.telefonoParaCartilla(datos.telefono);
+    
+    // Mapea el rol a rol_id: Admin=1, Agricultor=2
+    const rol_id = datos.rol === 'Admin' ? 1 : 2;
+    
+    // Combina nombres y apellidos
+    const nombres = `${datos.nombre} ${datos.segundoNombre}`.trim();
+    const apellidos = `${datos.apellido} ${datos.segundoApellido}`.trim();
 
-    // Actualiza las propiedades del usuario seleccionado con los nuevos datos
-    Object.assign(this.usuarioSeleccionado, {
-      // Actualiza el nombre con el valor del formulario
-      nombre: datos.nombre,
-      // Actualiza el segundo nombre
-      segundoNombre: datos.segundoNombre,
-      // Actualiza el apellido
-      apellido: datos.apellido,
-      // Actualiza el segundo apellido
-      segundoApellido: datos.segundoApellido,
-      // Actualiza el correo corporativo
-      correoCorporativo: datos.correoCorporativo,
-      // Actualiza el correo electrónico
-      correoElectronico: datos.correoElectronico,
-      // Actualiza el teléfono con el formato correcto
-      telefono: telefonoCartilla,
-      // Actualiza el rol del usuario
-      rol: datos.rol,
+    // Prepara los datos para el backend
+    const datosBackend = {
+      rol_id,
+      nombres,
+      apellidos,
+      correo_empresarial: datos.correoCorporativo,
+      correo_personal: datos.correoElectronico,
+      telefono: telefonoCartilla
+    };
+
+    // Llama al servicio para editar el usuario en el backend
+    this.usuariosService.editarUsuario(this.usuarioSeleccionado.id, datosBackend).subscribe({
+      next: (response) => {
+        console.log('Usuario editado exitosamente:', response);
+        // Recarga la lista de usuarios desde el backend
+        this.cargarUsuarios();
+        // Cierra el modal después de guardar los cambios
+        this.cerrarModal();
+      },
+      error: (error) => {
+        console.error('Error al editar usuario:', error);
+        alert('Error al editar usuario: ' + (error.error?.mensaje || 'Error desconocido'));
+      }
     });
-
-    // Cierra el modal después de guardar los cambios
-    this.cerrarModal();
   }
 
   // Método que cambia el estado de la cuenta de un usuario (Activo <-> Inactivo)
   cambiarEstado(usuario: UsuarioAdmin): void {
-    // Alterna el estado de la cuenta: si es 'Activo' lo cambia a 'Inactivo' y viceversa
-    usuario.cuenta = usuario.cuenta === 'Activo' ? 'Inactivo' : 'Activo';
-    // Si la cuenta queda Inactiva, la sesión se establece como 'Sin sesion'; si es Activa, mantiene su sesión actual
-    usuario.sesion = usuario.cuenta === 'Activo' ? usuario.sesion : 'Sin sesion';
+    // Llama al servicio que alterna el estado en el backend
+    this.usuariosService.desactivarUsuario(usuario.id).subscribe({
+      next: (response) => {
+        console.log('Estado cambiado:', response);
+        // Recarga la lista completa desde el backend para asegurar consistencia
+        this.cargarUsuarios();
+      },
+      error: (error) => {
+        console.error('Error al cambiar estado:', error);
+        alert('Error al cambiar estado: ' + (error.error?.mensaje || 'Error desconocido'));
+      }
+    });
   }
 
   // Método que abre el modal de confirmación para eliminar un usuario
@@ -384,13 +428,22 @@ export class PanelAdmin {
       return;
     }
 
-    // Filtra el array de usuarios, manteniendo todos excepto el que se va a eliminar
-    this.usuarios = this.usuarios.filter(
-      // Mantiene solo los usuarios cuyo ID sea diferente al ID del usuario a eliminar
-      (usuario) => usuario.id !== this.usuarioParaEliminar!.id
-    );
-    // Cierra el modal de confirmación después de eliminar
-    this.cerrarConfirmacionEliminar();
+    // Llama al servicio para eliminar el usuario del backend
+    this.usuariosService.eliminarUsuario(this.usuarioParaEliminar.id).subscribe({
+      next: (response) => {
+        console.log('Usuario eliminado exitosamente:', response);
+        // Recarga la lista de usuarios desde el backend
+        this.cargarUsuarios();
+        // Cierra el modal de confirmación después de eliminar
+        this.cerrarConfirmacionEliminar();
+      },
+      error: (error) => {
+        console.error('Error al eliminar usuario:', error);
+        alert('Error al eliminar usuario: ' + (error.error?.mensaje || 'Error desconocido'));
+        // Cierra el modal incluso si hay error
+        this.cerrarConfirmacionEliminar();
+      }
+    });
   }
 
   // Método que permite al administrador acceder al panel de un agricultor específico
@@ -431,7 +484,8 @@ export class PanelAdmin {
   }
 
   // Método privado que normaliza un texto para comparación sin acentos ni mayúsculas
-  private normalizar(valor: string): string {
+  private normalizar(valor: string | null | undefined): string {
+    if (!valor) return '';
     return valor
       // Convierte todo el texto a minúsculas
       .toLowerCase()
